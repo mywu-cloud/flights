@@ -1,0 +1,35 @@
+{
+    "_comment": "Flight price tracking subscriptions. Edit this file to add/remove routes.",
+    "subscriptions": [
+          {
+                  "id": "tpe-nrt-20261010",
+                  "origin": "TPE",
+                  "destination": "NRT",
+                  "date": "2026-10-10",
+                  "target_price": 12000,
+                  "currency": "TWD",
+                  "active": true,
+                  "note": "Tokyo trip - want below 12k TWD"
+          },
+          {
+                  "id": "tpe-hkg-20261201",
+                  "origin": "TPE",
+                  "destination": "HKG",
+                  "date": "2026-12-01",
+                  "target_price": 5000,
+                  "currency": "TWD",
+                  "active": true,
+                  "note": "Hong Kong trip"
+          },
+          {
+                  "id": "tpe-sin-20270101",
+                  "origin": "TPE",
+                  "destination": "SIN",
+                  "date": "2027-01-01",
+                  "target_price": 8000,
+                  "currency": "TWD",
+                  "active": false,
+                  "note": "Singapore - inactive for now"
+          }
+    ]
+}
