@@ -1,1 +1,297 @@
-<!DOCTYPE
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>機票價格追蹤 | Flight Price Tracker</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    header {
+      text-align: center;
+      padding: 40px 0 30px;
+    }
+    header h1 {
+      font-size: 2rem;
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+    header p {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+    .status-bar {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      margin-right: 6px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 24px;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: #38bdf8; }
+    .card-route {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 4px;
+    }
+    .card-date {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+    .card-price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 4px;
+    }
+    .card-price span {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      font-weight: 400;
+      margin-left: 4px;
+    }
+    .card-airline {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+    .card-link {
+      display: inline-block;
+      background: #0ea5e9;
+      color: white;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .card-link:hover { background: #38bdf8; }
+    .card-updated {
+      font-size: 0.75rem;
+      color: #475569;
+      margin-top: 12px;
+    }
+    .history-section {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 40px;
+    }
+    .history-section h2 {
+      font-size: 1.1rem;
+      color: #e2e8f0;
+      margin-bottom: 20px;
+    }
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .history-table th {
+      text-align: left;
+      padding: 8px 12px;
+      color: #94a3b8;
+      border-bottom: 1px solid #334155;
+    }
+    .history-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #1e293b;
+      color: #e2e8f0;
+    }
+    .history-table tr:last-child td { border-bottom: none; }
+    .loading {
+      text-align: center;
+      color: #94a3b8;
+      padding: 60px;
+      font-size: 1.1rem;
+    }
+    .error {
+      background: #450a0a;
+      border: 1px solid #991b1b;
+      border-radius: 8px;
+      padding: 16px;
+      color: #fca5a5;
+      margin: 20px 0;
+    }
+    footer {
+      text-align: center;
+      color: #334155;
+      font-size: 0.8rem;
+      padding: 20px 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>✈ 機票價格追蹤</h1>
+    <p>自動追蹤 Google Flights 最低票價，每日 10:00 & 22:00 (台灣時間) 更新</p>
+  </header>
+
+  <div class="status-bar">
+    <div><span class="status-dot"></span>自動追蹤中</div>
+    <div id="lastUpdated">載入中...</div>
+  </div>
+
+  <div id="cardsContainer" class="cards-grid">
+    <div class="loading">載入價格資料中...</div>
+  </div>
+
+  <div class="history-section">
+    <h2>📊 歷史價格紀錄</h2>
+    <div id="historyContainer">
+      <div class="loading" style="padding:20px">載入歷史資料中...</div>
+    </div>
+  </div>
+
+  <footer>
+    Flight Price Tracker &mdash; 資料來源：Google Flights &mdash;
+    <a href="https://github.com/mywu-cloud/flights" style="color:#475569">GitHub</a>
+  </footer>
+</div>
+
+<script>
+  const PRICES_URL = 'https://raw.githubusercontent.com/mywu-cloud/flights/gh-pages/data/prices.json';
+  const HISTORY_URL = 'https://raw.githubusercontent.com/mywu-cloud/flights/gh-pages/data/history.json';
+
+  function formatDate(isoStr) {
+    if (!isoStr) return '-';
+    const d = new Date(isoStr);
+    return d.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function formatPrice(price, currency) {
+    if (!price) return '-';
+    return 'NT$' + price.toLocaleString();
+  }
+
+  function routeLabel(origin, dest) {
+    return (origin || '?') + ' → ' + (dest || '?');
+  }
+
+  async function loadPrices() {
+    try {
+      const resp = await fetch(PRICES_URL + '?t=' + Date.now());
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+
+      document.getElementById('lastUpdated').textContent = '最後更新：' + formatDate(data.updated_at);
+
+      const container = document.getElementById('cardsContainer');
+      const prices = data.prices || {};
+      const keys = Object.keys(prices);
+
+      if (keys.length === 0) {
+        container.innerHTML = '<div class="loading">尚無價格資料</div>';
+        return;
+      }
+
+      container.innerHTML = keys.map(id => {
+        const p = prices[id];
+        return `<div class="card">
+          <div class="card-route">${routeLabel(p.origin, p.destination)}</div>
+          <div class="card-date">出發日期：${p.date || '-'}</div>
+          <div class="card-price">${formatPrice(p.price, p.currency)}<span>${p.currency || 'TWD'}</span></div>
+          <div class="card-airline">${p.airline !== 'Unknown' ? p.airline : '航空公司未知'}</div>
+          ${p.link ? '<a class="card-link" href="' + p.link + '" target="_blank" rel="noopener">在 Google Flights 查看 →</a>' : ''}
+          <div class="card-updated">資料時間：${formatDate(p.scraped_at)}</div>
+        </div>`;
+      }).join('');
+
+    } catch (e) {
+      document.getElementById('cardsContainer').innerHTML =
+        '<div class="error">無法載入價格資料：' + e.message + '</div>';
+    }
+  }
+
+  async function loadHistory() {
+    try {
+      const resp = await fetch(HISTORY_URL + '?t=' + Date.now());
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      const history = data.history || {};
+      const container = document.getElementById('historyContainer');
+
+      const allRows = [];
+      for (const [id, records] of Object.entries(history)) {
+        for (const r of records) {
+          allRows.push({ id, ...r });
+        }
+      }
+
+      allRows.sort((a, b) => new Date(b.scraped_at) - new Date(a.scraped_at));
+
+      if (allRows.length === 0) {
+        container.innerHTML = '<p style="color:#94a3b8;font-size:0.9rem">尚無歷史資料</p>';
+        return;
+      }
+
+      container.innerHTML = '<table class="history-table"><thead><tr>' +
+        '<th>航線</th><th>出發日期</th><th>最低票價</th><th>航空公司</th><th>記錄時間</th>' +
+        '</thead><tbody>' +
+        allRows.slice(0, 50).map(r => {
+          const parts = r.id.split('-');
+          const route = parts.length >= 2 ? (parts[0].toUpperCase() + ' → ' + parts[1].toUpperCase()) : r.id;
+          return '<tr>' +
+            '<td>' + route + '</td>' +
+            '<td>' + (r.date || '-') + '</td>' +
+            '<td>NT$' + (r.price ? r.price.toLocaleString() : '-') + '</td>' +
+            '<td>' + (r.airline !== 'Unknown' ? r.airline : '-') + '</td>' +
+            '<td>' + formatDate(r.scraped_at) + '</td>' +
+            '</tr>';
+        }).join('') +
+        '</tbody></table>';
+
+    } catch (e) {
+      document.getElementById('historyContainer').innerHTML =
+        '<div class="error">無法載入歷史資料：' + e.message + '</div>';
+    }
+  }
+
+  loadPrices();
+  loadHistory();
+  setInterval(loadPrices, 5 * 60 * 1000);
+</script>
+</body>
+</html>
