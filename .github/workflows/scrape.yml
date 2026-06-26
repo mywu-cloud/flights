@@ -36,7 +36,7 @@ jobs:
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_RECEIVER: ${{ secrets.EMAIL_RECEIVER }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scraper/main.py
+        run: PYTHONPATH=. python scraper/main.py
 
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
