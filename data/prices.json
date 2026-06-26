@@ -1,0 +1,29 @@
+{
+  "updated_at": "2026-06-26T16:42:22.655315Z",
+  "prices": {
+    "tpe-nrt-20261010": {
+      "subscription_id": "tpe-nrt-20261010",
+      "origin": "TPE",
+      "destination": "NRT",
+      "date": "2026-10-10",
+      "price": 1234,
+      "currency": "TWD",
+      "airline": "Unknown",
+      "duration": "",
+      "link": "https://www.google.com/travel/flights?hl=zh-TW&curr=TWD&q=TPE+to+NRT&departure_date=2026-10-10&trip_type=1",
+      "scraped_at": "2026-06-27T00:41:46.861497+08:00"
+    },
+    "tpe-hkg-20261201": {
+      "subscription_id": "tpe-hkg-20261201",
+      "origin": "TPE",
+      "destination": "HKG",
+      "date": "2026-12-01",
+      "price": 1234,
+      "currency": "TWD",
+      "airline": "Unknown",
+      "duration": "",
+      "link": "https://www.google.com/travel/flights?hl=zh-TW&curr=TWD&q=TPE+to+HKG&departure_date=2026-12-01&trip_type=1",
+      "scraped_at": "2026-06-27T00:42:17.617488+08:00"
+    }
+  }
+}
