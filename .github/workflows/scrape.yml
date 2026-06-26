@@ -2,81 +2,68 @@ name: Flight Price Tracker
 
 on:
   schedule:
-      # 台灣時間 10:00 = UTC 02:00
-          - cron: '0 2 * * *'
-              # 台灣時間 22:00 = UTC 14:00
-                  - cron: '0 14 * * *'
-                    workflow_dispatch:  # 允許手動觸發
+    - cron: '0 2 * * *'
+    - cron: '0 14 * * *'
+  workflow_dispatch:
 
-                    jobs:
-                      scrape:
-                          runs-on: ubuntu-latest
-                              timeout-minutes: 30
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-                                  permissions:
-                                        contents: write  # 允許寫入 gh-pages
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
 
-                                            steps:
-                                                  - name: Checkout repository
-                                                          uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
 
-                                                                - name: Set up Python
-                                                                        uses: actions/setup-python@v5
-                                                                                with:
-                                                                                          python-version: '3.11'
-                                                                                                    cache: 'pip'
-                                                                                                    
-                                                                                                          - name: Install dependencies
-                                                                                                                  run: |
-                                                                                                                            pip install -r requirements.txt
-                                                                                                                                      playwright install chromium
-                                                                                                                                                playwright install-deps chromium
-                                                                                                                                                
-                                                                                                                                                      - name: Run flight price scraper
-                                                                                                                                                              env:
-                                                                                                                                                                        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-                                                                                                                                                                                  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-                                                                                                                                                                                            EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
-                                                                                                                                                                                                      EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-                                                                                                                                                                                                                EMAIL_RECEIVER: ${{ secrets.EMAIL_RECEIVER }}
-                                                                                                                                                                                                                          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                                                                                                                                                                                                                                  run: |
-                                                                                                                                                                                                                                            python scraper/main.py
-                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                  - name: Checkout gh-pages branch
-                                                                                                                                                                                                                                                          uses: actions/checkout@v4
-                                                                                                                                                                                                                                                                  with:
-                                                                                                                                                                                                                                                                            ref: gh-pages
-                                                                                                                                                                                                                                                                                      path: gh-pages-data
-                                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                            - name: Update price data on gh-pages
-                                                                                                                                                                                                                                                                                                    run: |
-                                                                                                                                                                                                                                                                                                              mkdir -p gh-pages-data/data
-                                                                                                                                                                                                                                                                                                                        if [ -f data/prices.json ]; then
-                                                                                                                                                                                                                                                                                                                                    cp data/prices.json gh-pages-data/data/prices.json
-                                                                                                                                                                                                                                                                                                                                              fi
-                                                                                                                                                                                                                                                                                                                                                        if [ -f data/history.json ]; then
-                                                                                                                                                                                                                                                                                                                                                                    cp data/history.json gh-pages-data/data/history.json
-                                                                                                                                                                                                                                                                                                                                                                              fi
-                                                                                                                                                                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                                                                                                    - name: Commit and push price data
-                                                                                                                                                                                                                                                                                                                                                                                            working-directory: gh-pages-data
-                                                                                                                                                                                                                                                                                                                                                                                                    run: |
-                                                                                                                                                                                                                                                                                                                                                                                                              git config user.name 'github-actions[bot]'
-                                                                                                                                                                                                                                                                                                                                                                                                                        git config user.email 'github-actions[bot]@users.noreply.github.com'
-                                                                                                                                                                                                                                                                                                                                                                                                                                  git add -A
-                                                                                                                                                                                                                                                                                                                                                                                                                                            if git diff --staged --quiet; then
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        echo 'No changes to commit'
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                  else
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                              git commit -m "data: update flight prices $(date -u '+%Y-%m-%d %H:%M UTC')"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          git push
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    fi
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          - name: Upload scraper logs
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  if: always()
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          uses: actions/upload-artifact@v4
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  with:
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            name: scraper-logs-${{ github.run_id }}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      path: logs/
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                retention-days: 7
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          if-no-files-found: ignore
+      - name: Run flight price scraper
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_RECEIVER: ${{ secrets.EMAIL_RECEIVER }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scraper/main.py
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages-data
+
+      - name: Update price data on gh-pages
+        run: |
+          mkdir -p gh-pages-data/data
+          cp data/prices.json gh-pages-data/data/prices.json 2>/dev/null || true
+          cp data/history.json gh-pages-data/data/history.json 2>/dev/null || true
+
+      - name: Commit and push price data
+        working-directory: gh-pages-data
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --staged --quiet || git commit -m "data: update flight prices $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
+
+      - name: Upload scraper logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scraper-logs-${{ github.run_id }}
+          path: logs/
+          retention-days: 7
+          if-no-files-found: ignore
