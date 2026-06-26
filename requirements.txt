@@ -1,0 +1,30 @@
+# Core scraping
+playwright==1.44.0
+playwright-stealth==1.0.6
+
+# HTTP utilities
+requests==2.32.3
+urllib3==2.2.1
+
+# Data processing
+pandas==2.2.2
+
+# Notification
+# Email via smtplib (built-in)
+python-telegram-bot==21.3
+
+# Scheduling utilities
+pytz==2024.1
+
+# JSON / data handling
+python-dateutil==2.9.0
+
+# Logging
+rich==13.7.1
+
+# Environment variables
+python-dotenv==1.0.1
+
+# Testing
+pytest==8.2.2
+pytest-asyncio==0.23.7
