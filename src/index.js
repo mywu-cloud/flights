@@ -93,7 +93,7 @@ export default {
       });
       const d = await r.json();
       const scopes = r.headers.get('x-oauth-scopes') || 'N/A';
-      return json({ status: r.status, login: d.login, scopes, token_prefix: token.substring(0, 8) });
+      return json({ status: r.status, login: d.login, scopes, token_prefix: token.substring(0, 12) });
     }
 
     return json({ error: 'Not found' }, 404);
