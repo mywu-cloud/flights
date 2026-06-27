@@ -8,27 +8,97 @@
       "target_price": 12000,
       "currency": "TWD",
       "active": true,
-      "note": "Tokyo trip - want below 12k TWD"
+      "note": "Tokyo trip"
     },
     {
-      "id": "tpe-hkg-20261201",
+      "id": "tpe-kix-20261010",
       "origin": "TPE",
-      "destination": "HKG",
-      "date": "2026-12-01",
-      "target_price": 5000,
+      "destination": "KIX",
+      "date": "2026-10-10",
+      "target_price": 10000,
       "currency": "TWD",
       "active": true,
-      "note": "Hong Kong trip"
+      "note": "Osaka"
     },
     {
-      "id": "tpe-sin-20270101",
+      "id": "tpe-fuk-20261010",
       "origin": "TPE",
-      "destination": "SIN",
-      "date": "2027-01-01",
-      "target_price": 8000,
+      "destination": "FUK",
+      "date": "2026-10-10",
+      "target_price": 10000,
       "currency": "TWD",
-      "active": false,
-      "note": "Singapore - inactive for now"
+      "active": true,
+      "note": "Fukuoka"
+    },
+    {
+      "id": "tpe-kmq-20261010",
+      "origin": "TPE",
+      "destination": "KMQ",
+      "date": "2026-10-10",
+      "target_price": 12000,
+      "currency": "TWD",
+      "active": true,
+      "note": "Komatsu (Kanazawa)"
+    },
+    {
+      "id": "tpe-tak-20261010",
+      "origin": "TPE",
+      "destination": "TAK",
+      "date": "2026-10-10",
+      "target_price": 12000,
+      "currency": "TWD",
+      "active": true,
+      "note": "Takamatsu"
+    },
+    {
+      "id": "khh-nrt-20261010",
+      "origin": "KHH",
+      "destination": "NRT",
+      "date": "2026-10-10",
+      "target_price": 12000,
+      "currency": "TWD",
+      "active": true,
+      "note": "Tokyo from Kaohsiung"
+    },
+    {
+      "id": "khh-kix-20261010",
+      "origin": "KHH",
+      "destination": "KIX",
+      "date": "2026-10-10",
+      "target_price": 10000,
+      "currency": "TWD",
+      "active": true,
+      "note": "Osaka from Kaohsiung"
+    },
+    {
+      "id": "khh-fuk-20261010",
+      "origin": "KHH",
+      "destination": "FUK",
+      "date": "2026-10-10",
+      "target_price": 10000,
+      "currency": "TWD",
+      "active": true,
+      "note": "Fukuoka from Kaohsiung"
+    },
+    {
+      "id": "khh-kmq-20261010",
+      "origin": "KHH",
+      "destination": "KMQ",
+      "date": "2026-10-10",
+      "target_price": 12000,
+      "currency": "TWD",
+      "active": true,
+      "note": "Komatsu from Kaohsiung"
+    },
+    {
+      "id": "khh-tak-20261010",
+      "origin": "KHH",
+      "destination": "TAK",
+      "date": "2026-10-10",
+      "target_price": 12000,
+      "currency": "TWD",
+      "active": true,
+      "note": "Takamatsu from Kaohsiung"
     }
   ]
 }
