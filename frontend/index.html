@@ -124,11 +124,6 @@ a { text-decoration: none; }
 .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
 .form-msg { font-size: 0.82rem; }
 .form-msg.ok { color: #16a34a; } .form-msg.err { color: #dc2626; }
-.token-note {
-  font-size: 0.75rem; color: #9ca3af; margin-top: 14px;
-  padding: 10px 13px; background: #f8f9fb; border-radius: 8px; line-height: 1.5;
-  border-left: 3px solid #e8eaee;
-}
 .sub-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 .sub-table th {
   text-align: left; padding: 8px 12px 10px;
@@ -202,7 +197,7 @@ footer a:hover { color: #9ca3af; }
   <div class="panel">
     <div class="panel-header">
       <button class="tab-btn active" onclick="switchTab('add')">➕ 新增追蹤航線</button>
-      <button class="tab-btn" id="tabListBtn" onclick="switchTab('list')">📋 追蹤清單</button>
+      <button class="tab-btn" onclick="switchTab('list')">📋 追蹤清單</button>
     </div>
     <div class="panel-body">
       <div class="tab-pane active" id="paneAdd">
@@ -212,13 +207,11 @@ footer a:hover { color: #9ca3af; }
           <div class="fg"><label>出發日期</label><input id="fDate" type="date"></div>
           <div class="fg"><label>目標票價 (TWD)</label><input id="fTarget" type="number" placeholder="12000" min="1"></div>
           <div class="fg"><label>備註 (選填)</label><input id="fNote" type="text" placeholder="旅遊計劃"></div>
-          <div class="fg"><label>GitHub Token</label><input id="fToken" type="password" placeholder="ghp_xxxx..."></div>
         </div>
         <div class="form-actions">
           <button class="btn-primary" id="btnAdd" onclick="addSub()">新增追蹤</button>
           <span class="form-msg" id="addMsg"></span>
         </div>
-        <p class="token-note">🔒 Token 需 repo 寫入權限。僅從您的瀏覽器直接呼叫 GitHub API，不經過任何第三方伺服器。</p>
       </div>
       <div class="tab-pane" id="paneList">
         <div id="subsContainer"><div class="loading" style="padding:20px 0">載入中...</div></div>
@@ -241,116 +234,156 @@ footer a:hover { color: #9ca3af; }
   </footer>
 </div>
 <script>
-const REPO='mywu-cloud/flights';
-const RAW='https://raw.githubusercontent.com/'+REPO;
-const GAPI='https://api.github.com/repos/'+REPO;
-const PRICES_URL=RAW+'/gh-pages/data/prices.json';
-const HISTORY_URL=RAW+'/gh-pages/data/history.json';
-const SUBS_RAW=RAW+'/main/config/subscriptions.json';
-const SUBS_API=GAPI+'/contents/config/subscriptions.json';
-let subsSha=null,subs=[];
-function fmtDate(s){if(!s)return'-';return new Date(s).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}
-function fmtP(p){return p?'NT$'+Number(p).toLocaleString():'-';}
-function up(s){return(s||'').trim().toUpperCase();}
-function showMsg(t,c){const el=document.getElementById('addMsg');el.textContent=t;el.className='form-msg '+c;}
-function switchTab(tab){
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>{b.classList.toggle('active',(tab==='add'&&i===0)||(tab==='list'&&i===1));});
-  document.getElementById('paneAdd').classList.toggle('active',tab==='add');
-  document.getElementById('paneList').classList.toggle('active',tab==='list');
+const WORKER_URL = 'https://flights.mywu.workers.dev';
+const RAW = 'https://raw.githubusercontent.com/mywu-cloud/flights';
+const PRICES_URL = RAW + '/gh-pages/data/prices.json';
+const HISTORY_URL = RAW + '/gh-pages/data/history.json';
+let subsSha = null, subs = [];
+
+function fmtDate(s) {
+  if (!s) return '-';
+  return new Date(s).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
-async function loadSubs(){
-  try{
-    const r=await fetch(SUBS_RAW+'?t='+Date.now());
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const d=await r.json();subs=d.subscriptions||[];
-    const ar=await fetch(SUBS_API);if(ar.ok){const ad=await ar.json();subsSha=ad.sha;}
+function fmtP(p) { return p ? 'NT$' + Number(p).toLocaleString() : '-'; }
+function up(s) { return (s || '').trim().toUpperCase(); }
+function showMsg(t, c) { const el = document.getElementById('addMsg'); el.textContent = t; el.className = 'form-msg ' + c; }
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', (tab === 'add' && i === 0) || (tab === 'list' && i === 1));
+  });
+  document.getElementById('paneAdd').classList.toggle('active', tab === 'add');
+  document.getElementById('paneList').classList.toggle('active', tab === 'list');
+}
+
+async function loadSubs() {
+  try {
+    const r = await fetch(WORKER_URL + '/subscriptions');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    subs = d.subscriptions || [];
+    subsSha = d.sha || null;
     renderSubs();
-  }catch(e){document.getElementById('subsContainer').innerHTML='<div class="err-box">無法載入追蹤清單：'+e.message+'</div>';}
+  } catch (e) {
+    document.getElementById('subsContainer').innerHTML = '<div class="err-box">無法載入追蹤清單：' + e.message + '</div>';
+  }
 }
-function renderSubs(){
-  const el=document.getElementById('subsContainer');
-  if(!subs.length){el.innerHTML='<div class="empty-state"><span class="empty-icon">🗺️</span>尚無追蹤航線，請切換至「新增追蹤航線」頁面新增。</div>';return;}
-  el.innerHTML='<table class="sub-table"><thead><tr><th>航線</th><th>出發日期</th><th>目標票價</th><th>備註</th><th>狀態</th><th></th></tr></thead><tbody>'+
-    subs.map((s,i)=>'<tr><td class="route-cell">'+up(s.origin)+' → '+up(s.destination)+'</td><td>'+(s.date||'-')+'</td><td style="font-weight:600;color:#4f7cf7">'+(s.target_price?'NT$'+Number(s.target_price).toLocaleString():'-')+'</td><td style="color:#9ca3af">'+(s.note||'—')+'</td><td>'+(s.active?'<span class="badge-active">追蹤中</span>':'<span class="badge-inactive">停用</span>')+'</td><td><button class="btn-del" onclick="delSub('+i+')">移除</button></td></tr>').join('')+
-    '</tbody></table>';
+
+function renderSubs() {
+  const el = document.getElementById('subsContainer');
+  if (!subs.length) {
+    el.innerHTML = '<div class="empty-state"><span class="empty-icon">🗺️</span>尚無追蹤航線，請切換至「新增追蹤航線」頁面新增。</div>';
+    return;
+  }
+  el.innerHTML = '<table class="sub-table"><thead><tr><th>航線</th><th>出發日期</th><th>目標票價</th><th>備註</th><th>狀態</th><th></th></tr></thead><tbody>' +
+    subs.map((s, i) =>
+      '<tr><td class="route-cell">' + up(s.origin) + ' → ' + up(s.destination) + '</td>' +
+      '<td>' + (s.date || '-') + '</td>' +
+      '<td style="font-weight:600;color:#4f7cf7">' + (s.target_price ? 'NT$' + Number(s.target_price).toLocaleString() : '-') + '</td>' +
+      '<td style="color:#9ca3af">' + (s.note || '—') + '</td>' +
+      '<td>' + (s.active ? '<span class="badge-active">追蹤中</span>' : '<span class="badge-inactive">停用</span>') + '</td>' +
+      '<td><button class="btn-del" onclick="delSub(' + i + ')">移除</button></td></tr>'
+    ).join('') + '</tbody></table>';
 }
-async function saveSubs(token){
-  const body=JSON.stringify({subscriptions:subs},null,2);
-  const enc=btoa(unescape(encodeURIComponent(body)));
-  const r=await fetch(SUBS_API,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json'},body:JSON.stringify({message:'feat: update subscriptions via web UI',content:enc,sha:subsSha})});
-  if(!r.ok){const e=await r.json();throw new Error(e.message||'GitHub API error');}
-  const d=await r.json();subsSha=d.content.sha;
+
+async function saveSubs() {
+  const r = await fetch(WORKER_URL + '/subscriptions', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ subscriptions: subs, sha: subsSha }),
+  });
+  const d = await r.json();
+  if (!r.ok || d.error) throw new Error(d.error || 'Worker error');
+  subsSha = d.sha;
 }
-async function addSub(){
-  const origin=up(document.getElementById('fOrigin').value);
-  const dest=up(document.getElementById('fDest').value);
-  const date=document.getElementById('fDate').value;
-  const target=parseInt(document.getElementById('fTarget').value,10);
-  const note=document.getElementById('fNote').value.trim();
-  const token=document.getElementById('fToken').value.trim();
-  if(!origin||origin.length!==3){showMsg('請輸入有效的出發地 IATA 代碼（3 字母）','err');return;}
-  if(!dest||dest.length!==3){showMsg('請輸入有效的目的地 IATA 代碼（3 字母）','err');return;}
-  if(!date){showMsg('請選擇出發日期','err');return;}
-  if(!target||target<1){showMsg('請輸入目標票價','err');return;}
-  if(!token){showMsg('請輸入 GitHub Personal Access Token','err');return;}
-  const id=(origin+'-'+dest+'-'+date.replace(/-/g,'')).toLowerCase();
-  if(subs.find(s=>s.id===id)){showMsg('此航線與日期已在追蹤清單中','err');return;}
-  document.getElementById('btnAdd').disabled=true;showMsg('儲存中...','');
-  subs.push({id,origin,destination:dest,date,target_price:target,currency:'TWD',active:true,note});
-  try{
-    await saveSubs(token);
-    showMsg('✅ 已新增！GitHub Actions 將在下次排程時自動追蹤此航線。','ok');
-    renderSubs();['fOrigin','fDest','fDate','fTarget','fNote'].forEach(id=>document.getElementById(id).value='');
-  }catch(e){subs.pop();showMsg('❌ 儲存失敗：'+e.message,'err');}
-  document.getElementById('btnAdd').disabled=false;
+
+async function addSub() {
+  const origin = up(document.getElementById('fOrigin').value);
+  const dest = up(document.getElementById('fDest').value);
+  const date = document.getElementById('fDate').value;
+  const target = parseInt(document.getElementById('fTarget').value, 10);
+  const note = document.getElementById('fNote').value.trim();
+  if (!origin || origin.length !== 3) { showMsg('請輸入有效的出發地 IATA 代碼（3 字母）', 'err'); return; }
+  if (!dest || dest.length !== 3) { showMsg('請輸入有效的目的地 IATA 代碼（3 字母）', 'err'); return; }
+  if (!date) { showMsg('請選擇出發日期', 'err'); return; }
+  if (!target || target < 1) { showMsg('請輸入目標票價', 'err'); return; }
+  const id = (origin + '-' + dest + '-' + date.replace(/-/g, '')).toLowerCase();
+  if (subs.find(s => s.id === id)) { showMsg('此航線與日期已在追蹤清單中', 'err'); return; }
+  document.getElementById('btnAdd').disabled = true;
+  showMsg('儲存中...', '');
+  subs.push({ id, origin, destination: dest, date, target_price: target, currency: 'TWD', active: true, note });
+  try {
+    await saveSubs();
+    showMsg('✅ 已新增！GitHub Actions 將在下次排程時自動追蹤此航線。', 'ok');
+    renderSubs();
+    ['fOrigin', 'fDest', 'fDate', 'fTarget', 'fNote'].forEach(id => document.getElementById(id).value = '');
+  } catch (e) { subs.pop(); showMsg('❌ 儲存失敗：' + e.message, 'err'); }
+  document.getElementById('btnAdd').disabled = false;
 }
-async function delSub(i){
-  const token=document.getElementById('fToken').value.trim();
-  if(!token){showMsg('請先在「新增追蹤航線」頁面輸入 GitHub Token','err');switchTab('add');return;}
-  const s=subs[i];
-  if(!confirm('確定移除 '+up(s.origin)+' → '+up(s.destination)+' ('+s.date+')？'))return;
-  const removed=subs.splice(i,1);
-  try{await saveSubs(token);showMsg('✅ 已移除航線','ok');renderSubs();}
-  catch(e){subs.splice(i,0,...removed);showMsg('❌ 儲存失敗：'+e.message,'err');renderSubs();}
+
+async function delSub(i) {
+  const s = subs[i];
+  if (!confirm('確定移除 ' + up(s.origin) + ' → ' + up(s.destination) + ' (' + s.date + ')？')) return;
+  const removed = subs.splice(i, 1);
+  try {
+    await saveSubs();
+    showMsg('✅ 已移除航線', 'ok');
+    renderSubs();
+  } catch (e) { subs.splice(i, 0, ...removed); showMsg('❌ 儲存失敗：' + e.message, 'err'); renderSubs(); }
 }
-async function loadPrices(){
-  try{
-    const r=await fetch(PRICES_URL+'?t='+Date.now());
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const d=await r.json();
-    document.getElementById('lastUpdated').textContent='更新：'+fmtDate(d.updated_at);
-    const c=document.getElementById('cardsContainer');
-    const prices=d.prices||{};const keys=Object.keys(prices);
-    if(!keys.length){c.innerHTML='<div class="loading">尚無價格資料</div>';return;}
-    c.innerHTML=keys.map(id=>{const p=prices[id];
-      const gfUrl=p.link||'https://www.google.com/flights';
-      return '<div class="card"><div class="card-route">'+( p.origin||'?')+'<span>→</span>'+(p.destination||'?')+'</div>'+
-        '<div class="card-depart">出發 '+(p.date||'-')+'</div>'+
-        '<div class="card-price">'+fmtP(p.price)+'<em>'+(p.currency||'TWD')+'</em></div>'+
-        '<div class="card-airline">'+(p.airline&&p.airline!=='Unknown'?p.airline:'航空公司未知')+'</div>'+
-        '<a class="card-link" href="'+gfUrl+'" target="_blank" rel="noopener">Google Flights 查看 →</a>'+
-        '<div class="card-updated">抓取：'+fmtDate(p.scraped_at)+'</div></div>';
+
+async function loadPrices() {
+  try {
+    const r = await fetch(PRICES_URL + '?t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    document.getElementById('lastUpdated').textContent = '更新：' + fmtDate(d.updated_at);
+    const c = document.getElementById('cardsContainer');
+    const prices = d.prices || {}; const keys = Object.keys(prices);
+    if (!keys.length) { c.innerHTML = '<div class="loading">尚無價格資料</div>'; return; }
+    c.innerHTML = keys.map(id => {
+      const p = prices[id];
+      const gfUrl = p.link || 'https://www.google.com/flights';
+      return '<div class="card">' +
+        '<div class="card-route">' + (p.origin || '?') + '<span>→</span>' + (p.destination || '?') + '</div>' +
+        '<div class="card-depart">出發 ' + (p.date || '-') + '</div>' +
+        '<div class="card-price">' + fmtP(p.price) + '<em>' + (p.currency || 'TWD') + '</em></div>' +
+        '<div class="card-airline">' + (p.airline && p.airline !== 'Unknown' ? p.airline : '航空公司未知') + '</div>' +
+        '<a class="card-link" href="' + gfUrl + '" target="_blank" rel="noopener">Google Flights 查看 →</a>' +
+        '<div class="card-updated">抓取：' + fmtDate(p.scraped_at) + '</div></div>';
     }).join('');
-  }catch(e){document.getElementById('cardsContainer').innerHTML='<div class="err-box">無法載入：'+e.message+'</div>';}
+  } catch (e) {
+    document.getElementById('cardsContainer').innerHTML = '<div class="err-box">無法載入：' + e.message + '</div>';
+  }
 }
-async function loadHistory(){
-  try{
-    const r=await fetch(HISTORY_URL+'?t='+Date.now());
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const d=await r.json();const history=d.history||{};
-    const c=document.getElementById('historyContainer');
-    const rows=[];
-    for(const[id,recs]of Object.entries(history))for(const rec of recs)rows.push({id,...rec});
-    rows.sort((a,b)=>new Date(b.scraped_at)-new Date(a.scraped_at));
-    if(!rows.length){c.innerHTML='<div class="empty-state"><span class="empty-icon">📊</span>尚無歷史資料</div>';return;}
-    c.innerHTML='<table class="history-table"><thead><tr><th>航線</th><th>出發日期</th><th>最低票價</th><th>航空公司</th><th>記錄時間</th></tr></thead><tbody>'+
-      rows.slice(0,50).map(r=>{const pts=r.id.split('-');const route=pts.length>=2?pts[0].toUpperCase()+' → '+pts[1].toUpperCase():r.id;
-        return '<tr><td style="font-weight:600">'+route+'</td><td>'+(r.date||'-')+'</td><td style="font-weight:600;color:#4f7cf7">'+(r.price?'NT$'+Number(r.price).toLocaleString():'-')+'</td><td>'+(r.airline&&r.airline!=='Unknown'?r.airline:'-')+'</td><td style="color:#9ca3af">'+fmtDate(r.scraped_at)+'</td></tr>';
-      }).join('')+'</tbody></table>';
-  }catch(e){document.getElementById('historyContainer').innerHTML='<div class="err-box">無法載入：'+e.message+'</div>';}
+
+async function loadHistory() {
+  try {
+    const r = await fetch(HISTORY_URL + '?t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json(); const history = d.history || {};
+    const c = document.getElementById('historyContainer');
+    const rows = [];
+    for (const [id, recs] of Object.entries(history)) for (const rec of recs) rows.push({ id, ...rec });
+    rows.sort((a, b) => new Date(b.scraped_at) - new Date(a.scraped_at));
+    if (!rows.length) { c.innerHTML = '<div class="empty-state"><span class="empty-icon">📊</span>尚無歷史資料</div>'; return; }
+    c.innerHTML = '<table class="history-table"><thead><tr><th>航線</th><th>出發日期</th><th>最低票價</th><th>航空公司</th><th>記錄時間</th></tr></thead><tbody>' +
+      rows.slice(0, 50).map(r => {
+        const pts = r.id.split('-');
+        const route = pts.length >= 2 ? pts[0].toUpperCase() + ' → ' + pts[1].toUpperCase() : r.id;
+        return '<tr><td style="font-weight:600">' + route + '</td><td>' + (r.date || '-') + '</td>' +
+          '<td style="font-weight:600;color:#4f7cf7">' + (r.price ? 'NT$' + Number(r.price).toLocaleString() : '-') + '</td>' +
+          '<td>' + (r.airline && r.airline !== 'Unknown' ? r.airline : '-') + '</td>' +
+          '<td style="color:#9ca3af">' + fmtDate(r.scraped_at) + '</td></tr>';
+      }).join('') + '</tbody></table>';
+  } catch (e) {
+    document.getElementById('historyContainer').innerHTML = '<div class="err-box">無法載入：' + e.message + '</div>';
+  }
 }
-loadSubs();loadPrices();loadHistory();
-setInterval(loadPrices,5*60*1000);
+
+loadSubs(); loadPrices(); loadHistory();
+setInterval(loadPrices, 5 * 60 * 1000);
 </script>
 </body>
 </html>
