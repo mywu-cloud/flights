@@ -1,11 +1,14 @@
 {
-    "name": "flights",
-    "version": "1.0.0",
-    "private": true,
-    "scripts": {
-          "deploy": "wrangler deploy"
-    },
-    "devDependencies": {
-          "wrangler": "^3.0.0"
-    }
+      "name": "flights",
+      "version": "1.0.0",
+      "private": true,
+      "engines": {
+              "node": ">=18.0.0"
+      },
+      "scripts": {
+              "deploy": "wrangler deploy"
+      },
+      "devDependencies": {
+              "wrangler": "^3.0.0"
+      }
 }
