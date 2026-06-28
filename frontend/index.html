@@ -304,7 +304,7 @@ function updateStats(){
   }
   // subtitle
   const h=hits;
-  document.getElementById('pageSubtitle').textContent='持續追蹤 '+subs.length+' 條航線'+（h?' · '+h+' 條已達到目標價':''）+' · 即時掌握漲跌';
+  document.getElementById('pageSubtitle').textContent='持續追蹤 '+subs.length+' 條航線'+(h?' · '+h+' 條已達到目標價':'')+' · 即時掌握漲跌';
 }
 
 function renderTable(){
@@ -327,7 +327,7 @@ function renderTable(){
       '<td>'+(pct!==null?'<span class="change-badge '+(isUp?'badge-up':'badge-down')+'">'+(isUp?'▲':'▼')+Math.abs(pct)+'%</span>':'—')+'</td>'+
       '<td>'+sparkline(vals,col)+'</td>'+
       '<td><div class="target-info">'+fmtP(s.target_price)+'</div><div class="'+(hitTarget?'target-sub':'target-sub-track')+'">'+(hitTarget?'✓ 已達標':'追蹤中')+'</div></td>'+
-      '<td><span class="change-badge '+(s.active?'badge-down':'')+'">'+（s.active?'追蹤中':'停用'）+'</span></td>'+
+      '<td><span class="change-badge '+(s.active?'badge-down':'')+'">'+(s.active?'追蹤中':'停用')+'</span></td>'+
       '<td><div style="display:flex;gap:6px"><button class="bell-btn" title="提醒">🔔</button><button class="btn-del-sm" onclick="delSub('+i+')" title="移除">✕</button></div></td>'+
       '</tr>';
   }).join('');
@@ -402,8 +402,8 @@ async function addSub(){
   const date=document.getElementById('fDate').value;
   const target=parseInt(document.getElementById('fTarget').value,10);
   const note=document.getElementById('fNote').value.trim();
-  if(!origin||origin.length!==3){showMsg('請輸入有效的出發地 IATA（3字母）','err');return;}
-  if(!dest||dest.length!==3){showMsg('請輸入有效的目的地 IATA（3字母）','err');return;}
+  if(!origin||origin.length!==3){showMsg('請輸入有效的出發地 IATA(3字母)','err');return;}
+  if(!dest||dest.length!==3){showMsg('請輸入有效的目的地 IATA(3字母)','err');return;}
   if(!date){showMsg('請選擇出發日期','err');return;}
   if(!target||target<1){showMsg('請輸入目標票價','err');return;}
   const id=(origin+'-'+dest+'-'+date.replace(/-/g,'')).toLowerCase();
