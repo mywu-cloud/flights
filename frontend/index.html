@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>票價雷達 FareRadar</title>
+<title>h��T FareRadar</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;background:#f0f4f8;color:#1a202c;min-height:100vh}
@@ -148,38 +148,39 @@ footer a{color:#cbd5e1}footer a:hover{color:#94a3b8}
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-brand">
-    <div class="nav-icon">✈</div>
-    <div><div>票價雷達</div><div class="nav-brand-sub">FareRadar</div></div>
+    <div class="nav-icon"></div>
+    <div><div>h��T</div><div class="nav-brand-sub">FareRadar</div></div>
   </div>
   <div class="nav-search">
-    <span class="nav-search-icon">🔍</span>
-    <input type="text" placeholder="搜尋航線、機場或航空公司…">
+    <span class="nav-search-icon">=
+</span>
+    <input type="text" placeholder="*�_4*zl�&">
   </div>
   <div class="nav-themes">
-    <button class="theme-btn active" style="color:#4A6CF7" onclick="setTheme('sky',this)"><span class="dot" style="background:#4A6CF7"></span>晴空</button>
-    <button class="theme-btn" style="color:#10B981" onclick="setTheme('mint',this)"><span class="dot" style="background:#10B981"></span>薄荷</button>
-    <button class="theme-btn" style="color:#f97316" onclick="setTheme('warm',this)"><span class="dot" style="background:#f97316"></span>暖陽</button>
+    <button class="theme-btn active" style="color:#4A6CF7" onclick="setTheme('sky',this)"><span class="dot" style="background:#4A6CF7"></span>tz</button>
+    <button class="theme-btn" style="color:#10B981" onclick="setTheme('mint',this)"><span class="dot" style="background:#10B981"></span>�w</button>
+    <button class="theme-btn" style="color:#f97316" onclick="setTheme('warm',this)"><span class="dot" style="background:#f97316"></span>�}</button>
   </div>
-  <div class="nav-bell">🔔<span class="bell-badge" id="bellBadge">2</span></div>
-  <div class="nav-avatar">陳</div>
+  <div class="nav-bell">=<span class="bell-badge" id="bellBadge">2</span></div>
+  <div class="nav-avatar">s</div>
 </nav>
 
 <!-- MODAL -->
 <div class="modal-overlay hidden" id="modalOverlay">
   <div class="modal">
-    <div class="modal-title">➕ 新增追蹤航線</div>
-    <div class="modal-sub">設定目標票價，達標時自動通知</div>
+    <div class="modal-title">� ���d*�</div>
+    <div class="modal-sub">-��h�TB���</div>
     <div class="modal-grid">
-      <div class="fg"><label>出發地 (IATA)</label><input id="fOrigin" type="text" placeholder="TPE" maxlength="3"></div>
-      <div class="fg"><label>目的地 (IATA)</label><input id="fDest" type="text" placeholder="NRT" maxlength="3"></div>
-      <div class="fg"><label>出發日期</label><input id="fDate" type="date"></div>
-      <div class="fg"><label>目標票價 (TWD)</label><input id="fTarget" type="number" placeholder="12000" min="1"></div>
-      <div class="fg" style="grid-column:1/-1"><label>備註 (選填)</label><input id="fNote" type="text" placeholder="旅遊計劃"></div>
+      <div class="fg"><label>�|0 (IATA)</label><input id="fOrigin" type="text" placeholder="TPE" maxlength="3"></div>
+      <div class="fg"><label>�0 (IATA)</label><input id="fDest" type="text" placeholder="NRT" maxlength="3"></div>
+      <div class="fg"><label>�|�</label><input id="fDate" type="date"></div>
+      <div class="fg"><label>�h� (TWD)</label><input id="fTarget" type="number" placeholder="12000" min="1"></div>
+      <div class="fg" style="grid-column:1/-1"><label>�; (xk)</label><input id="fNote" type="text" placeholder="�J�"></div>
     </div>
     <div class="form-msg" id="addMsg"></div>
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" id="btnSave" onclick="addSub()">儲存追蹤</button>
+      <button class="btn-cancel" onclick="closeModal()">ֈ</button>
+      <button class="btn-save" id="btnSave" onclick="addSub()">2X�d</button>
     </div>
   </div>
 </div>
@@ -188,45 +189,45 @@ footer a{color:#cbd5e1}footer a:hover{color:#94a3b8}
   <!-- PAGE HEADER -->
   <div class="page-header">
     <div class="page-header-text">
-      <div class="page-label">儀表板 · DASHBOARD</div>
-      <div class="page-title">我的票價追蹤</div>
-      <div class="page-sub" id="pageSubtitle">載入中...</div>
+      <div class="page-label"> h � DASHBOARD</div>
+      <div class="page-title">�h��d</div>
+      <div class="page-sub" id="pageSubtitle">	e-...</div>
     </div>
-    <button class="btn-add" onclick="openModal()">＋ 新增追蹤</button>
+    <button class="btn-add" onclick="openModal()"> ���d</button>
   </div>
 
   <!-- STATS -->
   <div class="stats-grid" id="statsGrid">
-    <div class="stat-card"><div class="stat-label">追蹤航線</div><div class="stat-icon" style="background:#eff6ff;color:#4A6CF7">✈</div><div class="stat-value" id="statCount">—</div><div class="stat-unit">條航線監控中</div></div>
-    <div class="stat-card"><div class="stat-label">觸發提醒</div><div class="stat-icon" style="background:#fef3c7;color:#d97706">🔔</div><div class="stat-value" id="statAlerts">—</div><div class="stat-unit">條已達到目標價</div></div>
-    <div class="stat-card"><div class="stat-label">最新最低價</div><div class="stat-icon" style="background:#dcfce7;color:#16a34a">🏷</div><div class="stat-value" id="statBest">—</div><div class="stat-unit" id="statBestRoute">—</div></div>
-    <div class="stat-card"><div class="stat-label">最後更新</div><div class="stat-icon" style="background:#f3e8ff;color:#9333ea">🕐</div><div class="stat-value" style="font-size:1rem;margin-top:4px" id="statUpdated">—</div><div class="stat-unit">自動每日 2 次</div></div>
+    <div class="stat-card"><div class="stat-label">�d*�</div><div class="stat-icon" style="background:#eff6ff;color:#4A6CF7"></div><div class="stat-value" id="statCount"></div><div class="stat-unit">�*��-</div></div>
+    <div class="stat-card"><div class="stat-label">�|В</div><div class="stat-icon" style="background:#fef3c7;color:#d97706">=</div><div class="stat-value" id="statAlerts"></div><div class="stat-unit">��T0��</div></div>
+    <div class="stat-card"><div class="stat-label"> � N�</div><div class="stat-icon" style="background:#dcfce7;color:#16a34a"><�</div><div class="stat-value" id="statBest"></div><div class="stat-unit" id="statBestRoute"></div></div>
+    <div class="stat-card"><div class="stat-label"> ���</div><div class="stat-icon" style="background:#f3e8ff;color:#9333ea">=P</div><div class="stat-value" style="font-size:1rem;margin-top:4px" id="statUpdated"></div><div class="stat-unit">���� 2 !</div></div>
   </div>
 
   <!-- MAIN GRID: featured + alerts -->
   <div class="main-grid">
-    <div class="featured-card" id="featuredCard"><div style="color:#94a3b8;text-align:center;padding:40px">載入中...</div></div>
+    <div class="featured-card" id="featuredCard"><div style="color:#94a3b8;text-align:center;padding:40px">	e-...</div></div>
     <div class="alerts-card">
-      <div class="card-header"><div class="card-title">📢 價格警報</div><div class="card-link">查看全部</div></div>
-      <div id="alertsList"><div style="color:#94a3b8;padding:20px;text-align:center">載入中...</div></div>
+      <div class="card-header"><div class="card-title">=� �<f1</div><div class="card-link">�h�</div></div>
+      <div id="alertsList"><div style="color:#94a3b8;padding:20px;text-align:center">	e-...</div></div>
     </div>
   </div>
 
   <!-- TRACKING TABLE -->
   <div class="table-section">
     <div class="table-header">
-      <div class="table-title">追蹤中的航線 <span class="count-badge" id="tableCount">0</span></div>
-      <div style="font-size:0.78rem;color:#64748b">點選航線以查看走勢</div>
+      <div class="table-title">�d-�*� <span class="count-badge" id="tableCount">0</span></div>
+      <div style="font-size:0.78rem;color:#64748b">�x*���p�</div>
     </div>
     <div style="overflow-x:auto">
       <table class="track-table">
-        <thead><tr><th>航線</th><th>目前票價</th><th>漲跌</th><th>近 7 天</th><th>目標價</th><th>狀態</th><th></th></tr></thead>
-        <tbody id="trackTableBody"><tr class="loading-row"><td colspan="7">載入中...</td></tr></tbody>
+        <thead><tr><th>*�</th><th>�Mh�</th><th>2�</th><th>� 7 )</th><th>��</th><th>�K</th><th></th></tr></thead>
+        <tbody id="trackTableBody"><tr class="loading-row"><td colspan="7">	e-...</td></tr></tbody>
       </table>
     </div>
   </div>
 
-  <footer>票價雷達 FareRadar &mdash; 資料來源：Google Flights &mdash; <a href="https://github.com/mywu-cloud/flights" target="_blank">GitHub</a></footer>
+  <footer>h��T FareRadar &mdash; Ǚ��Google Flights &mdash; <a href="https://github.com/mywu-cloud/flights" target="_blank">GitHub</a></footer>
 </div>
 
 <!-- TOAST -->
@@ -241,7 +242,9 @@ async function loadSubs() {
   try {
     const r = await fetch(WORKER_URL + '/subscriptions');
     if (!r.ok) throw new Error('HTTP ' + r.status);
-    subsData = await r.json();
+    const json = await r.json();
+    // Worker returns { subscriptions: [...], sha: "..." }
+    subsData = Array.isArray(json) ? json : (json.subscriptions || []);
     await loadPrices();
     updateStats(); renderFeatured(); renderAlerts(); renderTable();
   } catch(e) {
@@ -257,8 +260,16 @@ async function loadPrices() {
       fetch('https://mywu-cloud.github.io/flights/data/prices.json'),
       fetch('https://mywu-cloud.github.io/flights/data/history.json')
     ]);
-    if (pr.ok) pricesData.prices = await pr.json();
-    if (hr.ok) pricesData.history = await hr.json();
+    if (pr.ok) {
+      const pd = await pr.json();
+      // prices.json has { updated_at: ..., prices: { "id": { price: N, ... } } }
+      pricesData.prices = pd.prices || pd;
+    }
+    if (hr.ok) {
+      const hd = await hr.json();
+      // history.json has { updated_at: ..., history: { "id": [...] } }
+      pricesData.history = hd.history || hd;
+    }
   } catch(e) { console.log('Prices error:', e.message); }
 }
 
@@ -349,7 +360,7 @@ function renderAlerts() {
     const p = prices[s.id], isHit = p.price <= s.target_price;
     return '<div class="alert-item"><div style="flex:1"><div style="font-weight:600">' + s.origin + ' → ' + s.destination + '</div>' +
       '<div style="font-size:.8rem;color:var(--text-secondary)">NT$' + p.price.toLocaleString() + '</div></div>' +
-      '<span class="badge ' + (isHit ? 'badge-green' : 'badge-yellow') + '">' + (isHit ? '已達標' : '降價') + '</span></div>';
+      '<span class="badge ' + (isHit?'badge-green':'badge-yellow') + '">' + (isHit?'已達標':'降價') + '</span></div>';
   }).join('');
 }
 
@@ -420,9 +431,12 @@ async function addSub() {
   const date = (document.getElementById('inputDate')||{}).value||'';
   const target = (document.getElementById('inputTarget')||{}).value||'';
   if (!origin || !destination || !date) { showToast('請填寫必要欄位'); return; }
-  const newSub = { id: origin.toUpperCase()+'-'+destination.toUpperCase()+'-'+date, origin: origin.toUpperCase(), destination: destination.toUpperCase(), date: date, target_price: target ? parseInt(target) : null, active: true };
+  // Match existing ID format: lowercase "org-dst-yyyymmdd"
+  const id = origin.toLowerCase() + '-' + destination.toLowerCase() + '-' + date.replace(/-/g,'');
+  const newSub = { id: id, origin: origin.toUpperCase(), destination: destination.toUpperCase(), date: date, target_price: target ? parseInt(target) : null, active: true };
   if (subsData.some(function(s) { return s.id === newSub.id; })) { showToast('該路線已存在'); return; }
-  subsData.push(newSub); await saveSubs(); closeModal();
+  subsData.push(newSub);
+  await saveSubs(); closeModal();
   updateStats(); renderFeatured(); renderAlerts(); renderTable();
   showToast('✅ 已新增追蹤: ' + newSub.origin + ' → ' + newSub.destination);
 }
