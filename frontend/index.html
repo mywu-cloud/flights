@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ç¥¨å¹é·é FareRadar</title>
+<title>票價雷達 FareRadar</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;background:#f0f4f8;color:#1a202c;min-height:100vh}
@@ -148,38 +148,38 @@ footer a{color:#cbd5e1}footer a:hover{color:#94a3b8}
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-brand">
-    <div class="nav-icon">â</div>
-    <div><div>ç¥¨å¹é·é</div><div class="nav-brand-sub">FareRadar</div></div>
+    <div class="nav-icon">✈</div>
+    <div><div>票價雷達</div><div class="nav-brand-sub">FareRadar</div></div>
   </div>
   <div class="nav-search">
-    <span class="nav-search-icon">ð</span>
-    <input type="text" placeholder="æå°èªç·ãæ©å ´æèªç©ºå¬å¸â¦">
+    <span class="nav-search-icon">🔍</span>
+    <input type="text" placeholder="搜尋航線、機場或航空公司…">
   </div>
   <div class="nav-themes">
-    <button class="theme-btn active" style="color:#4A6CF7" onclick="setTheme('sky',this)"><span class="dot" style="background:#4A6CF7"></span>æ´ç©º</button>
-    <button class="theme-btn" style="color:#10B981" onclick="setTheme('mint',this)"><span class="dot" style="background:#10B981"></span>èè·</button>
-    <button class="theme-btn" style="color:#f97316" onclick="setTheme('warm',this)"><span class="dot" style="background:#f97316"></span>æé½</button>
+    <button class="theme-btn active" style="color:#4A6CF7" onclick="setTheme('sky',this)"><span class="dot" style="background:#4A6CF7"></span>晴空</button>
+    <button class="theme-btn" style="color:#10B981" onclick="setTheme('mint',this)"><span class="dot" style="background:#10B981"></span>薄荷</button>
+    <button class="theme-btn" style="color:#f97316" onclick="setTheme('warm',this)"><span class="dot" style="background:#f97316"></span>暖陽</button>
   </div>
-  <div class="nav-bell">ð<span class="bell-badge" id="bellBadge">2</span></div>
-  <div class="nav-avatar">é³</div>
+  <div class="nav-bell">🔔<span class="bell-badge" id="bellBadge">2</span></div>
+  <div class="nav-avatar">陳</div>
 </nav>
 
 <!-- MODAL -->
 <div class="modal-overlay hidden" id="modalOverlay">
   <div class="modal">
-    <div class="modal-title">â æ°å¢è¿½è¹¤èªç·</div>
-    <div class="modal-sub">è¨­å®ç®æ¨ç¥¨å¹ï¼éæ¨æèªåéç¥</div>
+    <div class="modal-title">➕ 新增追蹤航線</div>
+    <div class="modal-sub">設定目標票價，達標時自動通知</div>
     <div class="modal-grid">
-      <div class="fg"><label>åºç¼å° (IATA)</label><input id="fOrigin" type="text" placeholder="TPE" maxlength="3"></div>
-      <div class="fg"><label>ç®çå° (IATA)</label><input id="fDest" type="text" placeholder="NRT" maxlength="3"></div>
-      <div class="fg"><label>åºç¼æ¥æ</label><input id="fDate" type="date"></div>
-      <div class="fg"><label>ç®æ¨ç¥¨å¹ (TWD)</label><input id="fTarget" type="number" placeholder="12000" min="1"></div>
-      <div class="fg" style="grid-column:1/-1"><label>åè¨» (é¸å¡«)</label><input id="fNote" type="text" placeholder="æéè¨å"></div>
+      <div class="fg"><label>出發地 (IATA)</label><input id="fOrigin" type="text" placeholder="TPE" maxlength="3"></div>
+      <div class="fg"><label>目的地 (IATA)</label><input id="fDest" type="text" placeholder="NRT" maxlength="3"></div>
+      <div class="fg"><label>出發日期</label><input id="fDate" type="date"></div>
+      <div class="fg"><label>目標票價 (TWD)</label><input id="fTarget" type="number" placeholder="12000" min="1"></div>
+      <div class="fg" style="grid-column:1/-1"><label>備註 (選填)</label><input id="fNote" type="text" placeholder="旅遊計劃"></div>
     </div>
     <div class="form-msg" id="addMsg"></div>
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">åæ¶</button>
-      <button class="btn-save" id="btnSave" onclick="addSub()">å²å­è¿½è¹¤</button>
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
+      <button class="btn-save" id="btnSave" onclick="addSub()">儲存追蹤</button>
     </div>
   </div>
 </div>
@@ -188,45 +188,45 @@ footer a{color:#cbd5e1}footer a:hover{color:#94a3b8}
   <!-- PAGE HEADER -->
   <div class="page-header">
     <div class="page-header-text">
-      <div class="page-label">åè¡¨æ¿ Â· DASHBOARD</div>
-      <div class="page-title">æçç¥¨å¹è¿½è¹¤</div>
-      <div class="page-sub" id="pageSubtitle">è¼å¥ä¸­...</div>
+      <div class="page-label">儀表板 · DASHBOARD</div>
+      <div class="page-title">我的票價追蹤</div>
+      <div class="page-sub" id="pageSubtitle">載入中...</div>
     </div>
-    <button class="btn-add" onclick="openModal()">ï¼ æ°å¢è¿½è¹¤</button>
+    <button class="btn-add" onclick="openModal()">＋ 新增追蹤</button>
   </div>
 
   <!-- STATS -->
   <div class="stats-grid" id="statsGrid">
-    <div class="stat-card"><div class="stat-label">è¿½è¹¤èªç·</div><div class="stat-icon" style="background:#eff6ff;color:#4A6CF7">â</div><div class="stat-value" id="statCount">â</div><div class="stat-unit">æ¢èªç·ç£æ§ä¸­</div></div>
-    <div class="stat-card"><div class="stat-label">è§¸ç¼æé</div><div class="stat-icon" style="background:#fef3c7;color:#d97706">ð</div><div class="stat-value" id="statAlerts">â</div><div class="stat-unit">æ¢å·²éå°ç®æ¨å¹</div></div>
-    <div class="stat-card"><div class="stat-label">ææ°æä½å¹</div><div class="stat-icon" style="background:#dcfce7;color:#16a34a">ð·</div><div class="stat-value" id="statBest">â</div><div class="stat-unit" id="statBestRoute">â</div></div>
-    <div class="stat-card"><div class="stat-label">æå¾æ´æ°</div><div class="stat-icon" style="background:#f3e8ff;color:#9333ea">ð</div><div class="stat-value" style="font-size:1rem;margin-top:4px" id="statUpdated">â</div><div class="stat-unit">èªåæ¯æ¥ 2 æ¬¡</div></div>
+    <div class="stat-card"><div class="stat-label">追蹤航線</div><div class="stat-icon" style="background:#eff6ff;color:#4A6CF7">✈</div><div class="stat-value" id="statCount">—</div><div class="stat-unit">條航線監控中</div></div>
+    <div class="stat-card"><div class="stat-label">觸發提醒</div><div class="stat-icon" style="background:#fef3c7;color:#d97706">🔔</div><div class="stat-value" id="statAlerts">—</div><div class="stat-unit">條已達到目標價</div></div>
+    <div class="stat-card"><div class="stat-label">最新最低價</div><div class="stat-icon" style="background:#dcfce7;color:#16a34a">🏷</div><div class="stat-value" id="statBest">—</div><div class="stat-unit" id="statBestRoute">—</div></div>
+    <div class="stat-card"><div class="stat-label">最後更新</div><div class="stat-icon" style="background:#f3e8ff;color:#9333ea">🕐</div><div class="stat-value" style="font-size:1rem;margin-top:4px" id="statUpdated">—</div><div class="stat-unit">自動每日 2 次</div></div>
   </div>
 
   <!-- MAIN GRID: featured + alerts -->
   <div class="main-grid">
-    <div class="featured-card" id="featuredCard"><div style="color:#94a3b8;text-align:center;padding:40px">è¼å¥ä¸­...</div></div>
+    <div class="featured-card" id="featuredCard"><div style="color:#94a3b8;text-align:center;padding:40px">載入中...</div></div>
     <div class="alerts-card">
-      <div class="card-header"><div class="card-title">ð¢ å¹æ ¼è­¦å ±</div><div class="card-link">æ¥çå¨é¨</div></div>
-      <div id="alertsList"><div style="color:#94a3b8;padding:20px;text-align:center">è¼å¥ä¸­...</div></div>
+      <div class="card-header"><div class="card-title">📢 價格警報</div><div class="card-link">查看全部</div></div>
+      <div id="alertsList"><div style="color:#94a3b8;padding:20px;text-align:center">載入中...</div></div>
     </div>
   </div>
 
   <!-- TRACKING TABLE -->
   <div class="table-section">
     <div class="table-header">
-      <div class="table-title">è¿½è¹¤ä¸­çèªç· <span class="count-badge" id="tableCount">0</span></div>
-      <div style="font-size:0.78rem;color:#64748b">é»é¸èªç·ä»¥æ¥çèµ°å¢</div>
+      <div class="table-title">追蹤中的航線 <span class="count-badge" id="tableCount">0</span></div>
+      <div style="font-size:0.78rem;color:#64748b">點選航線以查看走勢</div>
     </div>
     <div style="overflow-x:auto">
       <table class="track-table">
-        <thead><tr><th>èªç·</th><th>ç®åç¥¨å¹</th><th>æ¼²è·</th><th>è¿ 7 å¤©</th><th>ç®æ¨å¹</th><th>çæ</th><th></th></tr></thead>
-        <tbody id="trackTableBody"><tr class="loading-row"><td colspan="7">è¼å¥ä¸­...</td></tr></tbody>
+        <thead><tr><th>航線</th><th>目前票價</th><th>漲跌</th><th>近 7 天</th><th>目標價</th><th>狀態</th><th></th></tr></thead>
+        <tbody id="trackTableBody"><tr class="loading-row"><td colspan="7">載入中...</td></tr></tbody>
       </table>
     </div>
   </div>
 
-  <footer>ç¥¨å¹é·é FareRadar &mdash; è³æä¾æºï¼Google Flights &mdash; <a href="https://github.com/mywu-cloud/flights" target="_blank">GitHub</a></footer>
+  <footer>票價雷達 FareRadar &mdash; 資料來源：Google Flights &mdash; <a href="https://github.com/mywu-cloud/flights" target="_blank">GitHub</a></footer>
 </div>
 
 <!-- TOAST -->
@@ -243,13 +243,10 @@ async function loadSubs() {
     if (!r.ok) throw new Error('HTTP ' + r.status);
     subsData = await r.json();
     await loadPrices();
-    updateStats();
-    renderFeatured();
-    renderAlerts();
-    renderTable();
+    updateStats(); renderFeatured(); renderAlerts(); renderTable();
   } catch(e) {
     document.querySelectorAll('.loading-text').forEach(function(el) {
-      el.textContent = '\u8F09\u5165\u5931\u6557: ' + e.message;
+      el.textContent = '載入失敗: ' + e.message;
     });
   }
 }
@@ -262,49 +259,31 @@ async function loadPrices() {
     ]);
     if (pr.ok) pricesData.prices = await pr.json();
     if (hr.ok) pricesData.history = await hr.json();
-  } catch(e) {
-    console.log('Prices load error:', e.message);
-  }
+  } catch(e) { console.log('Prices error:', e.message); }
 }
 
 function updateStats() {
-  const total = subsData.length;
   const prices = pricesData.prices || {};
-  let triggered = 0;
-  let bestSaving = 0;
-  let bestDrop = 0;
-  let bestDropRoute = '';
+  let triggered = 0, bestSaving = 0, bestDrop = 0, bestDropRoute = '';
   subsData.forEach(function(s) {
-    const p = prices[s.id];
-    if (!p) return;
+    const p = prices[s.id]; if (!p) return;
     if (s.target_price && p.price <= s.target_price) triggered++;
     if (s.target_price && p.price < s.target_price) {
-      const saving = s.target_price - p.price;
-      if (saving > bestSaving) bestSaving = saving;
+      const sv = s.target_price - p.price; if (sv > bestSaving) bestSaving = sv;
     }
-    const hist = (pricesData.history || {})[s.id];
+    const hist = (pricesData.history||{})[s.id];
     if (hist && hist.length > 1) {
-      const oldest = hist[0].price;
-      const newest = hist[hist.length-1].price;
-      if (oldest > 0) {
-        const drop = Math.round((oldest - newest) / oldest * 100);
-        if (drop > bestDrop) {
-          bestDrop = drop;
-          bestDropRoute = (s.origin || '') + '\u2192' + (s.destination || '');
-        }
-      }
+      const drop = Math.round((hist[0].price - hist[hist.length-1].price) / hist[0].price * 100);
+      if (drop > bestDrop) { bestDrop = drop; bestDropRoute = (s.origin||'') + '→' + (s.destination||''); }
     }
   });
-  const el1 = document.getElementById('statTotal');
-  const el2 = document.getElementById('statTriggered');
-  const el3 = document.getElementById('statSaving');
-  const el4 = document.getElementById('statDrop');
-  const el4sub = document.getElementById('statDropSub');
-  if (el1) el1.textContent = total;
-  if (el2) el2.textContent = triggered;
-  if (el3) el3.textContent = bestSaving > 0 ? 'NT$' + bestSaving.toLocaleString() : '--';
-  if (el4) el4.textContent = bestDrop > 0 ? '-' + bestDrop + '%' : '--';
-  if (el4sub) el4sub.textContent = bestDropRoute || '\u6700\u4F73\u8DEF\u7DDA';
+  const e1=document.getElementById('statTotal'), e2=document.getElementById('statTriggered');
+  const e3=document.getElementById('statSaving'), e4=document.getElementById('statDrop'), e5=document.getElementById('statDropSub');
+  if(e1) e1.textContent = subsData.length;
+  if(e2) e2.textContent = triggered;
+  if(e3) e3.textContent = bestSaving > 0 ? 'NT$' + bestSaving.toLocaleString() : '--';
+  if(e4) e4.textContent = bestDrop > 0 ? '-' + bestDrop + '%' : '--';
+  if(e5) e5.textContent = bestDropRoute || '最佳路線';
 }
 
 function updateSliderVal(val) {
@@ -313,152 +292,104 @@ function updateSliderVal(val) {
 }
 
 function renderFeatured() {
-  const el = document.getElementById('featuredCard');
-  if (!el) return;
-  if (!subsData.length) {
-    el.innerHTML = '<div class="loading-text">\u6C92\u6709\u8FFD\u8E64\u8DEF\u7DDA</div>';
-    return;
-  }
-  const prices = pricesData.prices || {};
-  const history = pricesData.history || {};
+  const el = document.getElementById('featuredCard'); if (!el) return;
+  if (!subsData.length) { el.innerHTML = '<div class="loading-text">沒有追蹤路線</div>'; return; }
+  const prices = pricesData.prices || {}, history = pricesData.history || {};
   let best = subsData[0];
   subsData.forEach(function(s) { if (prices[s.id] && !prices[best.id]) best = s; });
-  const p = prices[best.id];
-  const hist = history[best.id] || [];
-  const price = p ? p.price : null;
-  const target = best.target_price || 0;
+  const p = prices[best.id], hist = history[best.id] || [];
+  const price = p ? p.price : null, target = best.target_price || 0;
   const priceStr = price ? 'NT$' + price.toLocaleString() : '--';
   const targetStr = target ? 'NT$' + target.toLocaleString() : '--';
   let svgPath = '';
   if (hist.length > 1) {
     const vals = hist.map(function(h) { return h.price; });
-    const mn = Math.min.apply(null, vals);
-    const mx = Math.max.apply(null, vals);
-    const range = mx - mn || 1;
-    const pts = vals.map(function(v, i) {
-      const x = (i / (vals.length-1)) * 280;
-      const y = 75 - ((v - mn) / range) * 65;
-      return x.toFixed(1) + ',' + y.toFixed(1);
-    });
-    svgPath = '<polyline points="' + pts.join(' ') + '" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round"/>';
+    const mn = Math.min.apply(null, vals), mx = Math.max.apply(null, vals), range = mx - mn || 1;
+    svgPath = '<polyline points="' + vals.map(function(v, i) {
+      return ((i/(vals.length-1))*280).toFixed(1) + ',' + (75 - ((v-mn)/range)*65).toFixed(1);
+    }).join(' ') + '" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round"/>';
   }
   let trend = '';
   if (hist.length >= 2) {
-    const first = hist[0].price;
-    const last = hist[hist.length-1].price;
-    const pct = Math.round((last - first) / first * 100);
-    const isDown = pct < 0;
-    trend = '<span class="badge ' + (isDown ? 'badge-green' : 'badge-red') + '">' + (isDown ? '\u25BC' : '\u25B2') + ' ' + Math.abs(pct) + '%</span>';
+    const pct = Math.round((hist[hist.length-1].price - hist[0].price) / hist[0].price * 100);
+    trend = '<span class="badge ' + (pct<0?'badge-green':'badge-red') + '">' + (pct<0?'▼':'▲') + ' ' + Math.abs(pct) + '%</span>';
   }
-  const origin = best.origin || '';
-  const dest = best.destination || '';
+  const origin = best.origin || '', dest = best.destination || '';
   const initials = (origin.substring(0,2) + dest.substring(0,1)).toUpperCase();
-  const sliderMin = Math.round((price||5000)*0.7);
-  const sliderMax = Math.round((price||5000)*1.3);
-  const sliderVal = target || price || 5000;
+  const smin = Math.round((price||5000)*0.7), smax = Math.round((price||5000)*1.3), sval = target||price||5000;
   el.innerHTML =
     '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">' +
     '<div class="route-avatar">' + initials + '</div>' +
-    '<div><div style="font-weight:700;font-size:1.1rem">' + origin + ' \u2192 ' + dest + '</div>' +
-    '<div style="color:var(--text-secondary);font-size:.85rem">' + (best.date || '') + '</div></div>' +
-    (trend ? '<div style="margin-left:auto">' + trend + '</div>' : '') +
-    '</div>' +
+    '<div><div style="font-weight:700;font-size:1.1rem">' + origin + ' → ' + dest + '</div>' +
+    '<div style="color:var(--text-secondary);font-size:.85rem">' + (best.date||'') + '</div></div>' +
+    (trend ? '<div style="margin-left:auto">' + trend + '</div>' : '') + '</div>' +
     '<div style="font-size:2rem;font-weight:800;color:var(--primary);margin-bottom:4px">' + priceStr + '</div>' +
-    '<div style="color:var(--text-secondary);font-size:.85rem;margin-bottom:16px">\u76EE\u6A19\u50F9: ' + targetStr + '</div>' +
+    '<div style="color:var(--text-secondary);font-size:.85rem;margin-bottom:16px">目標價: ' + targetStr + '</div>' +
     '<div style="background:var(--bg-secondary);border-radius:8px;padding:12px;margin-bottom:16px">' +
     '<svg viewBox="0 0 280 80" style="width:100%;height:80px">' +
-    (svgPath || '<text x="140" y="45" text-anchor="middle" fill="var(--text-secondary)" font-size="13">\u66AB\u7121\u6B77\u53F2\u8CC7\u6599</text>') +
+    (svgPath || '<text x="140" y="45" text-anchor="middle" fill="var(--text-secondary)" font-size="13">暫無歷史資料</text>') +
     '</svg></div>' +
     '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">' +
-    '<label style="font-size:.85rem;color:var(--text-secondary)">\u76EE\u6A19\u50F9\u683C:</label>' +
-    '<input type="range" id="fcSlider" min="' + sliderMin + '" max="' + sliderMax + '" value="' + sliderVal + '" style="flex:1" oninput="updateSliderVal(this.value)">' +
-    '<span id="fcVal" style="font-weight:600">' + targetStr + '</span>' +
-    '</div>' +
-    '<button id="fcSim" class="btn-primary" style="width:100%">\u6A21\u64EC\u5230\u50F9\u63D0\u9192</button>';
+    '<label style="font-size:.85rem;color:var(--text-secondary)">目標價格:</label>' +
+    '<input type="range" id="fcSlider" min="' + smin + '" max="' + smax + '" value="' + sval + '" style="flex:1" oninput="updateSliderVal(this.value)">' +
+    '<span id="fcVal" style="font-weight:600">' + targetStr + '</span></div>' +
+    '<button id="fcSim" class="btn-primary" style="width:100%">模擬到價提醒</button>';
   const sim = document.getElementById('fcSim');
-  if (sim) sim.addEventListener('click', function() { showToast('\u2705 \u6A21\u64EC\u63D0\u9192: \u5DF2\u9054\u6A19\u6307\u5B9A\u50F9\u683C\uFF01'); });
+  if (sim) sim.addEventListener('click', function() { showToast('✅ 模擬提醒: 已達標指定價格！'); });
 }
 
 function renderAlerts() {
-  const el = document.getElementById('alertsList');
-  if (!el) return;
+  const el = document.getElementById('alertsList'); if (!el) return;
   const prices = pricesData.prices || {};
   const items = subsData.filter(function(s) {
-    const p = prices[s.id];
-    return p && s.target_price && p.price <= s.target_price * 1.1;
+    const p = prices[s.id]; return p && s.target_price && p.price <= s.target_price * 1.1;
   }).slice(0, 5);
-  if (!items.length) {
-    el.innerHTML = '<div class="loading-text">\u66AB\u7121\u50F9\u683C\u8B66\u5831</div>';
-    return;
-  }
+  if (!items.length) { el.innerHTML = '<div class="loading-text">暫無價格警報</div>'; return; }
   el.innerHTML = items.map(function(s) {
-    const p = prices[s.id];
-    const isHit = p.price <= s.target_price;
-    const badgeClass = isHit ? 'badge-green' : 'badge-yellow';
-    const badgeText = isHit ? '\u5DF2\u9054\u6A19' : '\u964D\u50F9';
-    return '<div class="alert-item">' +
-      '<div style="flex:1"><div style="font-weight:600">' + s.origin + ' \u2192 ' + s.destination + '</div>' +
+    const p = prices[s.id], isHit = p.price <= s.target_price;
+    return '<div class="alert-item"><div style="flex:1"><div style="font-weight:600">' + s.origin + ' → ' + s.destination + '</div>' +
       '<div style="font-size:.8rem;color:var(--text-secondary)">NT$' + p.price.toLocaleString() + '</div></div>' +
-      '<span class="badge ' + badgeClass + '">' + badgeText + '</span></div>';
+      '<span class="badge ' + (isHit ? 'badge-green' : 'badge-yellow') + '">' + (isHit ? '已達標' : '降價') + '</span></div>';
   }).join('');
 }
 
 function renderTable() {
-  const tbody = document.getElementById('routeTableBody');
-  if (!tbody) return;
+  const tbody = document.getElementById('routeTableBody'); if (!tbody) return;
   if (!subsData.length) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-secondary)">\u66AB\u7121\u8FFD\u8E64\u8DEF\u7DDA</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-secondary)">暫無追蹤路線</td></tr>';
     return;
   }
-  const prices = pricesData.prices || {};
-  const history = pricesData.history || {};
+  const prices = pricesData.prices || {}, history = pricesData.history || {};
   tbody.innerHTML = subsData.map(function(s) {
-    const p = prices[s.id];
-    const hist = history[s.id] || [];
-    const price = p ? p.price : null;
+    const p = prices[s.id], hist = history[s.id] || [], price = p ? p.price : null;
     const priceStr = price ? 'NT$' + price.toLocaleString() : '--';
-    const target = s.target_price || 0;
-    const targetStr = target ? 'NT$' + target.toLocaleString() : '--';
-    let changeBadge = '';
+    const target = s.target_price || 0, targetStr = target ? 'NT$' + target.toLocaleString() : '--';
+    let badge = '';
     if (hist.length >= 2) {
-      const first = hist[0].price;
-      const last = hist[hist.length-1].price;
-      const pct = Math.round((last - first) / first * 100);
-      const isDown = pct < 0;
-      changeBadge = '<span class="badge ' + (isDown ? 'badge-green' : 'badge-red') + '">' + (isDown ? '\u25BC' : '\u25B2') + ' ' + Math.abs(pct) + '%</span>';
+      const pct = Math.round((hist[hist.length-1].price - hist[0].price) / hist[0].price * 100);
+      badge = '<span class="badge ' + (pct<0?'badge-green':'badge-red') + '">' + (pct<0?'▼':'▲') + ' ' + Math.abs(pct) + '%</span>';
     }
     let spark = '';
     if (hist.length > 1) {
       const vals = hist.map(function(h) { return h.price; });
-      const mn = Math.min.apply(null, vals);
-      const mx = Math.max.apply(null, vals);
-      const range = mx - mn || 1;
-      const pts = vals.map(function(v, i) {
-        const x = (i / (vals.length-1)) * 60;
-        const y = 18 - ((v - mn) / range) * 14;
-        return x.toFixed(1) + ',' + y.toFixed(1);
-      });
-      spark = '<svg viewBox="0 0 60 20" style="width:60px;height:20px"><polyline points="' + pts.join(' ') + '" fill="none" stroke="var(--primary)" stroke-width="1.5"/></svg>';
-    } else {
-      spark = '<span style="color:var(--text-secondary);font-size:.8rem">--</span>';
-    }
+      const mn = Math.min.apply(null, vals), mx = Math.max.apply(null, vals), range = mx - mn || 1;
+      spark = '<svg viewBox="0 0 60 20" style="width:60px;height:20px"><polyline points="' + vals.map(function(v, i) {
+        return ((i/(vals.length-1))*60).toFixed(1) + ',' + (18 - ((v-mn)/range)*14).toFixed(1);
+      }).join(' ') + '" fill="none" stroke="var(--primary)" stroke-width="1.5"/></svg>';
+    } else spark = '<span style="color:var(--text-secondary)">--</span>';
     const isHit = price && target && price <= target;
-    const statusBadge = isHit ?
-      '<span class="badge badge-green">\u5DF2\u9054\u6A19</span>' :
-      '<span class="badge badge-gray">\u8FFD\u8E64\u4E2D</span>';
+    const status = isHit ? '<span class="badge badge-green">已達標</span>' : '<span class="badge badge-gray">追蹤中</span>';
     const initials = ((s.origin||'').substring(0,2) + (s.destination||'').substring(0,1)).toUpperCase();
-    return '<tr>' +
-      '<td><div style="display:flex;align-items:center;gap:8px">' +
+    const sid = (s.id||'').replace(/'/g, "\'");
+    return '<tr><td><div style="display:flex;align-items:center;gap:8px">' +
       '<div class="route-avatar" style="width:32px;height:32px;font-size:.7rem">' + initials + '</div>' +
-      '<div><div style="font-weight:600">' + (s.origin||'') + ' \u2192 ' + (s.destination||'') + '</div>' +
+      '<div><div style="font-weight:600">' + (s.origin||'') + ' → ' + (s.destination||'') + '</div>' +
       '<div style="font-size:.75rem;color:var(--text-secondary)">' + (s.date||'') + '</div></div></div></td>' +
-      '<td style="color:var(--text-secondary)">' + (s.airline || '--') + '</td>' +
+      '<td style="color:var(--text-secondary)">' + (s.airline||'--') + '</td>' +
       '<td style="font-weight:700;color:var(--primary)">' + priceStr + '</td>' +
-      '<td>' + (changeBadge || '<span style="color:var(--text-secondary)">--</span>') + '</td>' +
-      '<td>' + spark + '</td>' +
-      '<td>' + targetStr + '</td>' +
-      '<td>' + statusBadge + ' <button class="btn-icon" onclick="deleteSub(\'' + s.id + '\')" title="\u522A\u9664">&#x1F5D1;</button></td>' +
-      '</tr>';
+      '<td>' + (badge||'<span style="color:var(--text-secondary)">--</span>') + '</td>' +
+      '<td>' + spark + '</td><td>' + targetStr + '</td>' +
+      '<td>' + status + ' <button class="btn-icon" onclick="deleteSub(\'' + sid + '\')" title="刪除">&#x1F5D1;</button></td></tr>';
   }).join('');
 }
 
@@ -469,86 +400,47 @@ function setTheme(t, btn) {
   if (btn) btn.classList.add('active');
 }
 
-function openModal() {
-  const m = document.getElementById('addModal');
-  if (m) m.style.display = 'flex';
-}
-
-function closeModal() {
-  const m = document.getElementById('addModal');
-  if (m) m.style.display = 'none';
-}
+function openModal() { const m = document.getElementById('addModal'); if (m) m.style.display = 'flex'; }
+function closeModal() { const m = document.getElementById('addModal'); if (m) m.style.display = 'none'; }
 
 function showToast(msg) {
   let t = document.getElementById('toast');
   if (!t) {
-    t = document.createElement('div');
-    t.id = 'toast';
+    t = document.createElement('div'); t.id = 'toast';
     t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1e293b;color:#fff;padding:12px 20px;border-radius:8px;z-index:9999;font-size:.9rem;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:opacity .5s';
     document.body.appendChild(t);
   }
-  t.textContent = msg;
-  t.style.opacity = '1';
+  t.textContent = msg; t.style.opacity = '1';
   setTimeout(function() { t.style.opacity = '0'; }, 3000);
 }
 
 async function addSub() {
-  const origin = (document.getElementById('inputOrigin') || {}).value || '';
-  const destination = (document.getElementById('inputDest') || {}).value || '';
-  const date = (document.getElementById('inputDate') || {}).value || '';
-  const target = (document.getElementById('inputTarget') || {}).value || '';
-  if (!origin || !destination || !date) {
-    showToast('\u8ACB\u586B\u5BEB\u5FC5\u8981\u6B04\u4F4D');
-    return;
-  }
-  const newSub = {
-    id: origin.toUpperCase() + '-' + destination.toUpperCase() + '-' + date,
-    origin: origin.toUpperCase(),
-    destination: destination.toUpperCase(),
-    date: date,
-    target_price: target ? parseInt(target) : null,
-    active: true
-  };
-  const exists = subsData.some(function(s) { return s.id === newSub.id; });
-  if (exists) { showToast('\u8A72\u8DEF\u7DDA\u5DF2\u5B58\u5728'); return; }
-  subsData.push(newSub);
-  await saveSubs();
-  closeModal();
-  updateStats();
-  renderFeatured();
-  renderAlerts();
-  renderTable();
-  showToast('\u2705 \u5DF2\u65B0\u589E\u8FFD\u8E64: ' + newSub.origin + ' \u2192 ' + newSub.destination);
+  const origin = (document.getElementById('inputOrigin')||{}).value||'';
+  const destination = (document.getElementById('inputDest')||{}).value||'';
+  const date = (document.getElementById('inputDate')||{}).value||'';
+  const target = (document.getElementById('inputTarget')||{}).value||'';
+  if (!origin || !destination || !date) { showToast('請填寫必要欄位'); return; }
+  const newSub = { id: origin.toUpperCase()+'-'+destination.toUpperCase()+'-'+date, origin: origin.toUpperCase(), destination: destination.toUpperCase(), date: date, target_price: target ? parseInt(target) : null, active: true };
+  if (subsData.some(function(s) { return s.id === newSub.id; })) { showToast('該路線已存在'); return; }
+  subsData.push(newSub); await saveSubs(); closeModal();
+  updateStats(); renderFeatured(); renderAlerts(); renderTable();
+  showToast('✅ 已新增追蹤: ' + newSub.origin + ' → ' + newSub.destination);
 }
 
 async function deleteSub(id) {
   subsData = subsData.filter(function(s) { return s.id !== id; });
-  await saveSubs();
-  updateStats();
-  renderFeatured();
-  renderAlerts();
-  renderTable();
-  showToast('\u2705 \u5DF2\u522A\u9664\u8FFD\u8E64');
+  await saveSubs(); updateStats(); renderFeatured(); renderAlerts(); renderTable();
+  showToast('✅ 已刪除追蹤');
 }
 
 async function saveSubs() {
   try {
-    const r = await fetch(WORKER_URL + '/subscriptions', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(subsData)
-    });
+    const r = await fetch(WORKER_URL + '/subscriptions', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(subsData) });
     if (!r.ok) throw new Error('HTTP ' + r.status);
-  } catch(e) {
-    showToast('\u5132\u5B58\u5931\u6557: ' + e.message);
-  }
+  } catch(e) { showToast('儲存失敗: ' + e.message); }
 }
 
-window.addEventListener('click', function(e) {
-  const m = document.getElementById('addModal');
-  if (m && e.target === m) closeModal();
-});
-
+window.addEventListener('click', function(e) { const m = document.getElementById('addModal'); if (m && e.target === m) closeModal(); });
 loadSubs();
 </script>
 </body>
