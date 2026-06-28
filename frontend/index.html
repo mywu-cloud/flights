@@ -360,11 +360,11 @@ function renderFeatured(s){
     '<div class="target-block">'+
     '<div class="target-label">到價提醒目標</div>'+
     '<div class="target-value">'+fmtP(target||12000)+'</div>'+
-    '<div class="slider-wrap"><input type="range" class="slider" min="'+Math.round(minV)+'" max="'+Math.round(maxV)+'" value="'+(target||12000)+'" oninput="document.querySelector('.target-value').textContent='NT$'+Number(this.value).toLocaleString()"></div>'+
+    '<div class="slider-wrap"><input type="range" class="slider" min="'+Math.round(minV)+'" max="'+Math.round(maxV)+'" value="'+(target||12000)+'" oninput="document.querySelector(&quot;.target-value&quot;).textContent=&quot;NToninput="document.querySelector('.target-value').textContent='NT$'+Number(this.value).toLocaleString()"quot;+Number(this.value).toLocaleString()"></div>'+
     '<div class="slider-range"><span>'+fmtP(Math.round(minV))+'</span><span>'+fmtP(Math.round(maxV))+'</span></div>'+
     '<div class="target-actions">'+
     '<button class="btn-outline">距離目標還差 '+(price&&target?fmtP(Math.max(0,price-target)):'—')+'</button>'+
-    '<button class="btn-sim" onclick="toast('✅ 模擬提醒：已達目標價！')">模擬到價提醒</button>'+
+    '<button class="btn-sim" onclick="toast(&quot;✅ 模擬提醒：已達目標價！&quot;)">模擬到價提醒</button>'+
     '</div></div>';
 }
 
