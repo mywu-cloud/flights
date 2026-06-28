@@ -3,387 +3,447 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>機票價格追蹤 | Flight Price Tracker</title>
+<title>票價雷達 FareRadar</title>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
-  background: #f8f9fb; color: #1a1a2e; min-height: 100vh;
-}
-a { text-decoration: none; }
-.topnav {
-  background: #fff; border-bottom: 1px solid #e8eaee;
-  padding: 0 24px; display: flex; align-items: center;
-  justify-content: space-between; height: 56px;
-  position: sticky; top: 0; z-index: 100;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-}
-.nav-brand {
-  display: flex; align-items: center; gap: 10px;
-  font-size: 1rem; font-weight: 700; color: #1a1a2e; letter-spacing: -0.01em;
-}
-.nav-icon {
-  width: 30px; height: 30px; background: linear-gradient(135deg, #4f7cf7, #7c5cfc);
-  border-radius: 8px; display: flex; align-items: center; justify-content: center;
-  font-size: 0.95rem; color: #fff;
-}
-.nav-status { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #6b7280; }
-.status-dot {
-  width: 7px; height: 7px; border-radius: 50%; background: #22c55e;
-  animation: pulse 2.5s infinite;
-}
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
-.hero {
-  background: linear-gradient(145deg, #4f7cf7 0%, #7c5cfc 100%);
-  padding: 48px 24px 56px; text-align: center; color: #fff;
-  position: relative; overflow: hidden;
-}
-.hero::before {
-  content:''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 60% 0%, rgba(255,255,255,0.12) 0%, transparent 60%);
-}
-.hero-inner { position: relative; max-width: 600px; margin: 0 auto; }
-.hero h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 10px; }
-.hero p { font-size: 0.95rem; opacity: 0.85; line-height: 1.6; }
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,0.18); backdrop-filter: blur(4px);
-  border: 1px solid rgba(255,255,255,0.3); border-radius: 20px;
-  padding: 5px 14px; font-size: 0.78rem; font-weight: 600; margin-bottom: 18px;
-  letter-spacing: 0.02em;
-}
-.page-body { max-width: 980px; margin: 0 auto; padding: 32px 20px 60px; }
-.section-title {
-  font-size: 0.7rem; font-weight: 700; color: #9ca3af; letter-spacing: 0.08em;
-  text-transform: uppercase; margin-bottom: 14px;
-}
-.cards-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px; margin-bottom: 36px;
-}
-.card {
-  background: #fff; border: 1px solid #e8eaee; border-radius: 14px;
-  padding: 22px; transition: box-shadow 0.2s, border-color 0.2s;
-}
-.card:hover { box-shadow: 0 4px 16px rgba(79,124,247,0.12); border-color: #c7d6fd; }
-.card-route { font-size: 1.1rem; font-weight: 800; color: #1a1a2e; margin-bottom: 4px; }
-.card-route span { color: #9ca3af; font-weight: 400; margin: 0 6px; }
-.card-depart { font-size: 0.8rem; color: #9ca3af; margin-bottom: 18px; }
-.card-price { font-size: 1.9rem; font-weight: 800; color: #4f7cf7; letter-spacing: -0.03em; margin-bottom: 2px; }
-.card-price em { font-style: normal; font-size: 0.85rem; color: #9ca3af; font-weight: 500; margin-left: 4px; }
-.card-airline { font-size: 0.8rem; color: #6b7280; margin-bottom: 18px; }
-.card-link {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: linear-gradient(135deg, #4f7cf7, #7c5cfc); color: #fff;
-  padding: 7px 15px; border-radius: 8px; font-size: 0.8rem; font-weight: 600;
-  transition: opacity 0.15s;
-}
-.card-link:hover { opacity: 0.88; }
-.card-updated { font-size: 0.72rem; color: #c4c9d4; margin-top: 12px; }
-.panel {
-  background: #fff; border: 1px solid #e8eaee; border-radius: 16px;
-  overflow: hidden; margin-bottom: 24px;
-}
-.panel-header {
-  padding: 18px 24px 0; border-bottom: 1px solid #f0f1f4;
-  display: flex; gap: 0;
-}
-.tab-btn {
-  background: none; border: none; cursor: pointer;
-  padding: 0 6px 14px; margin-right: 22px;
-  font-size: 0.88rem; font-weight: 600; color: #9ca3af;
-  border-bottom: 2px solid transparent; transition: color 0.15s;
-  position: relative; top: 1px; font-family: inherit;
-}
-.tab-btn.active { color: #4f7cf7; border-bottom-color: #4f7cf7; }
-.tab-btn:hover:not(.active) { color: #374151; }
-.panel-body { padding: 24px; }
-.tab-pane { display: none; }
-.tab-pane.active { display: block; }
-.form-row {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-  gap: 14px; margin-bottom: 18px;
-}
-.fg { display: flex; flex-direction: column; gap: 5px; }
-.fg label { font-size: 0.72rem; font-weight: 700; color: #6b7280; letter-spacing: 0.05em; text-transform: uppercase; }
-.fg input {
-  background: #f8f9fb; border: 1px solid #e2e5ea; border-radius: 8px;
-  padding: 9px 11px; font-size: 0.88rem; color: #1a1a2e; outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s; font-family: inherit;
-}
-.fg input:focus { background: #fff; border-color: #4f7cf7; box-shadow: 0 0 0 3px rgba(79,124,247,0.12); }
-.fg input::placeholder { color: #c4c9d4; }
-.form-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-.btn-primary {
-  background: linear-gradient(135deg, #4f7cf7, #7c5cfc); color: #fff;
-  border: none; border-radius: 8px; padding: 9px 22px;
-  font-size: 0.88rem; font-weight: 700; cursor: pointer;
-  transition: opacity 0.15s, transform 0.1s; font-family: inherit;
-}
-.btn-primary:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
-.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
-.form-msg { font-size: 0.82rem; }
-.form-msg.ok { color: #16a34a; } .form-msg.err { color: #dc2626; }
-.sub-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-.sub-table th {
-  text-align: left; padding: 8px 12px 10px;
-  font-size: 0.7rem; font-weight: 700; color: #9ca3af;
-  text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid #f0f1f4;
-}
-.sub-table td { padding: 12px 12px; border-bottom: 1px solid #f8f9fb; vertical-align: middle; color: #374151; }
-.sub-table tr:last-child td { border-bottom: none; }
-.sub-table tr:hover td { background: #fafbff; }
-.route-cell { font-weight: 700; color: #1a1a2e; }
-.badge-active {
-  display: inline-flex; align-items: center; gap: 4px;
-  background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0;
-  border-radius: 6px; padding: 2px 8px; font-size: 0.72rem; font-weight: 700;
-}
-.badge-active::before { content:''; width:5px;height:5px;border-radius:50%;background:#22c55e; }
-.badge-inactive {
-  background: #f9fafb; color: #9ca3af; border: 1px solid #e5e7eb;
-  border-radius: 6px; padding: 2px 8px; font-size: 0.72rem; font-weight: 600;
-}
-.btn-del {
-  background: none; border: 1px solid #fecaca; color: #ef4444;
-  border-radius: 6px; padding: 4px 10px; font-size: 0.75rem; font-weight: 600;
-  cursor: pointer; transition: background 0.15s; font-family: inherit;
-}
-.btn-del:hover { background: #fff1f1; border-color: #fca5a5; }
-.empty-state { padding: 30px 0; text-align: center; color: #9ca3af; font-size: 0.88rem; }
-.empty-icon { font-size: 2rem; display: block; margin-bottom: 10px; opacity: 0.5; }
-.history-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
-.history-table th {
-  text-align: left; padding: 8px 12px 10px;
-  font-size: 0.7rem; font-weight: 700; color: #9ca3af;
-  text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid #f0f1f4;
-}
-.history-table td { padding: 11px 12px; border-bottom: 1px solid #f8f9fb; color: #374151; }
-.history-table tr:last-child td { border-bottom: none; }
-.history-table tr:hover td { background: #fafbff; }
-.loading { text-align: center; color: #9ca3af; padding: 36px; font-size: 0.9rem; }
-.err-box {
-  background: #fff1f1; border: 1px solid #fecaca; border-radius: 8px;
-  padding: 14px 16px; color: #dc2626; font-size: 0.85rem; margin: 8px 0;
-}
-footer { text-align: center; color: #c4c9d4; font-size: 0.78rem; margin-top: 8px; }
-footer a { color: #c4c9d4; transition: color 0.15s; }
-footer a:hover { color: #9ca3af; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;background:#f0f4f8;color:#1a202c;min-height:100vh}
+a{text-decoration:none;color:inherit}
+/* NAV */
+.nav{background:#fff;border-bottom:1px solid #e2e8f0;height:60px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.nav-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1rem;letter-spacing:-0.01em;white-space:nowrap}
+.nav-icon{width:34px;height:34px;background:#4A6CF7;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem}
+.nav-brand-sub{font-size:0.85rem;color:#64748b;font-weight:500;letter-spacing:0.02em}
+.nav-search{flex:1;max-width:320px;position:relative}
+.nav-search input{width:100%;padding:7px 12px 7px 34px;border:1px solid #e2e8f0;border-radius:8px;font-size:0.85rem;background:#f8fafc;outline:none;color:#374151;font-family:inherit}
+.nav-search input:focus{border-color:#4A6CF7;background:#fff;box-shadow:0 0 0 3px rgba(74,108,247,0.1)}
+.nav-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:0.85rem}
+.nav-themes{display:flex;align-items:center;gap:4px;margin-left:auto}
+.theme-btn{display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;border:1.5px solid #e2e8f0;font-size:0.78rem;font-weight:600;cursor:pointer;background:#fff;color:#64748b;transition:all 0.15s;white-space:nowrap}
+.theme-btn.active{border-color:currentColor;background:#f8fafc}
+.theme-btn .dot{width:8px;height:8px;border-radius:50%}
+.nav-bell{position:relative;margin-left:8px;cursor:pointer;padding:7px;border-radius:8px;border:1px solid #e2e8f0;background:#fff;display:flex;align-items:center;justify-content:center;color:#64748b}
+.bell-badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;border-radius:50%;width:17px;height:17px;font-size:0.6rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.nav-avatar{width:34px;height:34px;background:#4A6CF7;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.85rem;cursor:pointer}
+/* LAYOUT */
+.page{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+/* HEADER */
+.page-label{font-size:0.7rem;font-weight:700;color:#94a3b8;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+.page-title{font-size:1.75rem;font-weight:800;letter-spacing:-0.03em;color:#0f172a;margin-bottom:6px}
+.page-sub{font-size:0.85rem;color:#64748b;margin-bottom:24px}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px}
+.page-header-text{}
+.btn-add{display:inline-flex;align-items:center;gap:6px;background:#4A6CF7;color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:0.88rem;font-weight:700;cursor:pointer;transition:opacity 0.15s,transform 0.1s;font-family:inherit}
+.btn-add:hover{opacity:0.88;transform:translateY(-1px)}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:24px}
+.stat-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px 20px 16px;position:relative;overflow:hidden}
+.stat-label{font-size:0.75rem;color:#64748b;font-weight:600;margin-bottom:12px}
+.stat-icon{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.stat-value{font-size:1.8rem;font-weight:800;color:#0f172a;letter-spacing:-0.03em;line-height:1}
+.stat-unit{font-size:0.8rem;color:#94a3b8;margin-top:4px}
+/* MAIN GRID */
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+@media(max-width:720px){.main-grid{grid-template-columns:1fr}}
+/* FEATURED CARD */
+.featured-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:22px}
+.fc-header{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.fc-avatar{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;color:#fff;flex-shrink:0}
+.fc-route{font-size:1.05rem;font-weight:800;color:#0f172a}
+.fc-sub{font-size:0.78rem;color:#94a3b8;margin-top:1px}
+.fc-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:6px;font-size:0.75rem;font-weight:700}
+.badge-down{background:#dcfce7;color:#16a34a}
+.badge-up{background:#fee2e2;color:#dc2626}
+.fc-price{font-size:2rem;font-weight:800;color:#0f172a;letter-spacing:-0.03em;margin:12px 0 2px}
+.fc-price-sub{font-size:0.78rem;color:#94a3b8;margin-bottom:14px}
+.chart-tabs{display:flex;gap:6px;margin-bottom:8px}
+.chart-tab{font-size:0.72rem;font-weight:600;color:#94a3b8;padding:3px 8px;border-radius:6px;cursor:pointer;border:1px solid transparent}
+.chart-tab.active{background:#f0f4ff;color:#4A6CF7;border-color:#c7d4fd}
+.chart-area{height:80px;background:linear-gradient(180deg,rgba(74,108,247,0.08) 0%,rgba(74,108,247,0) 100%);border-radius:8px;position:relative;overflow:hidden;margin-bottom:14px}
+.chart-line{position:absolute;bottom:0;left:0;right:0;top:0}
+.target-block{background:#f8fafc;border-radius:10px;padding:14px}
+.target-label{font-size:0.72rem;color:#64748b;font-weight:600;margin-bottom:4px}
+.target-value{font-size:1.2rem;font-weight:800;color:#0f172a;margin-bottom:10px}
+.slider-wrap{position:relative;margin-bottom:8px}
+.slider{width:100%;accent-color:#4A6CF7;cursor:pointer}
+.slider-range{display:flex;justify-content:space-between;font-size:0.68rem;color:#94a3b8;margin-top:2px}
+.target-actions{display:flex;gap:8px;margin-top:10px}
+.btn-outline{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:7px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;color:#374151;font-family:inherit;transition:border-color 0.15s}
+.btn-outline:hover{border-color:#4A6CF7;color:#4A6CF7}
+.btn-sim{background:#4A6CF7;color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:inherit}
+/* ALERTS */
+.alerts-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:22px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-title{font-size:0.95rem;font-weight:700;color:#0f172a}
+.card-link{font-size:0.78rem;color:#4A6CF7;font-weight:600;cursor:pointer}
+.alert-item{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid #f1f5f9}
+.alert-item:last-child{border-bottom:none;padding-bottom:0}
+.alert-dot{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.85rem;margin-top:1px}
+.dot-green{background:#dcfce7;color:#16a34a}
+.dot-blue{background:#dbeafe;color:#2563eb}
+.alert-route{font-size:0.85rem;font-weight:700;color:#0f172a}
+.alert-desc{font-size:0.75rem;color:#64748b;margin:1px 0 4px}
+.alert-tag{display:inline-block;padding:1px 7px;border-radius:5px;font-size:0.7rem;font-weight:700}
+.tag-green{background:#dcfce7;color:#16a34a}
+.tag-blue{background:#dbeafe;color:#2563eb}
+.tag-orange{background:#fff7ed;color:#c2410c}
+.alert-price{font-size:0.82rem;font-weight:700;color:#374151;margin-left:4px}
+.alert-time{font-size:0.72rem;color:#94a3b8;white-space:nowrap;margin-left:auto}
+/* TRACKING TABLE */
+.table-section{background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;margin-bottom:24px}
+.table-header{padding:18px 20px 14px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+.table-title{font-size:0.95rem;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:8px}
+.count-badge{background:#f0f4ff;color:#4A6CF7;border-radius:6px;padding:1px 8px;font-size:0.75rem;font-weight:700}
+.track-table{width:100%;border-collapse:collapse;font-size:0.83rem}
+.track-table th{text-align:left;padding:9px 16px;font-size:0.68rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f1f5f9;white-space:nowrap}
+.track-table td{padding:12px 16px;border-bottom:1px solid #f8fafc;vertical-align:middle}
+.track-table tr:last-child td{border-bottom:none}
+.track-table tr:hover td{background:#fafbff}
+.tr-avatar{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;color:#fff;flex-shrink:0}
+.tr-route{font-weight:700;color:#0f172a;font-size:0.88rem}
+.tr-sub{font-size:0.72rem;color:#94a3b8;margin-top:1px}
+.tr-price{font-weight:700;color:#0f172a}
+.change-badge{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:6px;font-size:0.75rem;font-weight:700}
+.sparkline{width:60px;height:24px}
+.target-info{color:#374151;font-weight:600;font-size:0.82rem}
+.target-sub{font-size:0.7rem;color:#16a34a;font-weight:600}
+.target-sub-track{font-size:0.7rem;color:#94a3b8}
+.bell-btn{width:30px;height:30px;border-radius:8px;background:#f0f4ff;border:none;color:#4A6CF7;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.85rem;transition:background 0.15s}
+.bell-btn:hover{background:#dbeafe}
+.btn-del-sm{width:28px;height:28px;border-radius:7px;background:none;border:1px solid #fecaca;color:#ef4444;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.8rem;transition:background 0.15s}
+.btn-del-sm:hover{background:#fff1f1}
+/* ADD MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.4);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.hidden{display:none}
+.modal{background:#fff;border-radius:18px;width:100%;max-width:520px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.15)}
+.modal-title{font-size:1.1rem;font-weight:800;color:#0f172a;margin-bottom:4px}
+.modal-sub{font-size:0.82rem;color:#64748b;margin-bottom:22px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-size:0.7rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em}
+.fg input{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:9px 11px;font-size:0.88rem;color:#0f172a;outline:none;transition:border-color 0.15s,box-shadow 0.15s;font-family:inherit}
+.fg input:focus{background:#fff;border-color:#4A6CF7;box-shadow:0 0 0 3px rgba(74,108,247,0.12)}
+.fg input::placeholder{color:#cbd5e1}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
+.btn-cancel{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:9px 18px;font-size:0.85rem;font-weight:600;cursor:pointer;color:#374151;font-family:inherit}
+.btn-save{background:#4A6CF7;color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:0.85rem;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.15s}
+.btn-save:hover:not(:disabled){opacity:0.88}
+.btn-save:disabled{opacity:0.45;cursor:not-allowed}
+.form-msg{font-size:0.8rem;margin-top:8px;min-height:1em}
+.form-msg.ok{color:#16a34a}.form-msg.err{color:#dc2626}
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:#0f172a;color:#fff;border-radius:12px;padding:12px 18px;font-size:0.85rem;font-weight:600;z-index:300;transform:translateY(80px);opacity:0;transition:all 0.3s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+/* THEME VARIANTS */
+body.theme-mint{background:#f0faf4}
+body.theme-mint .nav-icon,.body.theme-mint .btn-add,.body.theme-mint .btn-sim{background:#10B981}
+body.theme-mint .stat-card:first-child .stat-icon,.body.theme-mint .bell-btn{background:#dcfce7;color:#10B981}
+body.theme-warm{background:#fdf8f0}
+.loading-row td{text-align:center;color:#94a3b8;padding:32px;font-size:0.9rem}
+.empty-row td{text-align:center;color:#94a3b8;padding:32px}
+footer{text-align:center;color:#cbd5e1;font-size:0.75rem;margin-top:4px}
+footer a{color:#cbd5e1}footer a:hover{color:#94a3b8}
 </style>
 </head>
 <body>
-<nav class="topnav">
+<!-- NAV -->
+<nav class="nav">
   <div class="nav-brand">
     <div class="nav-icon">✈</div>
-    機票追蹤系統
+    <div><div>票價雷達</div><div class="nav-brand-sub">FareRadar</div></div>
   </div>
-  <div class="nav-status">
-    <span class="status-dot"></span>
-    <span id="lastUpdated">載入中...</span>
+  <div class="nav-search">
+    <span class="nav-search-icon">🔍</span>
+    <input type="text" placeholder="搜尋航線、機場或航空公司…">
   </div>
+  <div class="nav-themes">
+    <button class="theme-btn active" style="color:#4A6CF7" onclick="setTheme('sky',this)"><span class="dot" style="background:#4A6CF7"></span>晴空</button>
+    <button class="theme-btn" style="color:#10B981" onclick="setTheme('mint',this)"><span class="dot" style="background:#10B981"></span>薄荷</button>
+    <button class="theme-btn" style="color:#f97316" onclick="setTheme('warm',this)"><span class="dot" style="background:#f97316"></span>暖陽</button>
+  </div>
+  <div class="nav-bell">🔔<span class="bell-badge" id="bellBadge">2</span></div>
+  <div class="nav-avatar">陳</div>
 </nav>
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-badge">🤖 自動追蹤中</div>
-    <h1>機票最低價格追蹤</h1>
-    <p>每日 10:00 &amp; 22:00（台灣時間）自動抓取 Google Flights 最低票價</p>
+
+<!-- MODAL -->
+<div class="modal-overlay hidden" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title">➕ 新增追蹤航線</div>
+    <div class="modal-sub">設定目標票價，達標時自動通知</div>
+    <div class="modal-grid">
+      <div class="fg"><label>出發地 (IATA)</label><input id="fOrigin" type="text" placeholder="TPE" maxlength="3"></div>
+      <div class="fg"><label>目的地 (IATA)</label><input id="fDest" type="text" placeholder="NRT" maxlength="3"></div>
+      <div class="fg"><label>出發日期</label><input id="fDate" type="date"></div>
+      <div class="fg"><label>目標票價 (TWD)</label><input id="fTarget" type="number" placeholder="12000" min="1"></div>
+      <div class="fg" style="grid-column:1/-1"><label>備註 (選填)</label><input id="fNote" type="text" placeholder="旅遊計劃"></div>
+    </div>
+    <div class="form-msg" id="addMsg"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
+      <button class="btn-save" id="btnSave" onclick="addSub()">儲存追蹤</button>
+    </div>
   </div>
 </div>
-<div class="page-body">
-  <div class="section-title">目前最低票價</div>
-  <div id="cardsContainer" class="cards-grid">
-    <div class="loading">載入價格資料中...</div>
+
+<div class="page">
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-text">
+      <div class="page-label">儀表板 · DASHBOARD</div>
+      <div class="page-title">我的票價追蹤</div>
+      <div class="page-sub" id="pageSubtitle">載入中...</div>
+    </div>
+    <button class="btn-add" onclick="openModal()">＋ 新增追蹤</button>
   </div>
-  <div class="panel">
-    <div class="panel-header">
-      <button class="tab-btn active" onclick="switchTab('add')">➕ 新增追蹤航線</button>
-      <button class="tab-btn" onclick="switchTab('list')">📋 追蹤清單</button>
-    </div>
-    <div class="panel-body">
-      <div class="tab-pane active" id="paneAdd">
-        <div class="form-row">
-          <div class="fg"><label>出發地 (IATA)</label><input id="fOrigin" type="text" placeholder="TPE" maxlength="3"></div>
-          <div class="fg"><label>目的地 (IATA)</label><input id="fDest" type="text" placeholder="NRT" maxlength="3"></div>
-          <div class="fg"><label>出發日期</label><input id="fDate" type="date"></div>
-          <div class="fg"><label>目標票價 (TWD)</label><input id="fTarget" type="number" placeholder="12000" min="1"></div>
-          <div class="fg"><label>備註 (選填)</label><input id="fNote" type="text" placeholder="旅遊計劃"></div>
-        </div>
-        <div class="form-actions">
-          <button class="btn-primary" id="btnAdd" onclick="addSub()">新增追蹤</button>
-          <span class="form-msg" id="addMsg"></span>
-        </div>
-      </div>
-      <div class="tab-pane" id="paneList">
-        <div id="subsContainer"><div class="loading" style="padding:20px 0">載入中...</div></div>
-      </div>
-    </div>
+
+  <!-- STATS -->
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-card"><div class="stat-label">追蹤航線</div><div class="stat-icon" style="background:#eff6ff;color:#4A6CF7">✈</div><div class="stat-value" id="statCount">—</div><div class="stat-unit">條航線監控中</div></div>
+    <div class="stat-card"><div class="stat-label">觸發提醒</div><div class="stat-icon" style="background:#fef3c7;color:#d97706">🔔</div><div class="stat-value" id="statAlerts">—</div><div class="stat-unit">條已達到目標價</div></div>
+    <div class="stat-card"><div class="stat-label">最新最低價</div><div class="stat-icon" style="background:#dcfce7;color:#16a34a">🏷</div><div class="stat-value" id="statBest">—</div><div class="stat-unit" id="statBestRoute">—</div></div>
+    <div class="stat-card"><div class="stat-label">最後更新</div><div class="stat-icon" style="background:#f3e8ff;color:#9333ea">🕐</div><div class="stat-value" style="font-size:1rem;margin-top:4px" id="statUpdated">—</div><div class="stat-unit">自動每日 2 次</div></div>
   </div>
-  <div class="panel">
-    <div class="panel-header" style="padding-bottom:0;border-bottom:none;">
-      <span class="tab-btn active" style="cursor:default;pointer-events:none;color:#374151;">📊 歷史價格紀錄</span>
-    </div>
-    <div class="panel-body" style="padding-top:8px;">
-      <div id="historyContainer">
-        <div class="loading" style="padding:20px 0">載入歷史資料中...</div>
-      </div>
+
+  <!-- MAIN GRID: featured + alerts -->
+  <div class="main-grid">
+    <div class="featured-card" id="featuredCard"><div style="color:#94a3b8;text-align:center;padding:40px">載入中...</div></div>
+    <div class="alerts-card">
+      <div class="card-header"><div class="card-title">📢 價格警報</div><div class="card-link">查看全部</div></div>
+      <div id="alertsList"><div style="color:#94a3b8;padding:20px;text-align:center">載入中...</div></div>
     </div>
   </div>
-  <footer>
-    Flight Price Tracker &mdash; 資料來源：Google Flights &mdash;
-    <a href="https://github.com/mywu-cloud/flights" target="_blank" rel="noopener">GitHub</a>
-  </footer>
+
+  <!-- TRACKING TABLE -->
+  <div class="table-section">
+    <div class="table-header">
+      <div class="table-title">追蹤中的航線 <span class="count-badge" id="tableCount">0</span></div>
+      <div style="font-size:0.78rem;color:#64748b">點選航線以查看走勢</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="track-table">
+        <thead><tr><th>航線</th><th>目前票價</th><th>漲跌</th><th>近 7 天</th><th>目標價</th><th>狀態</th><th></th></tr></thead>
+        <tbody id="trackTableBody"><tr class="loading-row"><td colspan="7">載入中...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>票價雷達 FareRadar &mdash; 資料來源：Google Flights &mdash; <a href="https://github.com/mywu-cloud/flights" target="_blank">GitHub</a></footer>
 </div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 <script>
-const WORKER_URL = 'https://flights.tw-mywu.workers.dev';
-const RAW = 'https://raw.githubusercontent.com/mywu-cloud/flights';
-const PRICES_URL = RAW + '/gh-pages/data/prices.json';
-const HISTORY_URL = RAW + '/gh-pages/data/history.json';
-let subsSha = null, subs = [];
+const WORKER_URL='https://flights.tw-mywu.workers.dev';
+const RAW='https://raw.githubusercontent.com/mywu-cloud/flights';
+const PRICES_URL=RAW+'/gh-pages/data/prices.json';
+const HISTORY_URL=RAW+'/gh-pages/data/history.json';
+let subsSha=null,subs=[],pricesData={};
 
-function fmtDate(s) {
-  if (!s) return '-';
-  return new Date(s).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+const COLORS=['#4A6CF7','#10B981','#f97316','#8b5cf6','#ec4899','#14b8a6','#f59e0b','#ef4444','#6366f1','#84cc16'];
+function routeColor(id){let h=0;for(let c of(id||''))h=(h*31+c.charCodeAt(0))%COLORS.length;return COLORS[h];}
+function routeInitials(o,d){return((o||'').slice(0,1)+(d||'').slice(0,1)).toUpperCase();}
+function fmtDate(s){if(!s)return'—';return new Date(s).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}
+function fmtP(p){return p?'NT$'+Number(p).toLocaleString():'—';}
+function up(s){return(s||'').trim().toUpperCase();}
+function showMsg(t,c){const el=document.getElementById('addMsg');el.textContent=t;el.className='form-msg '+c;}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
+
+function setTheme(t,btn){
+  document.body.className='';
+  if(t==='mint')document.body.classList.add('theme-mint');
+  if(t==='warm')document.body.classList.add('theme-warm');
+  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
 }
-function fmtP(p) { return p ? 'NT$' + Number(p).toLocaleString() : '-'; }
-function up(s) { return (s || '').trim().toUpperCase(); }
-function showMsg(t, c) { const el = document.getElementById('addMsg'); el.textContent = t; el.className = 'form-msg ' + c; }
+function openModal(){document.getElementById('modalOverlay').classList.remove('hidden');}
+function closeModal(){document.getElementById('modalOverlay').classList.add('hidden');showMsg('','');}
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
 
-function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach((b, i) => {
-    b.classList.toggle('active', (tab === 'add' && i === 0) || (tab === 'list' && i === 1));
-  });
-  document.getElementById('paneAdd').classList.toggle('active', tab === 'add');
-  document.getElementById('paneList').classList.toggle('active', tab === 'list');
+// Sparkline SVG
+function sparkline(vals,color){
+  if(!vals||!vals.length)return'<svg width="60" height="24"></svg>';
+  const mn=Math.min(...vals),mx=Math.max(...vals),rng=mx-mn||1;
+  const pts=vals.map((v,i)=>{const x=i/(vals.length-1)*58+1;const y=22-(v-mn)/rng*20;return x+','+y;}).join(' ');
+  const isUp=vals[vals.length-1]>=vals[0];
+  const c=isUp?'#ef4444':'#16a34a';
+  return '<svg width="60" height="24" viewBox="0 0 60 24"><polyline points="'+pts+'" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 }
 
-async function loadSubs() {
-  try {
-    const r = await fetch(WORKER_URL + '/subscriptions');
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const d = await r.json();
-    if (d.error) throw new Error(d.error);
-    subs = d.subscriptions || [];
-    subsSha = d.sha || null;
-    renderSubs();
-  } catch (e) {
-    document.getElementById('subsContainer').innerHTML = '<div class="err-box">無法載入追蹤清單：' + e.message + '</div>';
+// Chart area SVG (big)
+function bigChart(vals){
+  if(!vals||vals.length<2)return'';
+  const mn=Math.min(...vals),mx=Math.max(...vals),rng=mx-mn||1;
+  const W=400,H=80;
+  const pts=vals.map((v,i)=>{const x=i/(vals.length-1)*(W-4)+2;const y=H-4-(v-mn)/rng*(H-8);return x+','+y;}).join(' ');
+  const first=vals.map((v,i)=>{const x=i/(vals.length-1)*(W-4)+2;const y=H-4-(v-mn)/rng*(H-8);return x+','+y;}).join(' ');
+  return '<svg width="100%" height="80" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4A6CF7" stop-opacity="0.3"/><stop offset="100%" stop-color="#4A6CF7" stop-opacity="0"/></linearGradient></defs><polygon points="2,'+(H-4)+' '+first+' '+(W-2)+','+(H-4)+'" fill="url(#cg)"/><polyline points="'+pts+'" fill="none" stroke="#4A6CF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+}
+
+async function loadSubs(){
+  try{
+    const r=await fetch(WORKER_URL+'/subscriptions');
+    const d=await r.json();
+    if(d.error)throw new Error(d.error);
+    subs=d.subscriptions||[];subsSha=d.sha||null;
+    renderTable();updateStats();
+  }catch(e){document.getElementById('trackTableBody').innerHTML='<tr class="loading-row"><td colspan="7">無法載入：'+e.message+'</td></tr>';}
+}
+
+function updateStats(){
+  document.getElementById('statCount').textContent=subs.length;
+  const prices=pricesData.prices||{};
+  // count how many hit target
+  let hits=0;
+  subs.forEach(s=>{const p=prices[s.id];if(p&&s.target_price&&p.price<=s.target_price)hits++;});
+  document.getElementById('statAlerts').textContent=hits;
+  // best price
+  const vals=Object.values(prices);
+  if(vals.length){
+    const best=vals.reduce((a,b)=>(!a.price||b.price<a.price)?b:a,{});
+    document.getElementById('statBest').textContent=fmtP(best.price);
+    document.getElementById('statBestRoute').textContent=(best.origin||'')+(best.destination?' → '+best.destination:'');
   }
+  // subtitle
+  const h=hits;
+  document.getElementById('pageSubtitle').textContent='持續追蹤 '+subs.length+' 條航線'+（h?' · '+h+' 條已達到目標價':''）+' · 即時掌握漲跌';
 }
 
-function renderSubs() {
-  const el = document.getElementById('subsContainer');
-  if (!subs.length) {
-    el.innerHTML = '<div class="empty-state"><span class="empty-icon">🗺️</span>尚無追蹤航線，請切換至「新增追蹤航線」頁面新增。</div>';
-    return;
-  }
-  el.innerHTML = '<table class="sub-table"><thead><tr><th>航線</th><th>出發日期</th><th>目標票價</th><th>備註</th><th>狀態</th><th></th></tr></thead><tbody>' +
-    subs.map((s, i) =>
-      '<tr><td class="route-cell">' + up(s.origin) + ' → ' + up(s.destination) + '</td>' +
-      '<td>' + (s.date || '-') + '</td>' +
-      '<td style="font-weight:600;color:#4f7cf7">' + (s.target_price ? 'NT$' + Number(s.target_price).toLocaleString() : '-') + '</td>' +
-      '<td style="color:#9ca3af">' + (s.note || '—') + '</td>' +
-      '<td>' + (s.active ? '<span class="badge-active">追蹤中</span>' : '<span class="badge-inactive">停用</span>') + '</td>' +
-      '<td><button class="btn-del" onclick="delSub(' + i + ')">移除</button></td></tr>'
-    ).join('') + '</tbody></table>';
+function renderTable(){
+  const prices=pricesData.prices||{};
+  const history=pricesData.history||{};
+  document.getElementById('tableCount').textContent=subs.length;
+  if(!subs.length){document.getElementById('trackTableBody').innerHTML='<tr class="empty-row"><td colspan="7">尚無追蹤航線，點選「新增追蹤」開始</td></tr>';return;}
+  document.getElementById('trackTableBody').innerHTML=subs.map((s,i)=>{
+    const p=prices[s.id];
+    const price=p&&p.price?p.price:null;
+    const hist=history[s.id]||[];
+    const vals=hist.map(h=>h.price).filter(Boolean).slice(-7);
+    const isUp=vals.length>=2&&vals[vals.length-1]>vals[0];
+    const pct=vals.length>=2?Math.round((vals[vals.length-1]-vals[0])/vals[0]*100):null;
+    const hitTarget=price&&s.target_price&&price<=s.target_price;
+    const col=routeColor(s.id);
+    return '<tr>'+
+      '<td><div style="display:flex;align-items:center;gap:10px"><div class="tr-avatar" style="background:'+col+'">'+routeInitials(s.origin,s.destination)+'</div><div><div class="tr-route">'+up(s.origin)+' → '+up(s.destination)+'</div><div class="tr-sub">'+(s.note||s.date||'')+'</div></div></div></td>'+
+      '<td class="tr-price">'+(price?fmtP(price):'—')+'</td>'+
+      '<td>'+(pct!==null?'<span class="change-badge '+(isUp?'badge-up':'badge-down')+'">'+(isUp?'▲':'▼')+Math.abs(pct)+'%</span>':'—')+'</td>'+
+      '<td>'+sparkline(vals,col)+'</td>'+
+      '<td><div class="target-info">'+fmtP(s.target_price)+'</div><div class="'+(hitTarget?'target-sub':'target-sub-track')+'">'+(hitTarget?'✓ 已達標':'追蹤中')+'</div></td>'+
+      '<td><span class="change-badge '+(s.active?'badge-down':'')+'">'+（s.active?'追蹤中':'停用'）+'</span></td>'+
+      '<td><div style="display:flex;gap:6px"><button class="bell-btn" title="提醒">🔔</button><button class="btn-del-sm" onclick="delSub('+i+')" title="移除">✕</button></div></td>'+
+      '</tr>';
+  }).join('');
+
+  // featured card: first active with price
+  const featured=subs.find(s=>pricesData.prices&&pricesData.prices[s.id])||subs[0];
+  if(featured)renderFeatured(featured);
 }
 
-async function saveSubs() {
-  const r = await fetch(WORKER_URL + '/subscriptions', {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ subscriptions: subs, sha: subsSha }),
-  });
-  const d = await r.json();
-  if (!r.ok || d.error) throw new Error(d.error || 'Worker error');
-  subsSha = d.sha;
+function renderFeatured(s){
+  const prices=pricesData.prices||{};
+  const history=pricesData.history||{};
+  const p=prices[s.id];
+  const price=p&&p.price?p.price:null;
+  const hist=history[s.id]||[];
+  const vals=hist.map(h=>h.price).filter(Boolean).slice(-30);
+  const isUp=vals.length>=2&&vals[vals.length-1]>vals[0];
+  const pct=vals.length>=2?Math.round((vals[vals.length-1]-vals[0])/vals[0]*100):null;
+  const col=routeColor(s.id);
+  const target=s.target_price||0;
+  const minV=target*0.7,maxV=target*1.3;
+  document.getElementById('featuredCard').innerHTML=
+    '<div class="fc-header"><div class="fc-avatar" style="background:'+col+'">'+routeInitials(s.origin,s.destination)+'</div>'+
+    '<div><div class="fc-route">'+up(s.origin)+' → '+up(s.destination)+(pct!==null?' <span class="fc-badge '+(isUp?'badge-up':'badge-down')+'">'+(isUp?'▲':'▼')+Math.abs(pct)+'%</span>':'')+'</div>'+
+    '<div class="fc-sub">'+(p&&p.airline&&p.airline!=='Unknown'?p.airline:'—')+' · '+(s.date||'—')+'</div></div></div>'+
+    '<div class="fc-price">'+(price?fmtP(price):'尚無資料')+'</div>'+
+    '<div class="fc-price-sub">目前最低含稅票價</div>'+
+    '<div class="chart-tabs"><span class="chart-tab active">30 天</span><span class="chart-tab">60 天</span><span class="chart-tab">90 天</span></div>'+
+    '<div class="chart-area">'+bigChart(vals)+'</div>'+
+    '<div class="target-block">'+
+    '<div class="target-label">到價提醒目標</div>'+
+    '<div class="target-value">'+fmtP(target||12000)+'</div>'+
+    '<div class="slider-wrap"><input type="range" class="slider" min="'+Math.round(minV)+'" max="'+Math.round(maxV)+'" value="'+(target||12000)+'" oninput="document.querySelector('.target-value').textContent='NT$'+Number(this.value).toLocaleString()"></div>'+
+    '<div class="slider-range"><span>'+fmtP(Math.round(minV))+'</span><span>'+fmtP(Math.round(maxV))+'</span></div>'+
+    '<div class="target-actions">'+
+    '<button class="btn-outline">距離目標還差 '+(price&&target?fmtP(Math.max(0,price-target)):'—')+'</button>'+
+    '<button class="btn-sim" onclick="toast('✅ 模擬提醒：已達目標價！')">模擬到價提醒</button>'+
+    '</div></div>';
 }
 
-async function addSub() {
-  const origin = up(document.getElementById('fOrigin').value);
-  const dest = up(document.getElementById('fDest').value);
-  const date = document.getElementById('fDate').value;
-  const target = parseInt(document.getElementById('fTarget').value, 10);
-  const note = document.getElementById('fNote').value.trim();
-  if (!origin || origin.length !== 3) { showMsg('請輸入有效的出發地 IATA 代碼（3 字母）', 'err'); return; }
-  if (!dest || dest.length !== 3) { showMsg('請輸入有效的目的地 IATA 代碼（3 字母）', 'err'); return; }
-  if (!date) { showMsg('請選擇出發日期', 'err'); return; }
-  if (!target || target < 1) { showMsg('請輸入目標票價', 'err'); return; }
-  const id = (origin + '-' + dest + '-' + date.replace(/-/g, '')).toLowerCase();
-  if (subs.find(s => s.id === id)) { showMsg('此航線與日期已在追蹤清單中', 'err'); return; }
-  document.getElementById('btnAdd').disabled = true;
-  showMsg('儲存中...', '');
-  subs.push({ id, origin, destination: dest, date, target_price: target, currency: 'TWD', active: true, note });
-  try {
+function renderAlerts(){
+  const prices=pricesData.prices||{};
+  const items=subs.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price<=s.target_price;})
+    .concat(subs.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price>s.target_price;}).slice(0,2));
+  const el=document.getElementById('alertsList');
+  if(!items.length){el.innerHTML='<div style="color:#94a3b8;padding:20px;text-align:center;font-size:0.85rem">暫無價格警報</div>';return;}
+  el.innerHTML=items.slice(0,4).map(s=>{
+    const p=prices[s.id];const price=p&&p.price?p.price:null;
+    const hit=price&&s.target_price&&price<=s.target_price;
+    const col=routeColor(s.id);
+    return '<div class="alert-item">'+
+      '<div class="alert-dot '+(hit?'dot-green':'dot-blue')+'">'+(hit?'🏷':'↓')+'</div>'+
+      '<div style="flex:1"><div class="alert-route">'+up(s.origin)+' → '+up(s.destination)+'</div>'+
+      '<div class="alert-desc">'+(hit?'已跌破目標價 '+fmtP(s.target_price):'票價近期下跌')+'</div>'+
+      '<div><span class="alert-tag '+(hit?'tag-green':'tag-blue')+'">'+(hit?'已達標':'降價')+'</span>'+
+      '<span class="alert-price">'+(price?fmtP(price):'')+'</span></div></div>'+
+      '<div class="alert-time">剛剛</div></div>';
+  }).join('');
+  document.getElementById('bellBadge').textContent=items.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price<=s.target_price;}).length||'';
+}
+
+async function saveSubs(){
+  const r=await fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscriptions:subs,sha:subsSha})});
+  const d=await r.json();
+  if(!r.ok||d.error)throw new Error(d.error||'Worker error');
+  subsSha=d.sha;
+}
+
+async function addSub(){
+  const origin=up(document.getElementById('fOrigin').value);
+  const dest=up(document.getElementById('fDest').value);
+  const date=document.getElementById('fDate').value;
+  const target=parseInt(document.getElementById('fTarget').value,10);
+  const note=document.getElementById('fNote').value.trim();
+  if(!origin||origin.length!==3){showMsg('請輸入有效的出發地 IATA（3字母）','err');return;}
+  if(!dest||dest.length!==3){showMsg('請輸入有效的目的地 IATA（3字母）','err');return;}
+  if(!date){showMsg('請選擇出發日期','err');return;}
+  if(!target||target<1){showMsg('請輸入目標票價','err');return;}
+  const id=(origin+'-'+dest+'-'+date.replace(/-/g,'')).toLowerCase();
+  if(subs.find(s=>s.id===id)){showMsg('此航線已在追蹤清單中','err');return;}
+  document.getElementById('btnSave').disabled=true;showMsg('儲存中...','');
+  subs.push({id,origin,destination:dest,date,target_price:target,currency:'TWD',active:true,note});
+  try{
     await saveSubs();
-    showMsg('✅ 已新增！GitHub Actions 將在下次排程時自動追蹤此航線。', 'ok');
-    renderSubs();
-    ['fOrigin', 'fDest', 'fDate', 'fTarget', 'fNote'].forEach(id => document.getElementById(id).value = '');
-  } catch (e) { subs.pop(); showMsg('❌ 儲存失敗：' + e.message, 'err'); }
-  document.getElementById('btnAdd').disabled = false;
+    toast('✅ 已新增 '+origin+' → '+dest);
+    closeModal();
+    ['fOrigin','fDest','fDate','fTarget','fNote'].forEach(id=>document.getElementById(id).value='');
+    renderTable();renderAlerts();updateStats();
+  }catch(e){subs.pop();showMsg('❌ '+e.message,'err');}
+  document.getElementById('btnSave').disabled=false;
 }
 
-async function delSub(i) {
-  const s = subs[i];
-  if (!confirm('確定移除 ' + up(s.origin) + ' → ' + up(s.destination) + ' (' + s.date + ')？')) return;
-  const removed = subs.splice(i, 1);
-  try {
-    await saveSubs();
-    showMsg('✅ 已移除航線', 'ok');
-    renderSubs();
-  } catch (e) { subs.splice(i, 0, ...removed); showMsg('❌ 儲存失敗：' + e.message, 'err'); renderSubs(); }
+async function delSub(i){
+  const s=subs[i];
+  if(!confirm('確定移除 '+up(s.origin)+' → '+up(s.destination)+'？'))return;
+  const removed=subs.splice(i,1);
+  try{await saveSubs();toast('已移除 '+up(s.origin)+' → '+up(s.destination));renderTable();renderAlerts();updateStats();}
+  catch(e){subs.splice(i,0,...removed);toast('❌ '+e.message);renderTable();}
 }
 
-async function loadPrices() {
-  try {
-    const r = await fetch(PRICES_URL + '?t=' + Date.now());
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const d = await r.json();
-    document.getElementById('lastUpdated').textContent = '更新：' + fmtDate(d.updated_at);
-    const c = document.getElementById('cardsContainer');
-    const prices = d.prices || {}; const keys = Object.keys(prices);
-    if (!keys.length) { c.innerHTML = '<div class="loading">尚無價格資料</div>'; return; }
-    c.innerHTML = keys.map(id => {
-      const p = prices[id];
-      const gfUrl = p.link || 'https://www.google.com/flights';
-      return '<div class="card">' +
-        '<div class="card-route">' + (p.origin || '?') + '<span>→</span>' + (p.destination || '?') + '</div>' +
-        '<div class="card-depart">出發 ' + (p.date || '-') + '</div>' +
-        '<div class="card-price">' + fmtP(p.price) + '<em>' + (p.currency || 'TWD') + '</em></div>' +
-        '<div class="card-airline">' + (p.airline && p.airline !== 'Unknown' ? p.airline : '航空公司未知') + '</div>' +
-        '<a class="card-link" href="' + gfUrl + '" target="_blank" rel="noopener">Google Flights 查看 →</a>' +
-        '<div class="card-updated">抓取：' + fmtDate(p.scraped_at) + '</div></div>';
-    }).join('');
-  } catch (e) {
-    document.getElementById('cardsContainer').innerHTML = '<div class="err-box">無法載入：' + e.message + '</div>';
-  }
+async function loadPrices(){
+  try{
+    const[pr,hr]=await Promise.all([fetch(PRICES_URL+'?t='+Date.now()),fetch(HISTORY_URL+'?t='+Date.now())]);
+    const pd=pr.ok?await pr.json():{};
+    const hd=hr.ok?await hr.json():{};
+    pricesData={prices:pd.prices||{},history:hd.history||{},updated_at:pd.updated_at};
+    document.getElementById('statUpdated').textContent=pd.updated_at?fmtDate(pd.updated_at):'—';
+    renderTable();renderAlerts();updateStats();
+  }catch(e){console.error(e);}
 }
 
-async function loadHistory() {
-  try {
-    const r = await fetch(HISTORY_URL + '?t=' + Date.now());
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const d = await r.json(); const history = d.history || {};
-    const c = document.getElementById('historyContainer');
-    const rows = [];
-    for (const [id, recs] of Object.entries(history)) for (const rec of recs) rows.push({ id, ...rec });
-    rows.sort((a, b) => new Date(b.scraped_at) - new Date(a.scraped_at));
-    if (!rows.length) { c.innerHTML = '<div class="empty-state"><span class="empty-icon">📊</span>尚無歷史資料</div>'; return; }
-    c.innerHTML = '<table class="history-table"><thead><tr><th>航線</th><th>出發日期</th><th>最低票價</th><th>航空公司</th><th>記錄時間</th></tr></thead><tbody>' +
-      rows.slice(0, 50).map(r => {
-        const pts = r.id.split('-');
-        const route = pts.length >= 2 ? pts[0].toUpperCase() + ' → ' + pts[1].toUpperCase() : r.id;
-        return '<tr><td style="font-weight:600">' + route + '</td><td>' + (r.date || '-') + '</td>' +
-          '<td style="font-weight:600;color:#4f7cf7">' + (r.price ? 'NT$' + Number(r.price).toLocaleString() : '-') + '</td>' +
-          '<td>' + (r.airline && r.airline !== 'Unknown' ? r.airline : '-') + '</td>' +
-          '<td style="color:#9ca3af">' + fmtDate(r.scraped_at) + '</td></tr>';
-      }).join('') + '</tbody></table>';
-  } catch (e) {
-    document.getElementById('historyContainer').innerHTML = '<div class="err-box">無法載入：' + e.message + '</div>';
-  }
-}
+// Fix Japanese template literal issue
+document.getElementById('pageSubtitle').textContent='載入中...';
 
-loadSubs(); loadPrices(); loadHistory();
-setInterval(loadPrices, 5 * 60 * 1000);
+loadSubs();loadPrices();
+setInterval(loadPrices,5*60*1000);
 </script>
 </body>
 </html>
