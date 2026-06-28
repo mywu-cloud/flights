@@ -338,34 +338,124 @@ function renderTable(){
 }
 
 function renderFeatured(s){
+const prices=pricesData.prices||{};
+const history=pricesData.history||{};
+const p=prices[s.id];
+const price=p&&p.price?p.price:null;
+const hist=history[s.id]||[];
+const vals=hist.map(h=>h.price).filter(Boolean).slice(-30);
+const isUp=vals.length>=2&&vals[vals.length-1]>vals[0];
+const pct=vals.length>=2?Math.round((vals[vals.length-1]-vals[0])/vals[0]*100):null;
+const col=routeColor(s.id);
+const target=s.target_price||0;
+const minV=Math.round(target*0.7),maxV=Math.round(target*1.3);
+const pctBadge=pct!==null?'<span class="fc-badge '+(isUp?'badge-up':'badge-down')+'">'+(isUp?'▲':'▼')+Math.abs(pct)+'%</span>':'';
+const airlineStr=(p&&p.airline&&p.airline!=='Unknown')?p.airline:'—';
+const html=[
+'<div class="fc-header">',
+'<div class="fc-avatar" style="background:'+col+'">'+routeInitials(s.origin,s.destination)+'</div>',
+'<div>',
+'<div class="fc-route">'+up(s.origin)+' → '+up(s.destination)+' '+pctBadge+'</div>',
+'<div class="fc-sub">'+airlineStr+' · '+(s.date||'—')+'</div>',
+'</div></div>',
+'<div class="fc-price">'+(price?fmtP(price):'尚無資料')+'</div>',
+'<div class="fc-price-sub">目前最低含稅票價</div>',
+'<div class="chart-tabs"><span class="chart-tab active">30 天</span><span class="chart-tab">60 天</span><span class="chart-tab">90 天</span></div>',
+'<div class="chart-area">'+bigChart(vals)+'</div>',
+'<div class="target-block">',
+'<div class="target-label">到價提醒目標</div>',
+'<div class="target-value" id="fcTargetVal">'+fmtP(target||12000)+'</div>',
+'<div class="slider-wrap"><input type="range" class="slider" id="fcSlider" min="'+minV+'" max="'+maxV+'" value="'+(target||12000)+'"></div>',
+'<div class="slider-range"><span>'+fmtP(minV)+'</span><span>'+fmtP(maxV)+'</span></div>',
+'<div class="target-actions">',
+'<button class="btn-outline" id="fcGap">距離目標還差 '+(price&&target?fmtP(Math.max(0,price-target)):'—')+'</button>',
+'<button class="btn-sim" id="fcSim">模擬到價提醒</button>',
+'</div></div>'
+].join('');
+document.getElementById('featuredCard').innerHTML=html;
+const sl=document.getElementById('fcSlider');
+if(sl)sl.addEventListener('input',function(){document.getElementById('fcTargetVal').textContent='NTfunction renderAlerts(){
   const prices=pricesData.prices||{};
-  const history=pricesData.history||{};
-  const p=prices[s.id];
-  const price=p&&p.price?p.price:null;
-  const hist=history[s.id]||[];
-  const vals=hist.map(h=>h.price).filter(Boolean).slice(-30);
-  const isUp=vals.length>=2&&vals[vals.length-1]>vals[0];
-  const pct=vals.length>=2?Math.round((vals[vals.length-1]-vals[0])/vals[0]*100):null;
-  const col=routeColor(s.id);
-  const target=s.target_price||0;
-  const minV=target*0.7,maxV=target*1.3;
-  document.getElementById('featuredCard').innerHTML=
-    '<div class="fc-header"><div class="fc-avatar" style="background:'+col+'">'+routeInitials(s.origin,s.destination)+'</div>'+
-    '<div><div class="fc-route">'+up(s.origin)+' → '+up(s.destination)+(pct!==null?' <span class="fc-badge '+(isUp?'badge-up':'badge-down')+'">'+(isUp?'▲':'▼')+Math.abs(pct)+'%</span>':'')+'</div>'+
-    '<div class="fc-sub">'+(p&&p.airline&&p.airline!=='Unknown'?p.airline:'—')+' · '+(s.date||'—')+'</div></div></div>'+
-    '<div class="fc-price">'+(price?fmtP(price):'尚無資料')+'</div>'+
-    '<div class="fc-price-sub">目前最低含稅票價</div>'+
-    '<div class="chart-tabs"><span class="chart-tab active">30 天</span><span class="chart-tab">60 天</span><span class="chart-tab">90 天</span></div>'+
-    '<div class="chart-area">'+bigChart(vals)+'</div>'+
-    '<div class="target-block">'+
-    '<div class="target-label">到價提醒目標</div>'+
-    '<div class="target-value">'+fmtP(target||12000)+'</div>'+
-    '<div class="slider-wrap"><input type="range" class="slider" min="'+Math.round(minV)+'" max="'+Math.round(maxV)+'" value="'+(target||12000)+'" oninput="document.querySelector(&quot;.target-value&quot;).textContent=&quot;NToninput="document.querySelector('.target-value').textContent='NT$'+Number(this.value).toLocaleString()"quot;+Number(this.value).toLocaleString()"></div>'+
-    '<div class="slider-range"><span>'+fmtP(Math.round(minV))+'</span><span>'+fmtP(Math.round(maxV))+'</span></div>'+
-    '<div class="target-actions">'+
-    '<button class="btn-outline">距離目標還差 '+(price&&target?fmtP(Math.max(0,price-target)):'—')+'</button>'+
-    '<button class="btn-sim" onclick="toast(&quot;✅ 模擬提醒：已達目標價！&quot;)">模擬到價提醒</button>'+
-    '</div></div>';
+  const items=subs.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price<=s.target_price;})
+    .concat(subs.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price>s.target_price;}).slice(0,2));
+  const el=document.getElementById('alertsList');
+  if(!items.length){el.innerHTML='<div style="color:#94a3b8;padding:20px;text-align:center;font-size:0.85rem">暫無價格警報</div>';return;}
+  el.innerHTML=items.slice(0,4).map(s=>{
+    const p=prices[s.id];const price=p&&p.price?p.price:null;
+    const hit=price&&s.target_price&&price<=s.target_price;
+    const col=routeColor(s.id);
+    return '<div class="alert-item">'+
+      '<div class="alert-dot '+(hit?'dot-green':'dot-blue')+'">'+(hit?'🏷':'↓')+'</div>'+
+      '<div style="flex:1"><div class="alert-route">'+up(s.origin)+' → '+up(s.destination)+'</div>'+
+      '<div class="alert-desc">'+(hit?'已跌破目標價 '+fmtP(s.target_price):'票價近期下跌')+'</div>'+
+      '<div><span class="alert-tag '+(hit?'tag-green':'tag-blue')+'">'+(hit?'已達標':'降價')+'</span>'+
+      '<span class="alert-price">'+(price?fmtP(price):'')+'</span></div></div>'+
+      '<div class="alert-time">剛剛</div></div>';
+  }).join('');
+  document.getElementById('bellBadge').textContent=items.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price<=s.target_price;}).length||'';
+}
+
+async function saveSubs(){
+  const r=await fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscriptions:subs,sha:subsSha})});
+  const d=await r.json();
+  if(!r.ok||d.error)throw new Error(d.error||'Worker error');
+  subsSha=d.sha;
+}
+
+async function addSub(){
+  const origin=up(document.getElementById('fOrigin').value);
+  const dest=up(document.getElementById('fDest').value);
+  const date=document.getElementById('fDate').value;
+  const target=parseInt(document.getElementById('fTarget').value,10);
+  const note=document.getElementById('fNote').value.trim();
+  if(!origin||origin.length!==3){showMsg('請輸入有效的出發地 IATA(3字母)','err');return;}
+  if(!dest||dest.length!==3){showMsg('請輸入有效的目的地 IATA(3字母)','err');return;}
+  if(!date){showMsg('請選擇出發日期','err');return;}
+  if(!target||target<1){showMsg('請輸入目標票價','err');return;}
+  const id=(origin+'-'+dest+'-'+date.replace(/-/g,'')).toLowerCase();
+  if(subs.find(s=>s.id===id)){showMsg('此航線已在追蹤清單中','err');return;}
+  document.getElementById('btnSave').disabled=true;showMsg('儲存中...','');
+  subs.push({id,origin,destination:dest,date,target_price:target,currency:'TWD',active:true,note});
+  try{
+    await saveSubs();
+    toast('✅ 已新增 '+origin+' → '+dest);
+    closeModal();
+    ['fOrigin','fDest','fDate','fTarget','fNote'].forEach(id=>document.getElementById(id).value='');
+    renderTable();renderAlerts();updateStats();
+  }catch(e){subs.pop();showMsg('❌ '+e.message,'err');}
+  document.getElementById('btnSave').disabled=false;
+}
+
+async function delSub(i){
+  const s=subs[i];
+  if(!confirm('確定移除 '+up(s.origin)+' → '+up(s.destination)+'？'))return;
+  const removed=subs.splice(i,1);
+  try{await saveSubs();toast('已移除 '+up(s.origin)+' → '+up(s.destination));renderTable();renderAlerts();updateStats();}
+  catch(e){subs.splice(i,0,...removed);toast('❌ '+e.message);renderTable();}
+}
+
+async function loadPrices(){
+  try{
+    const[pr,hr]=await Promise.all([fetch(PRICES_URL+'?t='+Date.now()),fetch(HISTORY_URL+'?t='+Date.now())]);
+    const pd=pr.ok?await pr.json():{};
+    const hd=hr.ok?await hr.json():{};
+    pricesData={prices:pd.prices||{},history:hd.history||{},updated_at:pd.updated_at};
+    document.getElementById('statUpdated').textContent=pd.updated_at?fmtDate(pd.updated_at):'—';
+    renderTable();renderAlerts();updateStats();
+  }catch(e){console.error(e);}
+}
+
+// Fix Japanese template literal issue
+document.getElementById('pageSubtitle').textContent='載入中...';
+
+loadSubs();loadPrices();
+setInterval(loadPrices,5*60*1000);
+</script>
+</body>
+</html>
++Number(this.value).toLocaleString();});
+const sim=document.getElementById('fcSim');
+if(sim)sim.addEventListener('click',function(){toast('✅ 模擬提醒：已達目標價！');});
 }
 
 function renderAlerts(){
