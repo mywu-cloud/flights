@@ -241,8 +241,8 @@ let subsSha=null,subs=[],pricesData={};
 const COLORS=['#4A6CF7','#10B981','#f97316','#8b5cf6','#ec4899','#14b8a6','#f59e0b','#ef4444','#6366f1','#84cc16'];
 function routeColor(id){let h=0;for(let c of(id||''))h=(h*31+c.charCodeAt(0))%COLORS.length;return COLORS[h];}
 function routeInitials(o,d){return((o||'').slice(0,1)+(d||'').slice(0,1)).toUpperCase();}
-function fmtDate(s){if(!s)return'—';return new Date(s).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}
-function fmtP(p){return p?'NT$'+Number(p).toLocaleString():'—';}
+function fmtDate(s){if(!s)return'\u2014';return new Date(s).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}
+function fmtP(p){return p?'NT$'+Number(p).toLocaleString():'\u2014';}
 function up(s){return(s||'').trim().toUpperCase();}
 function showMsg(t,c){const el=document.getElementById('addMsg');el.textContent=t;el.className='form-msg '+c;}
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
@@ -323,8 +323,8 @@ function renderTable(){
     const col=routeColor(s.id);
     return '<tr>'+
       '<td><div style="display:flex;align-items:center;gap:10px"><div class="tr-avatar" style="background:'+col+'">'+routeInitials(s.origin,s.destination)+'</div><div><div class="tr-route">'+up(s.origin)+' → '+up(s.destination)+'</div><div class="tr-sub">'+(s.note||s.date||'')+'</div></div></div></td>'+
-      '<td class="tr-price">'+(price?fmtP(price):'—')+'</td>'+
-      '<td>'+(pct!==null?'<span class="change-badge '+(isUp?'badge-up':'badge-down')+'">'+(isUp?'▲':'▼')+Math.abs(pct)+'%</span>':'—')+'</td>'+
+      '<td class="tr-price">'+(price?fmtP(price):'\u2014')+'</td>'+
+      '<td>'+(pct!==null?'<span class="change-badge '+(isUp?'badge-up':'badge-down')+'">'+(isUp?'▲':'▼')+Math.abs(pct)+'%</span>':'\u2014')+'</td>'+
       '<td>'+sparkline(vals,col)+'</td>'+
       '<td><div class="target-info">'+fmtP(s.target_price)+'</div><div class="'+(hitTarget?'target-sub':'target-sub-track')+'">'+(hitTarget?'✓ 已達標':'追蹤中')+'</div></td>'+
       '<td><span class="change-badge '+(s.active?'badge-down':'')+'">'+(s.active?'追蹤中':'停用')+'</span></td>'+
@@ -350,13 +350,13 @@ const col=routeColor(s.id);
 const target=s.target_price||0;
 const minV=Math.round(target*0.7),maxV=Math.round(target*1.3);
 const pctBadge=pct!==null?'<span class="fc-badge '+(isUp?'badge-up':'badge-down')+'">'+(isUp?'▲':'▼')+Math.abs(pct)+'%</span>':'';
-const airlineStr=(p&&p.airline&&p.airline!=='Unknown')?p.airline:'—';
+const airlineStr=(p&&p.airline&&p.airline!=='Unknown')?p.airline:'\u2014';
 const html=[
 '<div class="fc-header">',
 '<div class="fc-avatar" style="background:'+col+'">'+routeInitials(s.origin,s.destination)+'</div>',
 '<div>',
 '<div class="fc-route">'+up(s.origin)+' → '+up(s.destination)+' '+pctBadge+'</div>',
-'<div class="fc-sub">'+airlineStr+' · '+(s.date||'—')+'</div>',
+'<div class="fc-sub">'+airlineStr+' · '+(s.date||'\u2014')+'</div>',
 '</div></div>',
 '<div class="fc-price">'+(price?fmtP(price):'尚無資料')+'</div>',
 '<div class="fc-price-sub">目前最低含稅票價</div>',
@@ -368,7 +368,7 @@ const html=[
 '<div class="slider-wrap"><input type="range" class="slider" id="fcSlider" min="'+minV+'" max="'+maxV+'" value="'+(target||12000)+'"></div>',
 '<div class="slider-range"><span>'+fmtP(minV)+'</span><span>'+fmtP(maxV)+'</span></div>',
 '<div class="target-actions">',
-'<button class="btn-outline" id="fcGap">距離目標還差 '+(price&&target?fmtP(Math.max(0,price-target)):'—')+'</button>',
+'<button class="btn-outline" id="fcGap">距離目標還差 '+(price&&target?fmtP(Math.max(0,price-target)):'\u2014')+'</button>',
 '<button class="btn-sim" id="fcSim">模擬到價提醒</button>',
 '</div></div>'
 ].join('');
@@ -440,7 +440,7 @@ async function loadPrices(){
     const pd=pr.ok?await pr.json():{};
     const hd=hr.ok?await hr.json():{};
     pricesData={prices:pd.prices||{},history:hd.history||{},updated_at:pd.updated_at};
-    document.getElementById('statUpdated').textContent=pd.updated_at?fmtDate(pd.updated_at):'—';
+    document.getElementById('statUpdated').textContent=pd.updated_at?fmtDate(pd.updated_at):'\u2014';
     renderTable();renderAlerts();updateStats();
   }catch(e){console.error(e);}
 }
@@ -524,7 +524,7 @@ async function loadPrices(){
     const pd=pr.ok?await pr.json():{};
     const hd=hr.ok?await hr.json():{};
     pricesData={prices:pd.prices||{},history:hd.history||{},updated_at:pd.updated_at};
-    document.getElementById('statUpdated').textContent=pd.updated_at?fmtDate(pd.updated_at):'—';
+    document.getElementById('statUpdated').textContent=pd.updated_at?fmtDate(pd.updated_at):'\u2014';
     renderTable();renderAlerts();updateStats();
   }catch(e){console.error(e);}
 }
