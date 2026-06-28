@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>票價雷達 FareRadar</title>
+<title>ç¥¨å¹é·é FareRadar</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;background:#f0f4f8;color:#1a202c;min-height:100vh}
@@ -148,38 +148,38 @@ footer a{color:#cbd5e1}footer a:hover{color:#94a3b8}
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-brand">
-    <div class="nav-icon">✈</div>
-    <div><div>票價雷達</div><div class="nav-brand-sub">FareRadar</div></div>
+    <div class="nav-icon">â</div>
+    <div><div>ç¥¨å¹é·é</div><div class="nav-brand-sub">FareRadar</div></div>
   </div>
   <div class="nav-search">
-    <span class="nav-search-icon">🔍</span>
-    <input type="text" placeholder="搜尋航線、機場或航空公司…">
+    <span class="nav-search-icon">ð</span>
+    <input type="text" placeholder="æå°èªç·ãæ©å ´æèªç©ºå¬å¸â¦">
   </div>
   <div class="nav-themes">
-    <button class="theme-btn active" style="color:#4A6CF7" onclick="setTheme('sky',this)"><span class="dot" style="background:#4A6CF7"></span>晴空</button>
-    <button class="theme-btn" style="color:#10B981" onclick="setTheme('mint',this)"><span class="dot" style="background:#10B981"></span>薄荷</button>
-    <button class="theme-btn" style="color:#f97316" onclick="setTheme('warm',this)"><span class="dot" style="background:#f97316"></span>暖陽</button>
+    <button class="theme-btn active" style="color:#4A6CF7" onclick="setTheme('sky',this)"><span class="dot" style="background:#4A6CF7"></span>æ´ç©º</button>
+    <button class="theme-btn" style="color:#10B981" onclick="setTheme('mint',this)"><span class="dot" style="background:#10B981"></span>èè·</button>
+    <button class="theme-btn" style="color:#f97316" onclick="setTheme('warm',this)"><span class="dot" style="background:#f97316"></span>æé½</button>
   </div>
-  <div class="nav-bell">🔔<span class="bell-badge" id="bellBadge">2</span></div>
-  <div class="nav-avatar">陳</div>
+  <div class="nav-bell">ð<span class="bell-badge" id="bellBadge">2</span></div>
+  <div class="nav-avatar">é³</div>
 </nav>
 
 <!-- MODAL -->
 <div class="modal-overlay hidden" id="modalOverlay">
   <div class="modal">
-    <div class="modal-title">➕ 新增追蹤航線</div>
-    <div class="modal-sub">設定目標票價，達標時自動通知</div>
+    <div class="modal-title">â æ°å¢è¿½è¹¤èªç·</div>
+    <div class="modal-sub">è¨­å®ç®æ¨ç¥¨å¹ï¼éæ¨æèªåéç¥</div>
     <div class="modal-grid">
-      <div class="fg"><label>出發地 (IATA)</label><input id="fOrigin" type="text" placeholder="TPE" maxlength="3"></div>
-      <div class="fg"><label>目的地 (IATA)</label><input id="fDest" type="text" placeholder="NRT" maxlength="3"></div>
-      <div class="fg"><label>出發日期</label><input id="fDate" type="date"></div>
-      <div class="fg"><label>目標票價 (TWD)</label><input id="fTarget" type="number" placeholder="12000" min="1"></div>
-      <div class="fg" style="grid-column:1/-1"><label>備註 (選填)</label><input id="fNote" type="text" placeholder="旅遊計劃"></div>
+      <div class="fg"><label>åºç¼å° (IATA)</label><input id="fOrigin" type="text" placeholder="TPE" maxlength="3"></div>
+      <div class="fg"><label>ç®çå° (IATA)</label><input id="fDest" type="text" placeholder="NRT" maxlength="3"></div>
+      <div class="fg"><label>åºç¼æ¥æ</label><input id="fDate" type="date"></div>
+      <div class="fg"><label>ç®æ¨ç¥¨å¹ (TWD)</label><input id="fTarget" type="number" placeholder="12000" min="1"></div>
+      <div class="fg" style="grid-column:1/-1"><label>åè¨» (é¸å¡«)</label><input id="fNote" type="text" placeholder="æéè¨å"></div>
     </div>
     <div class="form-msg" id="addMsg"></div>
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">取消</button>
-      <button class="btn-save" id="btnSave" onclick="addSub()">儲存追蹤</button>
+      <button class="btn-cancel" onclick="closeModal()">åæ¶</button>
+      <button class="btn-save" id="btnSave" onclick="addSub()">å²å­è¿½è¹¤</button>
     </div>
   </div>
 </div>
@@ -188,352 +188,368 @@ footer a{color:#cbd5e1}footer a:hover{color:#94a3b8}
   <!-- PAGE HEADER -->
   <div class="page-header">
     <div class="page-header-text">
-      <div class="page-label">儀表板 · DASHBOARD</div>
-      <div class="page-title">我的票價追蹤</div>
-      <div class="page-sub" id="pageSubtitle">載入中...</div>
+      <div class="page-label">åè¡¨æ¿ Â· DASHBOARD</div>
+      <div class="page-title">æçç¥¨å¹è¿½è¹¤</div>
+      <div class="page-sub" id="pageSubtitle">è¼å¥ä¸­...</div>
     </div>
-    <button class="btn-add" onclick="openModal()">＋ 新增追蹤</button>
+    <button class="btn-add" onclick="openModal()">ï¼ æ°å¢è¿½è¹¤</button>
   </div>
 
   <!-- STATS -->
   <div class="stats-grid" id="statsGrid">
-    <div class="stat-card"><div class="stat-label">追蹤航線</div><div class="stat-icon" style="background:#eff6ff;color:#4A6CF7">✈</div><div class="stat-value" id="statCount">—</div><div class="stat-unit">條航線監控中</div></div>
-    <div class="stat-card"><div class="stat-label">觸發提醒</div><div class="stat-icon" style="background:#fef3c7;color:#d97706">🔔</div><div class="stat-value" id="statAlerts">—</div><div class="stat-unit">條已達到目標價</div></div>
-    <div class="stat-card"><div class="stat-label">最新最低價</div><div class="stat-icon" style="background:#dcfce7;color:#16a34a">🏷</div><div class="stat-value" id="statBest">—</div><div class="stat-unit" id="statBestRoute">—</div></div>
-    <div class="stat-card"><div class="stat-label">最後更新</div><div class="stat-icon" style="background:#f3e8ff;color:#9333ea">🕐</div><div class="stat-value" style="font-size:1rem;margin-top:4px" id="statUpdated">—</div><div class="stat-unit">自動每日 2 次</div></div>
+    <div class="stat-card"><div class="stat-label">è¿½è¹¤èªç·</div><div class="stat-icon" style="background:#eff6ff;color:#4A6CF7">â</div><div class="stat-value" id="statCount">â</div><div class="stat-unit">æ¢èªç·ç£æ§ä¸­</div></div>
+    <div class="stat-card"><div class="stat-label">è§¸ç¼æé</div><div class="stat-icon" style="background:#fef3c7;color:#d97706">ð</div><div class="stat-value" id="statAlerts">â</div><div class="stat-unit">æ¢å·²éå°ç®æ¨å¹</div></div>
+    <div class="stat-card"><div class="stat-label">ææ°æä½å¹</div><div class="stat-icon" style="background:#dcfce7;color:#16a34a">ð·</div><div class="stat-value" id="statBest">â</div><div class="stat-unit" id="statBestRoute">â</div></div>
+    <div class="stat-card"><div class="stat-label">æå¾æ´æ°</div><div class="stat-icon" style="background:#f3e8ff;color:#9333ea">ð</div><div class="stat-value" style="font-size:1rem;margin-top:4px" id="statUpdated">â</div><div class="stat-unit">èªåæ¯æ¥ 2 æ¬¡</div></div>
   </div>
 
   <!-- MAIN GRID: featured + alerts -->
   <div class="main-grid">
-    <div class="featured-card" id="featuredCard"><div style="color:#94a3b8;text-align:center;padding:40px">載入中...</div></div>
+    <div class="featured-card" id="featuredCard"><div style="color:#94a3b8;text-align:center;padding:40px">è¼å¥ä¸­...</div></div>
     <div class="alerts-card">
-      <div class="card-header"><div class="card-title">📢 價格警報</div><div class="card-link">查看全部</div></div>
-      <div id="alertsList"><div style="color:#94a3b8;padding:20px;text-align:center">載入中...</div></div>
+      <div class="card-header"><div class="card-title">ð¢ å¹æ ¼è­¦å ±</div><div class="card-link">æ¥çå¨é¨</div></div>
+      <div id="alertsList"><div style="color:#94a3b8;padding:20px;text-align:center">è¼å¥ä¸­...</div></div>
     </div>
   </div>
 
   <!-- TRACKING TABLE -->
   <div class="table-section">
     <div class="table-header">
-      <div class="table-title">追蹤中的航線 <span class="count-badge" id="tableCount">0</span></div>
-      <div style="font-size:0.78rem;color:#64748b">點選航線以查看走勢</div>
+      <div class="table-title">è¿½è¹¤ä¸­çèªç· <span class="count-badge" id="tableCount">0</span></div>
+      <div style="font-size:0.78rem;color:#64748b">é»é¸èªç·ä»¥æ¥çèµ°å¢</div>
     </div>
     <div style="overflow-x:auto">
       <table class="track-table">
-        <thead><tr><th>航線</th><th>目前票價</th><th>漲跌</th><th>近 7 天</th><th>目標價</th><th>狀態</th><th></th></tr></thead>
-        <tbody id="trackTableBody"><tr class="loading-row"><td colspan="7">載入中...</td></tr></tbody>
+        <thead><tr><th>èªç·</th><th>ç®åç¥¨å¹</th><th>æ¼²è·</th><th>è¿ 7 å¤©</th><th>ç®æ¨å¹</th><th>çæ</th><th></th></tr></thead>
+        <tbody id="trackTableBody"><tr class="loading-row"><td colspan="7">è¼å¥ä¸­...</td></tr></tbody>
       </table>
     </div>
   </div>
 
-  <footer>票價雷達 FareRadar &mdash; 資料來源：Google Flights &mdash; <a href="https://github.com/mywu-cloud/flights" target="_blank">GitHub</a></footer>
+  <footer>ç¥¨å¹é·é FareRadar &mdash; è³æä¾æºï¼Google Flights &mdash; <a href="https://github.com/mywu-cloud/flights" target="_blank">GitHub</a></footer>
 </div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 <script>
-const WORKER_URL='https://flights.tw-mywu.workers.dev';
-const RAW='https://raw.githubusercontent.com/mywu-cloud/flights';
-const PRICES_URL=RAW+'/gh-pages/data/prices.json';
-const HISTORY_URL=RAW+'/gh-pages/data/history.json';
-let subsSha=null,subs=[],pricesData={};
+const WORKER_URL = 'https://flights.tw-mywu.workers.dev';
+let subsData = [];
+let pricesData = { prices: {}, history: {} };
+let currentTheme = 'sky';
 
-const COLORS=['#4A6CF7','#10B981','#f97316','#8b5cf6','#ec4899','#14b8a6','#f59e0b','#ef4444','#6366f1','#84cc16'];
-function routeColor(id){let h=0;for(let c of(id||''))h=(h*31+c.charCodeAt(0))%COLORS.length;return COLORS[h];}
-function routeInitials(o,d){return((o||'').slice(0,1)+(d||'').slice(0,1)).toUpperCase();}
-function fmtDate(s){if(!s)return'\u2014';return new Date(s).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}
-function fmtP(p){return p?'NT$'+Number(p).toLocaleString():'\u2014';}
-function up(s){return(s||'').trim().toUpperCase();}
-function showMsg(t,c){const el=document.getElementById('addMsg');el.textContent=t;el.className='form-msg '+c;}
-function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
-
-function setTheme(t,btn){
-  document.body.className='';
-  if(t==='mint')document.body.classList.add('theme-mint');
-  if(t==='warm')document.body.classList.add('theme-warm');
-  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
-function openModal(){document.getElementById('modalOverlay').classList.remove('hidden');}
-function closeModal(){document.getElementById('modalOverlay').classList.add('hidden');showMsg('','');}
-document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
-
-// Sparkline SVG
-function sparkline(vals,color){
-  if(!vals||!vals.length)return'<svg width="60" height="24"></svg>';
-  const mn=Math.min(...vals),mx=Math.max(...vals),rng=mx-mn||1;
-  const pts=vals.map((v,i)=>{const x=i/(vals.length-1)*58+1;const y=22-(v-mn)/rng*20;return x+','+y;}).join(' ');
-  const isUp=vals[vals.length-1]>=vals[0];
-  const c=isUp?'#ef4444':'#16a34a';
-  return '<svg width="60" height="24" viewBox="0 0 60 24"><polyline points="'+pts+'" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-}
-
-// Chart area SVG (big)
-function bigChart(vals){
-  if(!vals||vals.length<2)return'';
-  const mn=Math.min(...vals),mx=Math.max(...vals),rng=mx-mn||1;
-  const W=400,H=80;
-  const pts=vals.map((v,i)=>{const x=i/(vals.length-1)*(W-4)+2;const y=H-4-(v-mn)/rng*(H-8);return x+','+y;}).join(' ');
-  const first=vals.map((v,i)=>{const x=i/(vals.length-1)*(W-4)+2;const y=H-4-(v-mn)/rng*(H-8);return x+','+y;}).join(' ');
-  return '<svg width="100%" height="80" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4A6CF7" stop-opacity="0.3"/><stop offset="100%" stop-color="#4A6CF7" stop-opacity="0"/></linearGradient></defs><polygon points="2,'+(H-4)+' '+first+' '+(W-2)+','+(H-4)+'" fill="url(#cg)"/><polyline points="'+pts+'" fill="none" stroke="#4A6CF7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-}
-
-async function loadSubs(){
-  try{
-    const r=await fetch(WORKER_URL+'/subscriptions');
-    const d=await r.json();
-    if(d.error)throw new Error(d.error);
-    subs=d.subscriptions||[];subsSha=d.sha||null;
-    renderTable();updateStats();
-  }catch(e){document.getElementById('trackTableBody').innerHTML='<tr class="loading-row"><td colspan="7">無法載入：'+e.message+'</td></tr>';}
-}
-
-function updateStats(){
-  document.getElementById('statCount').textContent=subs.length;
-  const prices=pricesData.prices||{};
-  // count how many hit target
-  let hits=0;
-  subs.forEach(s=>{const p=prices[s.id];if(p&&s.target_price&&p.price<=s.target_price)hits++;});
-  document.getElementById('statAlerts').textContent=hits;
-  // best price
-  const vals=Object.values(prices);
-  if(vals.length){
-    const best=vals.reduce((a,b)=>(!a.price||b.price<a.price)?b:a,{});
-    document.getElementById('statBest').textContent=fmtP(best.price);
-    document.getElementById('statBestRoute').textContent=(best.origin||'')+(best.destination?' → '+best.destination:'');
+async function loadSubs() {
+  try {
+    const r = await fetch(WORKER_URL + '/subscriptions');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    subsData = await r.json();
+    await loadPrices();
+    updateStats();
+    renderFeatured();
+    renderAlerts();
+    renderTable();
+  } catch(e) {
+    document.querySelectorAll('.loading-text').forEach(function(el) {
+      el.textContent = '\u8F09\u5165\u5931\u6557: ' + e.message;
+    });
   }
-  // subtitle
-  const h=hits;
-  document.getElementById('pageSubtitle').textContent='持續追蹤 '+subs.length+' 條航線'+(h?' · '+h+' 條已達到目標價':'')+' · 即時掌握漲跌';
 }
 
-function renderTable(){
-  const prices=pricesData.prices||{};
-  const history=pricesData.history||{};
-  document.getElementById('tableCount').textContent=subs.length;
-  if(!subs.length){document.getElementById('trackTableBody').innerHTML='<tr class="empty-row"><td colspan="7">尚無追蹤航線，點選「新增追蹤」開始</td></tr>';return;}
-  document.getElementById('trackTableBody').innerHTML=subs.map((s,i)=>{
-    const p=prices[s.id];
-    const price=p&&p.price?p.price:null;
-    const hist=history[s.id]||[];
-    const vals=hist.map(h=>h.price).filter(Boolean).slice(-7);
-    const isUp=vals.length>=2&&vals[vals.length-1]>vals[0];
-    const pct=vals.length>=2?Math.round((vals[vals.length-1]-vals[0])/vals[0]*100):null;
-    const hitTarget=price&&s.target_price&&price<=s.target_price;
-    const col=routeColor(s.id);
-    return '<tr>'+
-      '<td><div style="display:flex;align-items:center;gap:10px"><div class="tr-avatar" style="background:'+col+'">'+routeInitials(s.origin,s.destination)+'</div><div><div class="tr-route">'+up(s.origin)+' → '+up(s.destination)+'</div><div class="tr-sub">'+(s.note||s.date||'')+'</div></div></div></td>'+
-      '<td class="tr-price">'+(price?fmtP(price):'\u2014')+'</td>'+
-      '<td>'+(pct!==null?'<span class="change-badge '+(isUp?'badge-up':'badge-down')+'">'+(isUp?'▲':'▼')+Math.abs(pct)+'%</span>':'\u2014')+'</td>'+
-      '<td>'+sparkline(vals,col)+'</td>'+
-      '<td><div class="target-info">'+fmtP(s.target_price)+'</div><div class="'+(hitTarget?'target-sub':'target-sub-track')+'">'+(hitTarget?'✓ 已達標':'追蹤中')+'</div></td>'+
-      '<td><span class="change-badge '+(s.active?'badge-down':'')+'">'+(s.active?'追蹤中':'停用')+'</span></td>'+
-      '<td><div style="display:flex;gap:6px"><button class="bell-btn" title="提醒">🔔</button><button class="btn-del-sm" onclick="delSub('+i+')" title="移除">✕</button></div></td>'+
+async function loadPrices() {
+  try {
+    const [pr, hr] = await Promise.all([
+      fetch('https://mywu-cloud.github.io/flights/data/prices.json'),
+      fetch('https://mywu-cloud.github.io/flights/data/history.json')
+    ]);
+    if (pr.ok) pricesData.prices = await pr.json();
+    if (hr.ok) pricesData.history = await hr.json();
+  } catch(e) {
+    console.log('Prices load error:', e.message);
+  }
+}
+
+function updateStats() {
+  const total = subsData.length;
+  const prices = pricesData.prices || {};
+  let triggered = 0;
+  let bestSaving = 0;
+  let bestDrop = 0;
+  let bestDropRoute = '';
+  subsData.forEach(function(s) {
+    const p = prices[s.id];
+    if (!p) return;
+    if (s.target_price && p.price <= s.target_price) triggered++;
+    if (s.target_price && p.price < s.target_price) {
+      const saving = s.target_price - p.price;
+      if (saving > bestSaving) bestSaving = saving;
+    }
+    const hist = (pricesData.history || {})[s.id];
+    if (hist && hist.length > 1) {
+      const oldest = hist[0].price;
+      const newest = hist[hist.length-1].price;
+      if (oldest > 0) {
+        const drop = Math.round((oldest - newest) / oldest * 100);
+        if (drop > bestDrop) {
+          bestDrop = drop;
+          bestDropRoute = (s.origin || '') + '\u2192' + (s.destination || '');
+        }
+      }
+    }
+  });
+  const el1 = document.getElementById('statTotal');
+  const el2 = document.getElementById('statTriggered');
+  const el3 = document.getElementById('statSaving');
+  const el4 = document.getElementById('statDrop');
+  const el4sub = document.getElementById('statDropSub');
+  if (el1) el1.textContent = total;
+  if (el2) el2.textContent = triggered;
+  if (el3) el3.textContent = bestSaving > 0 ? 'NT$' + bestSaving.toLocaleString() : '--';
+  if (el4) el4.textContent = bestDrop > 0 ? '-' + bestDrop + '%' : '--';
+  if (el4sub) el4sub.textContent = bestDropRoute || '\u6700\u4F73\u8DEF\u7DDA';
+}
+
+function updateSliderVal(val) {
+  const el = document.getElementById('fcVal');
+  if (el) el.textContent = 'NT$' + Number(val).toLocaleString();
+}
+
+function renderFeatured() {
+  const el = document.getElementById('featuredCard');
+  if (!el) return;
+  if (!subsData.length) {
+    el.innerHTML = '<div class="loading-text">\u6C92\u6709\u8FFD\u8E64\u8DEF\u7DDA</div>';
+    return;
+  }
+  const prices = pricesData.prices || {};
+  const history = pricesData.history || {};
+  let best = subsData[0];
+  subsData.forEach(function(s) { if (prices[s.id] && !prices[best.id]) best = s; });
+  const p = prices[best.id];
+  const hist = history[best.id] || [];
+  const price = p ? p.price : null;
+  const target = best.target_price || 0;
+  const priceStr = price ? 'NT$' + price.toLocaleString() : '--';
+  const targetStr = target ? 'NT$' + target.toLocaleString() : '--';
+  let svgPath = '';
+  if (hist.length > 1) {
+    const vals = hist.map(function(h) { return h.price; });
+    const mn = Math.min.apply(null, vals);
+    const mx = Math.max.apply(null, vals);
+    const range = mx - mn || 1;
+    const pts = vals.map(function(v, i) {
+      const x = (i / (vals.length-1)) * 280;
+      const y = 75 - ((v - mn) / range) * 65;
+      return x.toFixed(1) + ',' + y.toFixed(1);
+    });
+    svgPath = '<polyline points="' + pts.join(' ') + '" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round"/>';
+  }
+  let trend = '';
+  if (hist.length >= 2) {
+    const first = hist[0].price;
+    const last = hist[hist.length-1].price;
+    const pct = Math.round((last - first) / first * 100);
+    const isDown = pct < 0;
+    trend = '<span class="badge ' + (isDown ? 'badge-green' : 'badge-red') + '">' + (isDown ? '\u25BC' : '\u25B2') + ' ' + Math.abs(pct) + '%</span>';
+  }
+  const origin = best.origin || '';
+  const dest = best.destination || '';
+  const initials = (origin.substring(0,2) + dest.substring(0,1)).toUpperCase();
+  const sliderMin = Math.round((price||5000)*0.7);
+  const sliderMax = Math.round((price||5000)*1.3);
+  const sliderVal = target || price || 5000;
+  el.innerHTML =
+    '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">' +
+    '<div class="route-avatar">' + initials + '</div>' +
+    '<div><div style="font-weight:700;font-size:1.1rem">' + origin + ' \u2192 ' + dest + '</div>' +
+    '<div style="color:var(--text-secondary);font-size:.85rem">' + (best.date || '') + '</div></div>' +
+    (trend ? '<div style="margin-left:auto">' + trend + '</div>' : '') +
+    '</div>' +
+    '<div style="font-size:2rem;font-weight:800;color:var(--primary);margin-bottom:4px">' + priceStr + '</div>' +
+    '<div style="color:var(--text-secondary);font-size:.85rem;margin-bottom:16px">\u76EE\u6A19\u50F9: ' + targetStr + '</div>' +
+    '<div style="background:var(--bg-secondary);border-radius:8px;padding:12px;margin-bottom:16px">' +
+    '<svg viewBox="0 0 280 80" style="width:100%;height:80px">' +
+    (svgPath || '<text x="140" y="45" text-anchor="middle" fill="var(--text-secondary)" font-size="13">\u66AB\u7121\u6B77\u53F2\u8CC7\u6599</text>') +
+    '</svg></div>' +
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">' +
+    '<label style="font-size:.85rem;color:var(--text-secondary)">\u76EE\u6A19\u50F9\u683C:</label>' +
+    '<input type="range" id="fcSlider" min="' + sliderMin + '" max="' + sliderMax + '" value="' + sliderVal + '" style="flex:1" oninput="updateSliderVal(this.value)">' +
+    '<span id="fcVal" style="font-weight:600">' + targetStr + '</span>' +
+    '</div>' +
+    '<button id="fcSim" class="btn-primary" style="width:100%">\u6A21\u64EC\u5230\u50F9\u63D0\u9192</button>';
+  const sim = document.getElementById('fcSim');
+  if (sim) sim.addEventListener('click', function() { showToast('\u2705 \u6A21\u64EC\u63D0\u9192: \u5DF2\u9054\u6A19\u6307\u5B9A\u50F9\u683C\uFF01'); });
+}
+
+function renderAlerts() {
+  const el = document.getElementById('alertsList');
+  if (!el) return;
+  const prices = pricesData.prices || {};
+  const items = subsData.filter(function(s) {
+    const p = prices[s.id];
+    return p && s.target_price && p.price <= s.target_price * 1.1;
+  }).slice(0, 5);
+  if (!items.length) {
+    el.innerHTML = '<div class="loading-text">\u66AB\u7121\u50F9\u683C\u8B66\u5831</div>';
+    return;
+  }
+  el.innerHTML = items.map(function(s) {
+    const p = prices[s.id];
+    const isHit = p.price <= s.target_price;
+    const badgeClass = isHit ? 'badge-green' : 'badge-yellow';
+    const badgeText = isHit ? '\u5DF2\u9054\u6A19' : '\u964D\u50F9';
+    return '<div class="alert-item">' +
+      '<div style="flex:1"><div style="font-weight:600">' + s.origin + ' \u2192 ' + s.destination + '</div>' +
+      '<div style="font-size:.8rem;color:var(--text-secondary)">NT$' + p.price.toLocaleString() + '</div></div>' +
+      '<span class="badge ' + badgeClass + '">' + badgeText + '</span></div>';
+  }).join('');
+}
+
+function renderTable() {
+  const tbody = document.getElementById('routeTableBody');
+  if (!tbody) return;
+  if (!subsData.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-secondary)">\u66AB\u7121\u8FFD\u8E64\u8DEF\u7DDA</td></tr>';
+    return;
+  }
+  const prices = pricesData.prices || {};
+  const history = pricesData.history || {};
+  tbody.innerHTML = subsData.map(function(s) {
+    const p = prices[s.id];
+    const hist = history[s.id] || [];
+    const price = p ? p.price : null;
+    const priceStr = price ? 'NT$' + price.toLocaleString() : '--';
+    const target = s.target_price || 0;
+    const targetStr = target ? 'NT$' + target.toLocaleString() : '--';
+    let changeBadge = '';
+    if (hist.length >= 2) {
+      const first = hist[0].price;
+      const last = hist[hist.length-1].price;
+      const pct = Math.round((last - first) / first * 100);
+      const isDown = pct < 0;
+      changeBadge = '<span class="badge ' + (isDown ? 'badge-green' : 'badge-red') + '">' + (isDown ? '\u25BC' : '\u25B2') + ' ' + Math.abs(pct) + '%</span>';
+    }
+    let spark = '';
+    if (hist.length > 1) {
+      const vals = hist.map(function(h) { return h.price; });
+      const mn = Math.min.apply(null, vals);
+      const mx = Math.max.apply(null, vals);
+      const range = mx - mn || 1;
+      const pts = vals.map(function(v, i) {
+        const x = (i / (vals.length-1)) * 60;
+        const y = 18 - ((v - mn) / range) * 14;
+        return x.toFixed(1) + ',' + y.toFixed(1);
+      });
+      spark = '<svg viewBox="0 0 60 20" style="width:60px;height:20px"><polyline points="' + pts.join(' ') + '" fill="none" stroke="var(--primary)" stroke-width="1.5"/></svg>';
+    } else {
+      spark = '<span style="color:var(--text-secondary);font-size:.8rem">--</span>';
+    }
+    const isHit = price && target && price <= target;
+    const statusBadge = isHit ?
+      '<span class="badge badge-green">\u5DF2\u9054\u6A19</span>' :
+      '<span class="badge badge-gray">\u8FFD\u8E64\u4E2D</span>';
+    const initials = ((s.origin||'').substring(0,2) + (s.destination||'').substring(0,1)).toUpperCase();
+    return '<tr>' +
+      '<td><div style="display:flex;align-items:center;gap:8px">' +
+      '<div class="route-avatar" style="width:32px;height:32px;font-size:.7rem">' + initials + '</div>' +
+      '<div><div style="font-weight:600">' + (s.origin||'') + ' \u2192 ' + (s.destination||'') + '</div>' +
+      '<div style="font-size:.75rem;color:var(--text-secondary)">' + (s.date||'') + '</div></div></div></td>' +
+      '<td style="color:var(--text-secondary)">' + (s.airline || '--') + '</td>' +
+      '<td style="font-weight:700;color:var(--primary)">' + priceStr + '</td>' +
+      '<td>' + (changeBadge || '<span style="color:var(--text-secondary)">--</span>') + '</td>' +
+      '<td>' + spark + '</td>' +
+      '<td>' + targetStr + '</td>' +
+      '<td>' + statusBadge + ' <button class="btn-icon" onclick="deleteSub(\'' + s.id + '\')" title="\u522A\u9664">&#x1F5D1;</button></td>' +
       '</tr>';
   }).join('');
-
-  // featured card: first active with price
-  const featured=subs.find(s=>pricesData.prices&&pricesData.prices[s.id])||subs[0];
-  if(featured)renderFeatured(featured);
 }
 
-function renderFeatured(s){
-const prices=pricesData.prices||{};
-const history=pricesData.history||{};
-const p=prices[s.id];
-const price=p&&p.price?p.price:null;
-const hist=history[s.id]||[];
-const vals=hist.map(h=>h.price).filter(Boolean).slice(-30);
-const isUp=vals.length>=2&&vals[vals.length-1]>vals[0];
-const pct=vals.length>=2?Math.round((vals[vals.length-1]-vals[0])/vals[0]*100):null;
-const col=routeColor(s.id);
-const target=s.target_price||0;
-const minV=Math.round(target*0.7),maxV=Math.round(target*1.3);
-const pctBadge=pct!==null?'<span class="fc-badge '+(isUp?'badge-up':'badge-down')+'">'+(isUp?'▲':'▼')+Math.abs(pct)+'%</span>':'';
-const airlineStr=(p&&p.airline&&p.airline!=='Unknown')?p.airline:'\u2014';
-const html=[
-'<div class="fc-header">',
-'<div class="fc-avatar" style="background:'+col+'">'+routeInitials(s.origin,s.destination)+'</div>',
-'<div>',
-'<div class="fc-route">'+up(s.origin)+' → '+up(s.destination)+' '+pctBadge+'</div>',
-'<div class="fc-sub">'+airlineStr+' · '+(s.date||'\u2014')+'</div>',
-'</div></div>',
-'<div class="fc-price">'+(price?fmtP(price):'尚無資料')+'</div>',
-'<div class="fc-price-sub">目前最低含稅票價</div>',
-'<div class="chart-tabs"><span class="chart-tab active">30 天</span><span class="chart-tab">60 天</span><span class="chart-tab">90 天</span></div>',
-'<div class="chart-area">'+bigChart(vals)+'</div>',
-'<div class="target-block">',
-'<div class="target-label">到價提醒目標</div>',
-'<div class="target-value" id="fcTargetVal">'+fmtP(target||12000)+'</div>',
-'<div class="slider-wrap"><input type="range" class="slider" id="fcSlider" min="'+minV+'" max="'+maxV+'" value="'+(target||12000)+'"></div>',
-'<div class="slider-range"><span>'+fmtP(minV)+'</span><span>'+fmtP(maxV)+'</span></div>',
-'<div class="target-actions">',
-'<button class="btn-outline" id="fcGap">距離目標還差 '+(price&&target?fmtP(Math.max(0,price-target)):'\u2014')+'</button>',
-'<button class="btn-sim" id="fcSim">模擬到價提醒</button>',
-'</div></div>'
-].join('');
-document.getElementById('featuredCard').innerHTML=html;
-const sl=document.getElementById('fcSlider');
-if(sl)sl.addEventListener('input',function(){document.getElementById('fcTargetVal').textContent='NTfunction renderAlerts(){
-  const prices=pricesData.prices||{};
-  const items=subs.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price<=s.target_price;})
-    .concat(subs.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price>s.target_price;}).slice(0,2));
-  const el=document.getElementById('alertsList');
-  if(!items.length){el.innerHTML='<div style="color:#94a3b8;padding:20px;text-align:center;font-size:0.85rem">暫無價格警報</div>';return;}
-  el.innerHTML=items.slice(0,4).map(s=>{
-    const p=prices[s.id];const price=p&&p.price?p.price:null;
-    const hit=price&&s.target_price&&price<=s.target_price;
-    const col=routeColor(s.id);
-    return '<div class="alert-item">'+
-      '<div class="alert-dot '+(hit?'dot-green':'dot-blue')+'">'+(hit?'🏷':'↓')+'</div>'+
-      '<div style="flex:1"><div class="alert-route">'+up(s.origin)+' → '+up(s.destination)+'</div>'+
-      '<div class="alert-desc">'+(hit?'已跌破目標價 '+fmtP(s.target_price):'票價近期下跌')+'</div>'+
-      '<div><span class="alert-tag '+(hit?'tag-green':'tag-blue')+'">'+(hit?'已達標':'降價')+'</span>'+
-      '<span class="alert-price">'+(price?fmtP(price):'')+'</span></div></div>'+
-      '<div class="alert-time">剛剛</div></div>';
-  }).join('');
-  document.getElementById('bellBadge').textContent=items.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price<=s.target_price;}).length||'';
+function setTheme(t, btn) {
+  currentTheme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-btn').forEach(function(b) { b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
 }
 
-async function saveSubs(){
-  const r=await fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscriptions:subs,sha:subsSha})});
-  const d=await r.json();
-  if(!r.ok||d.error)throw new Error(d.error||'Worker error');
-  subsSha=d.sha;
+function openModal() {
+  const m = document.getElementById('addModal');
+  if (m) m.style.display = 'flex';
 }
 
-async function addSub(){
-  const origin=up(document.getElementById('fOrigin').value);
-  const dest=up(document.getElementById('fDest').value);
-  const date=document.getElementById('fDate').value;
-  const target=parseInt(document.getElementById('fTarget').value,10);
-  const note=document.getElementById('fNote').value.trim();
-  if(!origin||origin.length!==3){showMsg('請輸入有效的出發地 IATA(3字母)','err');return;}
-  if(!dest||dest.length!==3){showMsg('請輸入有效的目的地 IATA(3字母)','err');return;}
-  if(!date){showMsg('請選擇出發日期','err');return;}
-  if(!target||target<1){showMsg('請輸入目標票價','err');return;}
-  const id=(origin+'-'+dest+'-'+date.replace(/-/g,'')).toLowerCase();
-  if(subs.find(s=>s.id===id)){showMsg('此航線已在追蹤清單中','err');return;}
-  document.getElementById('btnSave').disabled=true;showMsg('儲存中...','');
-  subs.push({id,origin,destination:dest,date,target_price:target,currency:'TWD',active:true,note});
-  try{
-    await saveSubs();
-    toast('✅ 已新增 '+origin+' → '+dest);
-    closeModal();
-    ['fOrigin','fDest','fDate','fTarget','fNote'].forEach(id=>document.getElementById(id).value='');
-    renderTable();renderAlerts();updateStats();
-  }catch(e){subs.pop();showMsg('❌ '+e.message,'err');}
-  document.getElementById('btnSave').disabled=false;
+function closeModal() {
+  const m = document.getElementById('addModal');
+  if (m) m.style.display = 'none';
 }
 
-async function delSub(i){
-  const s=subs[i];
-  if(!confirm('確定移除 '+up(s.origin)+' → '+up(s.destination)+'？'))return;
-  const removed=subs.splice(i,1);
-  try{await saveSubs();toast('已移除 '+up(s.origin)+' → '+up(s.destination));renderTable();renderAlerts();updateStats();}
-  catch(e){subs.splice(i,0,...removed);toast('❌ '+e.message);renderTable();}
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1e293b;color:#fff;padding:12px 20px;border-radius:8px;z-index:9999;font-size:.9rem;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:opacity .5s';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  setTimeout(function() { t.style.opacity = '0'; }, 3000);
 }
 
-async function loadPrices(){
-  try{
-    const[pr,hr]=await Promise.all([fetch(PRICES_URL+'?t='+Date.now()),fetch(HISTORY_URL+'?t='+Date.now())]);
-    const pd=pr.ok?await pr.json():{};
-    const hd=hr.ok?await hr.json():{};
-    pricesData={prices:pd.prices||{},history:hd.history||{},updated_at:pd.updated_at};
-    document.getElementById('statUpdated').textContent=pd.updated_at?fmtDate(pd.updated_at):'\u2014';
-    renderTable();renderAlerts();updateStats();
-  }catch(e){console.error(e);}
+async function addSub() {
+  const origin = (document.getElementById('inputOrigin') || {}).value || '';
+  const destination = (document.getElementById('inputDest') || {}).value || '';
+  const date = (document.getElementById('inputDate') || {}).value || '';
+  const target = (document.getElementById('inputTarget') || {}).value || '';
+  if (!origin || !destination || !date) {
+    showToast('\u8ACB\u586B\u5BEB\u5FC5\u8981\u6B04\u4F4D');
+    return;
+  }
+  const newSub = {
+    id: origin.toUpperCase() + '-' + destination.toUpperCase() + '-' + date,
+    origin: origin.toUpperCase(),
+    destination: destination.toUpperCase(),
+    date: date,
+    target_price: target ? parseInt(target) : null,
+    active: true
+  };
+  const exists = subsData.some(function(s) { return s.id === newSub.id; });
+  if (exists) { showToast('\u8A72\u8DEF\u7DDA\u5DF2\u5B58\u5728'); return; }
+  subsData.push(newSub);
+  await saveSubs();
+  closeModal();
+  updateStats();
+  renderFeatured();
+  renderAlerts();
+  renderTable();
+  showToast('\u2705 \u5DF2\u65B0\u589E\u8FFD\u8E64: ' + newSub.origin + ' \u2192 ' + newSub.destination);
 }
 
-// Fix Japanese template literal issue
-document.getElementById('pageSubtitle').textContent='載入中...';
-
-loadSubs();loadPrices();
-setInterval(loadPrices,5*60*1000);
-</script>
-</body>
-</html>
-+Number(this.value).toLocaleString();});
-const sim=document.getElementById('fcSim');
-if(sim)sim.addEventListener('click',function(){toast('✅ 模擬提醒：已達目標價！');});
+async function deleteSub(id) {
+  subsData = subsData.filter(function(s) { return s.id !== id; });
+  await saveSubs();
+  updateStats();
+  renderFeatured();
+  renderAlerts();
+  renderTable();
+  showToast('\u2705 \u5DF2\u522A\u9664\u8FFD\u8E64');
 }
 
-function renderAlerts(){
-  const prices=pricesData.prices||{};
-  const items=subs.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price<=s.target_price;})
-    .concat(subs.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price>s.target_price;}).slice(0,2));
-  const el=document.getElementById('alertsList');
-  if(!items.length){el.innerHTML='<div style="color:#94a3b8;padding:20px;text-align:center;font-size:0.85rem">暫無價格警報</div>';return;}
-  el.innerHTML=items.slice(0,4).map(s=>{
-    const p=prices[s.id];const price=p&&p.price?p.price:null;
-    const hit=price&&s.target_price&&price<=s.target_price;
-    const col=routeColor(s.id);
-    return '<div class="alert-item">'+
-      '<div class="alert-dot '+(hit?'dot-green':'dot-blue')+'">'+(hit?'🏷':'↓')+'</div>'+
-      '<div style="flex:1"><div class="alert-route">'+up(s.origin)+' → '+up(s.destination)+'</div>'+
-      '<div class="alert-desc">'+(hit?'已跌破目標價 '+fmtP(s.target_price):'票價近期下跌')+'</div>'+
-      '<div><span class="alert-tag '+(hit?'tag-green':'tag-blue')+'">'+(hit?'已達標':'降價')+'</span>'+
-      '<span class="alert-price">'+(price?fmtP(price):'')+'</span></div></div>'+
-      '<div class="alert-time">剛剛</div></div>';
-  }).join('');
-  document.getElementById('bellBadge').textContent=items.filter(s=>{const p=prices[s.id];return p&&s.target_price&&p.price<=s.target_price;}).length||'';
+async function saveSubs() {
+  try {
+    const r = await fetch(WORKER_URL + '/subscriptions', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(subsData)
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+  } catch(e) {
+    showToast('\u5132\u5B58\u5931\u6557: ' + e.message);
+  }
 }
 
-async function saveSubs(){
-  const r=await fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscriptions:subs,sha:subsSha})});
-  const d=await r.json();
-  if(!r.ok||d.error)throw new Error(d.error||'Worker error');
-  subsSha=d.sha;
-}
+window.addEventListener('click', function(e) {
+  const m = document.getElementById('addModal');
+  if (m && e.target === m) closeModal();
+});
 
-async function addSub(){
-  const origin=up(document.getElementById('fOrigin').value);
-  const dest=up(document.getElementById('fDest').value);
-  const date=document.getElementById('fDate').value;
-  const target=parseInt(document.getElementById('fTarget').value,10);
-  const note=document.getElementById('fNote').value.trim();
-  if(!origin||origin.length!==3){showMsg('請輸入有效的出發地 IATA(3字母)','err');return;}
-  if(!dest||dest.length!==3){showMsg('請輸入有效的目的地 IATA(3字母)','err');return;}
-  if(!date){showMsg('請選擇出發日期','err');return;}
-  if(!target||target<1){showMsg('請輸入目標票價','err');return;}
-  const id=(origin+'-'+dest+'-'+date.replace(/-/g,'')).toLowerCase();
-  if(subs.find(s=>s.id===id)){showMsg('此航線已在追蹤清單中','err');return;}
-  document.getElementById('btnSave').disabled=true;showMsg('儲存中...','');
-  subs.push({id,origin,destination:dest,date,target_price:target,currency:'TWD',active:true,note});
-  try{
-    await saveSubs();
-    toast('✅ 已新增 '+origin+' → '+dest);
-    closeModal();
-    ['fOrigin','fDest','fDate','fTarget','fNote'].forEach(id=>document.getElementById(id).value='');
-    renderTable();renderAlerts();updateStats();
-  }catch(e){subs.pop();showMsg('❌ '+e.message,'err');}
-  document.getElementById('btnSave').disabled=false;
-}
-
-async function delSub(i){
-  const s=subs[i];
-  if(!confirm('確定移除 '+up(s.origin)+' → '+up(s.destination)+'？'))return;
-  const removed=subs.splice(i,1);
-  try{await saveSubs();toast('已移除 '+up(s.origin)+' → '+up(s.destination));renderTable();renderAlerts();updateStats();}
-  catch(e){subs.splice(i,0,...removed);toast('❌ '+e.message);renderTable();}
-}
-
-async function loadPrices(){
-  try{
-    const[pr,hr]=await Promise.all([fetch(PRICES_URL+'?t='+Date.now()),fetch(HISTORY_URL+'?t='+Date.now())]);
-    const pd=pr.ok?await pr.json():{};
-    const hd=hr.ok?await hr.json():{};
-    pricesData={prices:pd.prices||{},history:hd.history||{},updated_at:pd.updated_at};
-    document.getElementById('statUpdated').textContent=pd.updated_at?fmtDate(pd.updated_at):'\u2014';
-    renderTable();renderAlerts();updateStats();
-  }catch(e){console.error(e);}
-}
-
-// Fix Japanese template literal issue
-document.getElementById('pageSubtitle').textContent='載入中...';
-
-loadSubs();loadPrices();
-setInterval(loadPrices,5*60*1000);
+loadSubs();
 </script>
 </body>
 </html>
