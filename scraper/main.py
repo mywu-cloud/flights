@@ -1,6 +1,7 @@
 """
 Flight Price Tracker - Main Orchestrator
-Runs scraping for all subscriptions and triggers notifications.
+Scans price calendars for all subscriptions and triggers notifications.
+New model: subscriptions have date_from/date_to ranges, not fixed dates.
 """
 
 import asyncio
@@ -32,7 +33,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger("main")
 
-# Constants
 SUBSCRIPTIONS_FILE = Path("config/subscriptions.json")
 DATA_DIR = Path("data")
 TZ_TAIPEI = pytz.timezone("Asia/Taipei")
@@ -51,42 +51,97 @@ def load_subscriptions() -> list:
 
 
 async def process_subscription(scraper, store, engine, notifier, sub):
-    """Process a single subscription: scrape, store, compare, notify."""
+    """
+    Process a single subscription using the new calendar scan model.
+    Reads date_from/date_to from subscription, scans price calendar,
+    stores results, and triggers notifications.
+    """
     sub_id = sub["id"]
     origin = sub["origin"]
     destination = sub["destination"]
-    date = sub["date"]
     target_price = sub.get("target_price")
     currency = sub.get("currency", "TWD")
 
-    logger.info(f"[{sub_id}] Scraping {origin} -> {destination} on {date}")
-
-    try:
-        result = await scraper.search(origin=origin, destination=destination, date=date)
-        if result is None:
-            logger.warning(f"[{sub_id}] No result returned from scraper")
+    # Support both new (date_from/date_to) and legacy (date) format
+    date_from = sub.get("date_from")
+    date_to = sub.get("date_to")
+    if not date_from or not date_to:
+        # Legacy fallback: use fixed date as a single-day range
+        fixed_date = sub.get("date", "")
+        if fixed_date:
+            date_from = fixed_date
+            date_to = fixed_date
+            logger.warning(
+                f"[{sub_id}] Using legacy fixed date {fixed_date}. "
+                f"Please update subscription to use date_from/date_to."
+            )
+        else:
+            logger.error(f"[{sub_id}] No date_from/date_to or date. Skipping.")
             return
 
-        now_taipei = datetime.now(TZ_TAIPEI)
-        price_entry = {
-            "subscription_id": sub_id,
-            "origin": origin,
-            "destination": destination,
-            "date": date,
-            "price": result["price"],
-            "currency": currency,
-            "airline": result.get("airline", "Unknown"),
-            "duration": result.get("duration", ""),
-            "scraped_at": now_taipei.isoformat(),
-            "link": result.get("link", ""),
-        }
+    now_taipei = datetime.now(TZ_TAIPEI)
+    scraped_at = now_taipei.isoformat()
 
-        store.add_price(price_entry)
-        logger.info(f"[{sub_id}] Current price: {result['price']} {currency}")
+    logger.info(
+        f"[{sub_id}] Calendar scan {origin} -> {destination} "
+        f"from {date_from} to {date_to}"
+    )
 
-        should_notify, reason = engine.should_notify(sub_id, price_entry, target_price)
+    try:
+        price_calendar = await scraper.search_calendar(
+            origin=origin,
+            destination=destination,
+            date_from=date_from,
+            date_to=date_to,
+        )
+
+        if not price_calendar:
+            logger.warning(f"[{sub_id}] No prices found in calendar scan")
+            return
+
+        # Store the calendar result
+        store.update_calendar(
+            sub_id=sub_id,
+            origin=origin,
+            destination=destination,
+            date_from=date_from,
+            date_to=date_to,
+            price_calendar=price_calendar,
+            scraped_at=scraped_at,
+        )
+
+        cheapest_date, cheapest_price = store.get_cheapest_in_calendar(sub_id)
+        logger.info(
+            f"[{sub_id}] Cheapest: {cheapest_date} @ {cheapest_price} {currency} "
+            f"(target: {target_price})"
+        )
+
+        # Check notification triggers
+        should_notify, reason = engine.should_notify_calendar(
+            sub_id=sub_id,
+            price_calendar=price_calendar,
+            target_price=target_price,
+        )
         if should_notify:
             logger.info(f"[{sub_id}] ALERT triggered: {reason}")
+            # Build a simplified price_entry for notifier compatibility
+            price_entry = {
+                "subscription_id": sub_id,
+                "origin": origin,
+                "destination": destination,
+                "date": cheapest_date,
+                "price": cheapest_price,
+                "currency": currency,
+                "airline": "See link",
+                "scraped_at": scraped_at,
+                "link": (
+                    f"https://www.google.com/travel/flights?"
+                    f"hl=zh-TW&curr=TWD"
+                    f"&q={origin}+to+{destination}"
+                    f"&departure_date={cheapest_date}"
+                    f"&trip_type=1"
+                ),
+            }
             await notifier.send_alert(sub, price_entry, reason)
         else:
             logger.info(f"[{sub_id}] No alert (reason: {reason})")
@@ -98,7 +153,7 @@ async def process_subscription(scraper, store, engine, notifier, sub):
 async def main():
     """Main entry point."""
     logger.info("=" * 60)
-    logger.info("Flight Price Tracker started")
+    logger.info("Flight Price Tracker started (calendar scan mode)")
     logger.info(f"Time (Taipei): {datetime.now(TZ_TAIPEI).strftime('%Y-%m-%d %H:%M:%S %Z')}")
     logger.info("=" * 60)
 
@@ -124,7 +179,8 @@ async def main():
         await scraper.start()
         for sub in subscriptions:
             await process_subscription(scraper, store, engine, notifier, sub)
-            await asyncio.sleep(5)
+            # Polite delay between subscriptions to avoid rate limiting
+            await asyncio.sleep(10)
     finally:
         await scraper.stop()
 
