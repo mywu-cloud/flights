@@ -2,13 +2,14 @@
 Google Flights Scraper
 Uses Playwright with stealth mode to extract flight prices.
 Implements human-like behavior to avoid bot detection.
+Supports calendar scan mode: scan a date range and return price_calendar dict.
 """
 
 import asyncio
 import logging
 import random
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 
 from playwright.async_api import async_playwright, Browser, BrowserContext, Page
@@ -122,9 +123,12 @@ class GoogleFlightsScraper:
         """Dismiss cookie banners, popups, etc."""
         overlay_selectors = [
             'button[aria-label*="Accept"]',
-            'button[aria-label*="接受"]',
+            'button[aria-label*="Accept all"]',
+            'button[aria-label*="Reject all"]',
+            'button[aria-label*="\u63a5\u53d7"]',
             'button:has-text("Accept all")',
-            'button:has-text("同意")',
+            'button:has-text("Reject all")',
+            'button:has-text("\u540c\u610f")',
             'button:has-text("I agree")',
             '[data-ved] button:has-text("No thanks")',
         ]
@@ -139,6 +143,203 @@ class GoogleFlightsScraper:
             except Exception:
                 pass
 
+    async def search_calendar(
+        self,
+        origin: str,
+        destination: str,
+        date_from: str,
+        date_to: str,
+    ) -> dict:
+        """
+        Scan Google Flights date grid for an entire date range.
+        Returns price_calendar: {date_str: price_int} for all found dates.
+
+        Strategy: open the date-flexible search (price calendar view) then
+        read date+price pairs from aria-labels. Falls back to weekly scan
+        if the calendar view yields fewer than 5 dates.
+
+        Args:
+            origin: IATA code (e.g., 'TPE')
+            destination: IATA code (e.g., 'NRT')
+            date_from: start date 'YYYY-MM-DD'
+            date_to: end date 'YYYY-MM-DD'
+
+        Returns:
+            dict  {date_str: lowest_price_int}  -- may be empty on failure
+        """
+        context = await self._create_stealth_context()
+        page = await context.new_page()
+        price_calendar = {}
+        try:
+            # Use flexible dates URL with view=2 to encourage calendar display
+            url = (
+                f"https://www.google.com/travel/flights?"
+                f"hl=zh-TW&curr=TWD"
+                f"&q={origin}+to+{destination}"
+                f"&departure_date={date_from}"
+                f"&trip_type=1"
+                f"&view=2"
+            )
+            logger.info(
+                f"Calendar scan: {origin}->{destination} {date_from} to {date_to}"
+            )
+            await page.goto(url, wait_until="domcontentloaded", timeout=60000)
+            await self._human_delay(2000, 4000)
+            await self._dismiss_overlays(page)
+            await self._human_delay(1000, 2000)
+
+            # Try calendar grid extraction
+            price_calendar = await self._extract_calendar_prices(
+                page, origin, destination, date_from, date_to
+            )
+
+            # Fallback to weekly scan if insufficient
+            if len(price_calendar) < 5:
+                logger.info(
+                    "Calendar grid extraction insufficient (%d dates), "
+                    "falling back to weekly scan", len(price_calendar)
+                )
+                await context.close()
+                context = None
+                price_calendar = await self._scan_weekly(
+                    origin, destination, date_from, date_to
+                )
+
+        except Exception as e:
+            logger.error(
+                f"Calendar search failed for {origin}->{destination}: {e}",
+                exc_info=True,
+            )
+            try:
+                await page.screenshot(
+                    path=f"logs/error_cal_{origin}_{destination}.png"
+                )
+            except Exception:
+                pass
+        finally:
+            if context:
+                await context.close()
+
+        logger.info(
+            f"Calendar result: {len(price_calendar)} dates found for "
+            f"{origin}->{destination}"
+        )
+        return price_calendar
+
+    async def _extract_calendar_prices(
+        self,
+        page: Page,
+        origin: str,
+        destination: str,
+        date_from: str,
+        date_to: str,
+    ) -> dict:
+        """
+        Try to read a price-per-date grid from the current Google Flights page.
+        Looks for aria-label patterns like '2026\u5e747\u670815\u65e5 NT$8,500'
+        and data-date attributes.
+        """
+        price_calendar = {}
+        try:
+            await self._human_scroll(page, times=2)
+            await self._human_delay(1500, 2500)
+
+            raw = await page.evaluate("""
+                () => {
+                    const results = [];
+                    const allEls = document.querySelectorAll('[aria-label]');
+                    for (const el of allEls) {
+                        const lbl = el.getAttribute('aria-label') || '';
+                        const dateMatch = lbl.match(/(\d{4})\u5e74(\d{1,2})\u6708(\d{1,2})\u65e5/);
+                        const priceMatch = lbl.match(/NT\$\s*([\d,]+)|TWD\s*([\d,]+)|([\d,]+)\s*TWD/);
+                        if (dateMatch && priceMatch) {
+                            const yr = dateMatch[1];
+                            const mo = String(dateMatch[2]).padStart(2, '0');
+                            const dy = String(dateMatch[3]).padStart(2, '0');
+                            const dateStr = yr + '-' + mo + '-' + dy;
+                            const priceRaw = (priceMatch[1] || priceMatch[2] || priceMatch[3] || '').replace(/,/g, '');
+                            const price = parseInt(priceRaw, 10);
+                            if (price >= 1000 && price <= 500000) {
+                                results.push({ date: dateStr, price: price });
+                            }
+                        }
+                    }
+                    const dateCells = document.querySelectorAll('[data-date]');
+                    for (const cell of dateCells) {
+                        const d = cell.getAttribute('data-date');
+                        if (!d) continue;
+                        const txt = cell.textContent || '';
+                        const pm = txt.match(/NT\$\s*([\d,]+)|([\d,]+)/);
+                        if (pm) {
+                            const price = parseInt((pm[1] || pm[2] || '').replace(/,/g, ''), 10);
+                            if (price >= 1000 && price <= 500000) {
+                                results.push({ date: d, price: price });
+                            }
+                        }
+                    }
+                    return results;
+                }
+            """)
+
+            from_dt = datetime.strptime(date_from, "%Y-%m-%d")
+            to_dt = datetime.strptime(date_to, "%Y-%m-%d")
+
+            for item in raw:
+                d = item.get("date", "")
+                p = item.get("price", 0)
+                if not d or not p:
+                    continue
+                try:
+                    dt = datetime.strptime(d, "%Y-%m-%d")
+                    if from_dt <= dt <= to_dt:
+                        if d not in price_calendar or p < price_calendar[d]:
+                            price_calendar[d] = p
+                except ValueError:
+                    pass
+
+        except Exception as e:
+            logger.error(f"Calendar grid extraction error: {e}")
+
+        return price_calendar
+
+    async def _scan_weekly(
+        self,
+        origin: str,
+        destination: str,
+        date_from: str,
+        date_to: str,
+    ) -> dict:
+        """
+        Fallback: iterate dates sampling every 7 days across the range,
+        scraping each individual date. Slower but reliable.
+        """
+        price_calendar = {}
+        from_dt = datetime.strptime(date_from, "%Y-%m-%d")
+        to_dt = datetime.strptime(date_to, "%Y-%m-%d")
+
+        current = from_dt
+        while current <= to_dt:
+            date_str = current.strftime("%Y-%m-%d")
+            result = await self.search(
+                origin=origin,
+                destination=destination,
+                date=date_str,
+            )
+            if result and result.get("price"):
+                price_calendar[date_str] = result["price"]
+                logger.info(
+                    f"Weekly scan [{origin}->{destination}] {date_str}: "
+                    f"{result['price']} TWD"
+                )
+            else:
+                logger.warning(
+                    f"Weekly scan [{origin}->{destination}] {date_str}: no price"
+                )
+            current += timedelta(days=7)
+            await self._human_delay(3000, 6000)
+
+        return price_calendar
+
     async def search(
         self,
         origin: str,
@@ -147,7 +348,7 @@ class GoogleFlightsScraper:
         trip_type: str = "one_way",
     ) -> Optional[dict]:
         """
-        Search for flights on Google Flights.
+        Search for flights on Google Flights for a single specific date.
 
         Args:
             origin: IATA code (e.g., 'TPE')
@@ -277,7 +478,9 @@ class GoogleFlightsScraper:
                 return None
             valid_prices.sort(key=lambda x: x["price_raw"])
             best = valid_prices[0]
-            logger.info(f"DOM extraction: found {len(valid_prices)} prices, lowest: {best['price_raw']}")
+            logger.info(
+                f"DOM extraction: found {len(valid_prices)} prices, lowest: {best['price_raw']}"
+            )
             return {
                 "price": best["price_raw"],
                 "airline": self._extract_airline(best.get("element_text", "")),
@@ -315,7 +518,9 @@ class GoogleFlightsScraper:
                 logger.warning("Text extraction: no valid prices found")
                 return None
             all_prices.sort()
-            logger.info(f"Text extraction: found {len(all_prices)} prices, lowest: {all_prices[0]}")
+            logger.info(
+                f"Text extraction: found {len(all_prices)} prices, lowest: {all_prices[0]}"
+            )
             return {
                 "price": all_prices[0],
                 "airline": "Unknown",
@@ -333,7 +538,8 @@ class GoogleFlightsScraper:
         airlines = [
             "China Airlines", "EVA Air", "Japan Airlines", "ANA",
             "Peach", "Jetstar", "Starlux", "Tiger Air", "Scoot",
-            "中華航空", "長榮航空", "星宇航空", "台灣虎航",
+            "\u4e2d\u83ef\u822a\u7a7a", "\u9577\u69ae\u822a\u7a7a",
+            "\u661f\u5b87\u822a\u7a7a", "\u53f0\u7063\u864e\u822a",
         ]
         for airline in airlines:
             if airline.lower() in text.lower():
