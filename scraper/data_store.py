@@ -1,9 +1,10 @@
-"""Data Store"""
+"""Data Store - supports new price_calendar format"""
 import json
 import logging
 from datetime import datetime
 from pathlib import Path
 logger = logging.getLogger("data_store")
+
 
 class DataStore:
     def __init__(self, data_dir):
@@ -22,35 +23,144 @@ class DataStore:
                 logger.error("Load error {}: {}".format(filename, e))
         return default
 
-    def add_price(self, entry):
-        sid = entry["subscription_id"]
-        self._prices[sid] = {
-            "subscription_id": sid,
-            "origin": entry["origin"],
-            "destination": entry["destination"],
-            "date": entry["date"],
-            "price": entry["price"],
-            "currency": entry.get("currency", "TWD"),
-            "airline": entry.get("airline", "Unknown"),
-            "duration": entry.get("duration", ""),
-            "link": entry.get("link", ""),
-            "scraped_at": entry["scraped_at"],
+    # ------------------------------------------------------------------
+    # New calendar-based API (primary)
+    # ------------------------------------------------------------------
+
+    def update_calendar(self, sub_id: str, origin: str, destination: str,
+                        date_from: str, date_to: str,
+                        price_calendar: dict, scraped_at: str):
+        """
+        Store a full price calendar scan result for a subscription.
+
+        price_calendar: {date_str: price_int}  e.g. {"2026-07-15": 8500, ...}
+        """
+        if not price_calendar:
+            logger.warning(f"[{sub_id}] update_calendar called with empty calendar")
+            return
+
+        lowest_date = min(price_calendar, key=price_calendar.get)
+        lowest_price = price_calendar[lowest_date]
+        cheapest_airline = "Unknown"
+
+        entry = {
+            "subscription_id": sub_id,
+            "origin": origin,
+            "destination": destination,
+            "date_from": date_from,
+            "date_to": date_to,
+            "price_calendar": price_calendar,
+            "cheapest_date": lowest_date,
+            "cheapest_price": lowest_price,
+            "cheapest_airline": cheapest_airline,
+            "scraped_at": scraped_at,
+            "dates_found": len(price_calendar),
         }
-        if sid not in self._history:
-            self._history[sid] = []
-        self._history[sid].append({"price": entry["price"], "airline": entry.get("airline", "Unknown"), "scraped_at": entry["scraped_at"]})
-        if len(self._history[sid]) > 360:
-            self._history[sid] = self._history[sid][-360:]
+        self._prices[sub_id] = entry
+        logger.info(
+            f"[{sub_id}] calendar stored: {len(price_calendar)} dates, "
+            f"cheapest {lowest_date} @ {lowest_price} TWD"
+        )
+
+        # Append to history: track the cheapest price over time
+        if sub_id not in self._history:
+            self._history[sub_id] = []
+        self._history[sub_id].append({
+            "cheapest_price": lowest_price,
+            "cheapest_date": lowest_date,
+            "dates_found": len(price_calendar),
+            "scraped_at": scraped_at,
+        })
+        # Keep last 180 history snapshots
+        if len(self._history[sub_id]) > 180:
+            self._history[sub_id] = self._history[sub_id][-180:]
+
+    # ------------------------------------------------------------------
+    # Legacy single-date API (kept for backward compat / fallback)
+    # ------------------------------------------------------------------
+
+    def add_price(self, entry):
+        """Legacy: store a single-date price entry."""
+        sid = entry["subscription_id"]
+        # If there is already a calendar entry, merge this single date in
+        existing = self._prices.get(sid, {})
+        if "price_calendar" in existing:
+            date = entry.get("date", "")
+            price = entry.get("price")
+            if date and price:
+                cal = existing["price_calendar"]
+                if date not in cal or price < cal[date]:
+                    cal[date] = price
+                # Recompute cheapest
+                cheapest_date = min(cal, key=cal.get)
+                existing["cheapest_date"] = cheapest_date
+                existing["cheapest_price"] = cal[cheapest_date]
+                existing["scraped_at"] = entry["scraped_at"]
+        else:
+            # Legacy format fallback
+            self._prices[sid] = {
+                "subscription_id": sid,
+                "origin": entry["origin"],
+                "destination": entry["destination"],
+                "date": entry.get("date", ""),
+                "price": entry["price"],
+                "currency": entry.get("currency", "TWD"),
+                "airline": entry.get("airline", "Unknown"),
+                "duration": entry.get("duration", ""),
+                "link": entry.get("link", ""),
+                "scraped_at": entry["scraped_at"],
+            }
+            if sid not in self._history:
+                self._history[sid] = []
+            self._history[sid].append({
+                "price": entry["price"],
+                "airline": entry.get("airline", "Unknown"),
+                "scraped_at": entry["scraped_at"],
+            })
+            if len(self._history[sid]) > 360:
+                self._history[sid] = self._history[sid][-360:]
+
+    # ------------------------------------------------------------------
+    # Save & read helpers
+    # ------------------------------------------------------------------
 
     def save(self):
         ts = datetime.utcnow().isoformat() + "Z"
-        for fn, data in [("prices.json", {"updated_at": ts, "prices": self._prices}), ("history.json", {"updated_at": ts, "history": self._history})]:
-            with open(self.data_dir / fn, "w", encoding="utf-8") as f:
+        for fn, data in [
+            ("prices.json", {"updated_at": ts, "prices": self._prices}),
+            ("history.json", {"updated_at": ts, "history": self._history}),
+        ]:
+            path = self.data_dir / fn
+            with open(path, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
+            logger.info(f"Saved {fn}")
 
-    def get_latest_price(self, sid): return self._prices.get(sid)
-    def get_history(self, sid): return self._history.get(sid, [])
-    def get_all_latest(self): return self._prices
+    def get_latest_price(self, sid):
+        return self._prices.get(sid)
+
+    def get_history(self, sid):
+        return self._history.get(sid, [])
+
+    def get_all_latest(self):
+        return self._prices
+
+    def get_cheapest_in_calendar(self, sid):
+        """Return (cheapest_date, cheapest_price) or (None, None)."""
+        entry = self._prices.get(sid, {})
+        cal = entry.get("price_calendar", {})
+        if not cal:
+            return None, None
+        d = min(cal, key=cal.get)
+        return d, cal[d]
+
     def get_historical_low(self, sid):
+        """Legacy helper: minimum price seen across all history."""
         h = self.get_history(sid)
-        return min(e["price"] for e in h) if h else None
+        if not h:
+            return None
+        prices = []
+        for e in h:
+            p = e.get("cheapest_price") or e.get("price")
+            if p:
+                prices.append(p)
+        return min(prices) if prices else None
