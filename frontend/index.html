@@ -21,7 +21,7 @@ a{text-decoration:none;color:inherit}
 [data-theme=mint] .theme-mint,.theme-mint.active{color:#10B981;border-color:#10B981;background:#ECFDF5}
 [data-theme=warm] .theme-warm,.theme-warm.active{color:#F59E0B;border-color:#F59E0B;background:#FFFBEB}
 .nav-bell{width:36px;height:36px;border-radius:50%;background:#f8fafc;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:1.1rem}
-.bell-badge{position:absolute;top:-3px;right:-3px;width:16px;height:16px;background:#EF4444;border-radius:50%;font-size:11px;color:#fff;display:flex;align-items:center;justify-content:center}
+.bell-badge{position:absolute;top:-3px;right:-3px;width:16px;height:16px;background:#EF4444;border-radius:50%;font-size:13px;color:#fff;display:flex;align-items:center;justify-content:center}
 .nav-avatar{width:34px;height:34px;background:#4A6CF7;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;cursor:pointer}
 .nav-spacer{flex:1}
 :root,[data-theme=sky]{--primary:#4A6CF7;--primary-light:#EEF2FF;--bg:#f0f4f8;--bg-secondary:#f8fafc}
@@ -296,8 +296,8 @@ var cn=cityName(s.origin)+' &#x2192; '+cityName(s.destination);
 return '<tr><td><div style="display:flex;align-items:center;gap:8px">'+
 '<div class="route-avatar" style="width:32px;height:32px;font-size:13px">'+(airline?airline:'--')+'</div>'+
 '<div><div style="font-weight:600">'+s.origin+' &#x2192; '+s.destination+'</div>'+
-'<div style="font-size:11px;color:var(--text-secondary)">'+cn+'</div>'+
-'<div style="font-size:11px;color:var(--text-secondary)">'+s.date+'</div></div></div></td>'+
+'<div style="font-size:13px;color:var(--text-secondary)">'+cn+'</div>'+
+'<div style="font-size:13px;color:var(--text-secondary)">'+s.date+'</div></div></div></td>'+
 '<td style="font-weight:700;color:var(--primary)">'+priceStr+'</td>'+
 '<td>'+badge+'</td>'+
 '<td style="font-size:13px;color:var(--text-secondary)">'+(airline||'--')+'</td>'+
