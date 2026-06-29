@@ -157,7 +157,7 @@ fetch(WORKER_URL+'/subscriptions').then(function(r){
 if(!r.ok)throw new Error('HTTP '+r.status);
 return r.json();
 }).then(function(json){
-subsData=Array.isArray(json)?json:(json.subscriptions||[]);
+subsData=Array.isArray(json)?json:(json.subscriptions||[]);window._subsSha=json.sha||'';
 var sub=document.getElementById('pageSubtitle');
 if(sub)sub.innerHTML='&#x8FFD;&#x8E64; '+subsData.length+' &#x689D;&#x822A;&#x7DDA;';
 var tc=document.getElementById('tableCount');
@@ -338,9 +338,10 @@ showToast('&#x2705; Deleted');
 }
 
 function saveSubs(){
-return fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(subsData)}).then(function(r){
+return fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscriptions:subsData,sha:window._subsSha||''})}).then(function(r){
 if(!r.ok)throw new Error('HTTP '+r.status);
-}).catch(function(e){showToast('Save failed: '+e.message);});
+return r.json();
+}).then(function(d){if(d&&d.sha)window._subsSha=d.sha;}).catch(function(e){showToast('Save failed: '+e.message);});
 }
 
 window.onclick=function(e){var m=document.getElementById('addModal');if(m&&e.target===m)closeModal();};
