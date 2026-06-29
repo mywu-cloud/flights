@@ -289,12 +289,12 @@ var svgContent=makeTrendSVG(hist.length>=2?hist:null,60,20,1.5);
 var spark='<svg viewBox="0 0 60 20" style="width:60px;height:20px">'+svgContent+'</svg>';
 var isHit=price&&target&&price<=target;
 var status=isHit?'<span class="badge badge-green">&#x5DF2;&#x9054;&#x6A19;</span>':'<span class="badge badge-gray">&#x8FFD;&#x8E64;&#x4E2D;</span>';
-var initials=((s.origin||'').substring(0,2)+(s.destination||'').substring(0,1)).toUpperCase();
+
 var sid=s.id||'';
 var airline=p?p.airline||'':'';
 var cn=cityName(s.origin)+' &#x2192; '+cityName(s.destination);
 return '<tr><td><div style="display:flex;align-items:center;gap:8px">'+
-'<div class="route-avatar" style="width:32px;height:32px;font-size:13px">'+initials+'</div>'+
+'<div class="route-avatar" style="width:32px;height:32px;font-size:13px">'+(airline?airline:'--')+'</div>'+
 '<div><div style="font-weight:600">'+s.origin+' &#x2192; '+s.destination+'</div>'+
 '<div style="font-size:11px;color:var(--text-secondary)">'+cn+'</div>'+
 '<div style="font-size:11px;color:var(--text-secondary)">'+s.date+'</div></div></div></td>'+
