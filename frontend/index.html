@@ -176,9 +176,9 @@ var e4=document.getElementById('statDrop'),e5=document.getElementById('statDropS
 if(e1)e1.textContent=subsData.length;
 if(e2)e2.textContent=triggered;
 if(e3)e3.textContent=bestPrice!==null?'NT$'+bestPrice.toLocaleString():'--';
-if(e3s)e3s.textContent=bestPriceRoute||'--';
+if(e3s)e3s.innerHTML=bestPriceRoute||'--';
 if(e4)e4.textContent=bestDrop>0?'-'+bestDrop+'%':'--';
-if(e5)e5.textContent=bestDropRoute||'&#x81EA;&#x52D5;&#x6BCF;&#x65E5; 2 &#x6B21;';
+if(e5)e5.innerHTML=bestDropRoute||'&#x81EA;&#x52D5;&#x6BCF;&#x65E5; 2 &#x6B21;';
 }
 
 function updateSliderVal(val){var el=document.getElementById('fcVal');if(el)el.textContent='NT$'+Number(val).toLocaleString();}
