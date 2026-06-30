@@ -2,8 +2,7 @@ name: Flight Price Tracker
 
 on:
   schedule:
-    - cron: '0 2 * * *'
-    - cron: '0 14 * * *'
+    - cron: '0 2 * * *'   # Taiwan time 10:00 (UTC+8)
   workflow_dispatch:
 
 jobs:
@@ -24,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-                    pip install -r scraper/requirements.txt
+          pip install -r scraper/requirements.txt
           playwright install chromium
           playwright install-deps chromium
 
