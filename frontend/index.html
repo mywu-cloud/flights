@@ -66,14 +66,14 @@ td{padding:12px 16px;border-bottom:1px solid #f9fafb;font-size:13px;vertical-ali
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#fafbfc}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;align-items:center;justify-content:center}
-.modal-box{background:#fff;border-radius:16px;padding:28px;width:90%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-box{background:#fff;border-radius:16px;padding:28px;width:90%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
 .modal-title{font-size:1.1rem;font-weight:700;margin-bottom:20px}
 .form-group{margin-bottom:16px}
 .form-label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:6px}
 .form-input{width:100%;padding:9px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none}
 .form-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(74,108,247,.1)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
-
 .nav-bell,.nav-avatar{position:relative}
 .bell-drop,.avatar-drop{display:none;position:absolute;right:0;top:calc(100% + 8px);background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;min-width:260px;padding:8px 0}
 .bell-drop.open,.avatar-drop.open{display:block}
@@ -87,6 +87,17 @@ tr:hover td{background:#fafbfc}
 .avatar-drop-name{font-size:13px;font-weight:700;color:#1a202c;padding:10px 16px 8px;border-bottom:1px solid #f1f5f9;margin-bottom:4px}
 .avatar-drop-item{padding:9px 16px;font-size:13px;cursor:pointer;color:#374151}
 .avatar-drop-item:hover{background:#f8fafc;color:var(--primary)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:8px}
+.cal-cell{border-radius:3px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:default;position:relative}
+.cal-cell:hover .cal-tip{display:block}
+.cal-tip{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:4px 8px;border-radius:6px;font-size:13px;white-space:nowrap;z-index:10;margin-bottom:4px}
+.cal-empty{background:transparent}
+.cal-heat-1{background:#DCFCE7;color:#166534}
+.cal-heat-2{background:#86EFAC;color:#14532D}
+.cal-heat-3{background:#4ADE80;color:#14532D}
+.cal-heat-4{background:#16A34A;color:#fff}
+.cal-heat-5{background:#15803D;color:#fff}
+.cal-nodata{background:#F1F5F9;color:#94a3b8}
 footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px}
 </style>
 </head>
@@ -100,8 +111,18 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <button class="theme-btn theme-mint" onclick="setTheme('mint',this)">&#x1F33F; &#x8584;&#x8377;</button>
 <button class="theme-btn theme-warm" onclick="setTheme('warm',this)">&#x2600; &#x6696;&#x967D;</button>
 </div>
-<div class="nav-bell" id="bellBtn" onclick="toggleBell(event)">&#x1F514;<span class="bell-badge" id="bellBadge">2</span><div class="bell-drop" id="bellDrop"><div class="bell-drop-title">&#x63D0;&#x9192;&#x901A;&#x77E5;</div><div class="bell-drop-item"><div class="bell-drop-route">TPE &#x2192; NRT</div><div class="bell-drop-msg">&#x5DF2;&#x9054;&#x5230;&#x76EE;&#x6A19;&#x50F9; NT$12,000</div></div><div class="bell-drop-item"><div class="bell-drop-route">&#x7CFB;&#x7D71;&#x901A;&#x77E5;</div><div class="bell-drop-msg">&#x8CC7;&#x6599;&#x5DF2;&#x66F4;&#x65B0;</div></div></div></div>
-<div class="nav-avatar" id="avatarBtn" onclick="toggleAvatar(event)">&#x9673;<div class="avatar-drop" id="avatarDrop"><div class="avatar-drop-name">&#x9673; &#x540C;&#x5B78;</div><div class="avatar-drop-item" onclick="showToast('&#x8A2D;&#x5B9A;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')">&#x2699; &#x8A2D;&#x5B9A;</div><div class="avatar-drop-item" onclick="showToast('&#x901A;&#x77E5;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')">&#x1F514; &#x901A;&#x77E5;&#x504F;&#x597D;</div><div class="avatar-drop-item" onclick="showToast('&#x5DF2;&#x767B;&#x51FA;')">&#x1F6AA; &#x767B;&#x51FA;</div></div></div>
+<div class="nav-bell" id="bellBtn" onclick="toggleBell(event)">&#x1F514;<span class="bell-badge" id="bellBadge">0</span>
+<div class="bell-drop" id="bellDrop">
+<div class="bell-drop-title">&#x63D0;&#x9192;&#x901A;&#x77E5;</div>
+<div class="bell-drop-item"><div class="bell-drop-msg">&#x66AB;&#x7121;&#x65B0;&#x901A;&#x77E5;</div></div>
+</div></div>
+<div class="nav-avatar" id="avatarBtn" onclick="toggleAvatar(event)">&#x9673;
+<div class="avatar-drop" id="avatarDrop">
+<div class="avatar-drop-name">&#x9673; &#x540C;&#x5B78;</div>
+<div class="avatar-drop-item" onclick="showToast('&#x8A2D;&#x5B9A;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')">&#x2699; &#x8A2D;&#x5B9A;</div>
+<div class="avatar-drop-item" onclick="showToast('&#x901A;&#x77E5;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')">&#x1F514; &#x901A;&#x77E5;&#x504F;&#x597D;</div>
+<div class="avatar-drop-item" onclick="showToast('&#x5DF2;&#x767B;&#x51FA;')">&#x1F6AA; &#x767B;&#x51FA;</div>
+</div></div>
 </nav>
 <div class="container">
 <div class="page-header">
@@ -113,7 +134,7 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <div class="stats-grid">
 <div class="stat-card"><div class="stat-icon blue">&#x2708;</div><div><div class="stat-label">&#x8FFD;&#x8E64;&#x822A;&#x7DDA;</div><div class="stat-value" id="statTotal">--</div><div class="stat-sub">&#x689D;&#x822A;&#x7DDA;&#x76E3;&#x63A7;&#x4E2D;</div></div></div>
 <div class="stat-card"><div class="stat-icon yellow">&#x1F514;</div><div><div class="stat-label">&#x89F8;&#x767C;&#x63D0;&#x9192;</div><div class="stat-value" id="statTriggered">--</div><div class="stat-sub">&#x689D;&#x5DF2;&#x9054;&#x5230;&#x76EE;&#x6A19;&#x50F9;</div></div></div>
-<div class="stat-card"><div class="stat-icon green">&#x1F4B0;</div><div><div class="stat-label">&#x6700;&#x65B0;&#x6700;&#x4F4E;&#x50F9;</div><div class="stat-value" id="statSaving">--</div><div class="stat-sub" id="statSavingSub">--</div></div></div>
+<div class="stat-card"><div class="stat-icon green">&#x1F4B0;</div><div><div class="stat-label">&#x6700;&#x4F4E;&#x6700;&#x4F18;&#x60E0;</div><div class="stat-value" id="statSaving">--</div><div class="stat-sub" id="statSavingSub">--</div></div></div>
 <div class="stat-card"><div class="stat-icon purple">&#x23F0;</div><div><div class="stat-label">&#x6700;&#x5F8C;&#x66F4;&#x65B0;</div><div class="stat-value" id="statDrop">--</div><div class="stat-sub" id="statDropSub">&#x81EA;&#x52D5;&#x6BCF;&#x65E5; 2 &#x6B21;</div></div></div>
 </div>
 <div class="main-grid">
@@ -121,230 +142,248 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <div class="card"><div class="card-header"><div class="card-title">&#x1F4E2; &#x50F9;&#x683C;&#x8B66;&#x5831;</div><a href="#" class="card-link">&#x67E5;&#x770B;&#x5168;&#x90E8;</a></div><div id="alertsList"><p style="text-align:center;color:var(--text-secondary);padding:16px">Loading...</p></div></div>
 </div>
 <div class="table-section">
-<div class="table-section-header"><div class="table-section-title">&#x8FFD;&#x8E64;&#x4E2D;&#x7684;&#x822A;&#x7DDA; <span class="badge badge-blue" id="tableCount">0</span></div><div style="font-size:13px;color:var(--text-secondary)">&#x9EDE;&#x9078;&#x822A;&#x7DDA;&#x4EE5;&#x67E5;&#x770B;&#x8D70;&#x52E2;</div></div>
-<table><thead><tr><th>&#x822A;&#x7DDA;</th><th>&#x76EE;&#x524D;&#x7968;&#x50F9;</th><th>&#x6F32;&#x8DCC;</th><th>&#x822A;&#x7A7A;&#x516C;&#x53F8;</th><th>&#x8FD1; 7 &#x5929;</th><th>&#x76EE;&#x6A19;&#x50F9;</th><th>&#x72C0;&#x614B;</th></tr></thead>
+<div class="table-section-header"><div class="table-section-title">&#x8FFD;&#x8E64;&#x4E2D;&#x7684;&#x822A;&#x7DDA; <span class="badge badge-blue" id="tableCount">0</span></div><div style="font-size:13px;color:var(--text-secondary)">&#x9EDE;&#x9078;&#x822A;&#x7DDA;&#x67E5;&#x770B;&#x65E5;&#x66C6;</div></div>
+<table><thead><tr>
+<th>&#x822A;&#x7DDA;</th>
+<th>&#x6700;&#x4F4E;&#x50F9;&#x65E5;&#x671F;</th>
+<th>&#x76EE;&#x524D;&#x6700;&#x4F4E;&#x50F9;</th>
+<th>&#x6F32;&#x8DCC;</th>
+<th>&#x822A;&#x7A7A;&#x516C;&#x53F8;</th>
+<th>&#x76EE;&#x6A19;&#x50F9;</th>
+<th>&#x72C0;&#x614B;</th>
+</tr></thead>
 <tbody id="routeTableBody"><tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-secondary)">Loading...</td></tr></tbody></table>
 </div>
 </div>
 <div class="modal-overlay" id="addModal"><div class="modal-box">
 <div class="modal-title">&#xFF0B; &#x65B0;&#x589E;&#x8FFD;&#x8E64;&#x822A;&#x7DDA;</div>
+<div class="form-row">
 <div class="form-group"><label class="form-label">&#x51FA;&#x767C;&#x5730; (IATA)</label><input type="text" id="inputOrigin" class="form-input" placeholder="TPE" maxlength="3"></div>
 <div class="form-group"><label class="form-label">&#x76EE;&#x7684;&#x5730; (IATA)</label><input type="text" id="inputDest" class="form-input" placeholder="NRT" maxlength="3"></div>
-<div class="form-group"><label class="form-label">&#x51FA;&#x767C;&#x65E5;&#x671F;</label><input type="date" id="inputDate" class="form-input"></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">&#x641C;&#x5C0B;&#x958B;&#x59CB;&#x65E5;</label><input type="date" id="inputDateFrom" class="form-input"></div>
+<div class="form-group"><label class="form-label">&#x641C;&#x5C0B;&#x7D50;&#x675F;&#x65E5;</label><input type="date" id="inputDateTo" class="form-input"></div>
+</div>
 <div class="form-group"><label class="form-label">&#x76EE;&#x6A19;&#x50F9;&#x683C; (TWD)</label><input type="number" id="inputTarget" class="form-input" placeholder="8000"></div>
 <div class="modal-footer"><button class="btn-secondary" onclick="closeModal()">Cancel</button><button class="btn-primary" onclick="addSub()">&#x78BA;&#x8A8D;&#x65B0;&#x589E;</button></div>
+</div></div>
+<div class="modal-overlay" id="calModal"><div class="modal-box" style="max-width:640px">
+<div class="modal-title" id="calModalTitle">&#x1F4C5; &#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;</div>
+<div id="calModalBody" style="max-height:420px;overflow-y:auto"></div>
+<div class="modal-footer"><button class="btn-secondary" onclick="closeCalModal()">&#x95DC;&#x9589;</button></div>
 </div></div>
 <footer>&#x6A5F;&#x7968;&#x96F7;&#x9054; FareRadar &mdash; &#x8CC7;&#x6599;&#x4F86;&#x6E90;&#xFF1A;Google Flights &mdash; <a href="https://github.com/mywu-cloud/flights">GitHub</a></footer>
 <script>
 var WORKER_URL='https://flights.tw-mywu.workers.dev';
-var CITIES={
-'TPE':'&#x53F0;&#x5317;','KHH':'&#x9AD8;&#x96C4;',
-'NRT':'&#x6771;&#x4EAC;','KIX':'&#x5927;&#x962A;','FUK':'&#x798F;&#x5CA1;',
-'KMQ':'&#x5C0F;&#x677E;','TAK':'&#x9AD8;&#x677E;',
-'HKG':'&#x9999;&#x6E2F;','ICN':'&#x9996;&#x723E;','BKK':'&#x66FC;&#x8C37;',
-'SIN':'&#x65B0;&#x52A0;&#x5761;','PVG':'&#x4E0A;&#x6D77;','PEK':'&#x5317;&#x4EAC;',
-'OKA':'&#x6C96;&#x7E04;','CTS':'&#x672D;&#x5E4C;','NGO':'&#x540D;&#x53E4;&#x5C4B;'
-};
-function cityName(code){return CITIES[code]||'';}
-var subsData=[],pricesData={prices:{},history:{}},currentTheme='sky';
-
+var CITIES={'TPE':'&#x53F0;&#x5317;','KHH':'&#x9AD8;&#x96C4;','NRT':'&#x6771;&#x4EAC;','KIX':'&#x5927;&#x962A;','FUK':'&#x798F;&#x5CA1;','KMQ':'&#x5C0F;&#x677E;','TAK':'&#x9AD8;&#x677E;','HKG':'&#x9999;&#x6E2F;','ICN':'&#x9996;&#x723E;','BKK':'&#x66FC;&#x8C37;','SIN':'&#x65B0;&#x52A0;&#x5761;','PVG':'&#x4E0A;&#x6D77;','PEK':'&#x5317;&#x4EAC;','OKA':'&#x6C96;&#x7E04;','CTS':'&#x672D;&#x5E4C;','NGO':'&#x540D;&#x53E4;&#x5C4B;'};
+function cityName(c){return CITIES[c]||'';}
+var subsData=[],pricesData={prices:{},history:{}};
 
 function toggleBell(e){e.stopPropagation();var d=document.getElementById('bellDrop');d.classList.toggle('open');document.getElementById('avatarDrop').classList.remove('open');}
 function toggleAvatar(e){e.stopPropagation();var d=document.getElementById('avatarDrop');d.classList.toggle('open');document.getElementById('bellDrop').classList.remove('open');}
 document.addEventListener('click',function(){document.querySelectorAll('.bell-drop,.avatar-drop').forEach(function(d){d.classList.remove('open');});});
+
 function loadSubs(){
 fetch(WORKER_URL+'/subscriptions').then(function(r){
-if(!r.ok)throw new Error('HTTP '+r.status);
-return r.json();
+if(!r.ok)throw new Error('HTTP '+r.status);return r.json();
 }).then(function(json){
 subsData=Array.isArray(json)?json:(json.subscriptions||[]);window._subsSha=json.sha||'';
-var sub=document.getElementById('pageSubtitle');
-if(sub)sub.innerHTML='&#x8FFD;&#x8E64; '+subsData.length+' &#x689D;&#x822A;&#x7DDA;';
-var tc=document.getElementById('tableCount');
-if(tc)tc.textContent=subsData.length;
+var sub=document.getElementById('pageSubtitle');if(sub)sub.innerHTML='&#x8FFD;&#x8E64; '+subsData.length+' &#x689D;&#x822A;&#x7DDA;';
+var tc=document.getElementById('tableCount');if(tc)tc.textContent=subsData.length;
 return loadPrices();
 }).then(function(){
-updateStats();renderFeatured();renderAlerts();renderTable();
+updateStats();renderFeatured();renderAlerts();renderTable();updateBellAlerts();
 }).catch(function(e){
 var rb=document.getElementById('routeTableBody');
-if(rb)rb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:24px;color:red">Error: '+e.message+'</td></tr>';
+if(rb)rb.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:red">Error: '+e.message+'</td></tr>';
 });
 }
-
 function loadPrices(){
-return Promise.all([
-fetch('https://mywu-cloud.github.io/flights/data/prices.json'),
-fetch('https://mywu-cloud.github.io/flights/data/history.json')
-]).then(function(results){
-var pr=results[0],hr=results[1];
-var p1=pr.ok?pr.json():Promise.resolve({});
-var p2=hr.ok?hr.json():Promise.resolve({});
-return Promise.all([p1,p2]);
+return Promise.all([fetch('https://mywu-cloud.github.io/flights/data/prices.json'),fetch('https://mywu-cloud.github.io/flights/data/history.json')]).then(function(res){
+return Promise.all([res[0].ok?res[0].json():Promise.resolve({}),res[1].ok?res[1].json():Promise.resolve({})]);
 }).then(function(data){
-var pd=data[0],hd=data[1];
-pricesData.prices=pd.prices||pd;
-pricesData.history=hd.history||hd;
+pricesData.prices=data[0].prices||data[0];pricesData.history=data[1].history||data[1];
 }).catch(function(e){console.log('Prices error:',e.message);});
+}
+function getSubPrice(s){var p=pricesData.prices[s.id];if(!p)return null;return p.cheapest_price||p.price||null;}
+function getSubCheapestDate(s){var p=pricesData.prices[s.id];if(!p)return '';return p.cheapest_date||p.date||'';}
+function getSubCalendar(s){var p=pricesData.prices[s.id];if(!p)return {};return p.price_calendar||{};}
+function getSubDateRange(s){
+var f=s.date_from||s.date||'',t=s.date_to||s.date||'';
+if(f===t)return f;return f+' ~ '+t;
 }
 
 function updateStats(){
-var prices=pricesData.prices||{};
-var triggered=0,bestPrice=null,bestPriceRoute='',bestDrop=0,bestDropRoute='';
+var prices=pricesData.prices||{},triggered=0,bestPrice=null,bestRoute='',updatedAt='';
 subsData.forEach(function(s){
-var p=prices[s.id];if(!p)return;
-if(s.target_price&&p.price<=s.target_price)triggered++;
-if(bestPrice===null||p.price<bestPrice){bestPrice=p.price;bestPriceRoute=(s.origin||'')+' / '+(s.destination||'');}
-var hist=(pricesData.history||{})[s.id];
-if(hist&&hist.length>1){var drop=Math.round((hist[0].price-hist[hist.length-1].price)/hist[0].price*100);if(drop>bestDrop){bestDrop=drop;bestDropRoute=(s.origin||'')+' / '+(s.destination||'');}}
+var price=getSubPrice(s);if(price===null)return;
+if(s.target_price&&price<=s.target_price)triggered++;
+if(bestPrice===null||price<bestPrice){bestPrice=price;bestRoute=s.origin+' / '+s.destination;}
 });
-var e1=document.getElementById('statTotal'),e2=document.getElementById('statTriggered');
-var e3=document.getElementById('statSaving'),e3s=document.getElementById('statSavingSub');
-var e4=document.getElementById('statDrop'),e5=document.getElementById('statDropSub');
-if(e1)e1.textContent=subsData.length;
-if(e2)e2.textContent=triggered;
-if(e3)e3.textContent=bestPrice!==null?'NT$'+bestPrice.toLocaleString():'--';
-if(e3s)e3s.innerHTML=bestPriceRoute||'--';
-if(e4)e4.textContent=bestDrop>0?'-'+bestDrop+'%':'--';
-if(e5)e5.innerHTML=bestDropRoute||'&#x81EA;&#x52D5;&#x6BCF;&#x65E5; 2 &#x6B21;';
+Object.values(prices).forEach(function(p){var t=p.scraped_at||'';if(t>updatedAt)updatedAt=t;});
+var ts='--';
+if(updatedAt){try{var d=new Date(updatedAt);ts=(d.getMonth()+1)+'/'+(d.getDate())+' '+d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');}catch(e){}}
+if(document.getElementById('statTotal'))document.getElementById('statTotal').textContent=subsData.length;
+if(document.getElementById('statTriggered'))document.getElementById('statTriggered').textContent=triggered;
+if(document.getElementById('statSaving'))document.getElementById('statSaving').textContent=bestPrice!==null?'NT$'+bestPrice.toLocaleString():'--';
+if(document.getElementById('statSavingSub'))document.getElementById('statSavingSub').innerHTML=bestRoute||'--';
+if(document.getElementById('statDrop'))document.getElementById('statDrop').textContent=ts;
 }
 
-function updateSliderVal(val){var el=document.getElementById('fcVal');if(el)el.textContent='NT$'+Number(val).toLocaleString();}
-
-function makeTrendSVG(hist,w,h,strokeW){
-var half=Math.round(h/2);
-if(!hist||hist.length<2){
-return '<line x1="0" y1="'+half+'" x2="'+w+'" y2="'+half+'" stroke="#e2e8f0" stroke-width="'+strokeW+'" stroke-dasharray="4 3"/>';
+function updateBellAlerts(){
+var triggered=[];
+subsData.forEach(function(s){var p=getSubPrice(s);if(p!==null&&s.target_price&&p<=s.target_price)triggered.push({route:s.origin+' &#x2192; '+s.destination,price:p,date:getSubCheapestDate(s)});});
+var badge=document.getElementById('bellBadge');if(badge)badge.textContent=triggered.length;
+var drop=document.getElementById('bellDrop');if(!drop)return;
+var html='<div class="bell-drop-title">&#x63D0;&#x9192;&#x901A;&#x77E5;</div>';
+if(!triggered.length){html+='<div class="bell-drop-item"><div class="bell-drop-msg">&#x66AB;&#x7121;&#x65B0;&#x901A;&#x77E5;</div></div>';}
+else{triggered.slice(0,5).forEach(function(t){html+='<div class="bell-drop-item"><div class="bell-drop-route">'+t.route+'</div><div class="bell-drop-msg">&#x5DF2;&#x9054;&#x6A19; NT$'+t.price.toLocaleString()+' ('+t.date+')</div></div>';});}
+drop.innerHTML=html;
 }
-var vals=hist.map(function(hh){return hh.price;});
-var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),range=mx-mn||1;
-var pts=vals.map(function(v,i){
-return ((i/(vals.length-1))*w).toFixed(1)+','+(h-4-((v-mn)/range)*(h-8)).toFixed(1);
-}).join(' ');
-return '<polyline points="'+pts+'" fill="none" stroke="var(--primary)" stroke-width="'+strokeW+'" stroke-linejoin="round"/>';
+
+function makeCal(calendar,target){
+var dates=Object.keys(calendar).sort();
+if(!dates.length)return '<p style="color:var(--text-secondary);font-size:13px;padding:16px 0">&#x66AB;&#x7121;&#x65E5;&#x66C6;&#x8CC7;&#x6599;&#xFF0C;&#x7B49;&#x5F85;&#x4E0B;&#x6B21;&#x6293;&#x53D6;</p>';
+var prices=dates.map(function(d){return calendar[d];});
+var mn=Math.min.apply(null,prices),mx=Math.max.apply(null,prices),range=mx-mn||1;
+var calMap={};dates.forEach(function(d){calMap[d]=calendar[d];});
+var firstDt=new Date(dates[0]+'T00:00:00'),lastDt=new Date(dates[dates.length-1]+'T00:00:00');
+var startDow=firstDt.getDay();
+var html='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px">';
+['&#x65E5;','&#x4E00;','&#x4E8C;','&#x4E09;','&#x56DB;','&#x4E94;','&#x516D;'].forEach(function(l){html+='<div style="text-align:center;font-size:13px;color:var(--text-secondary)">'+l+'</div>';});
+html+='</div><div class="cal-grid">';
+for(var i=0;i<startDow;i++)html+='<div class="cal-cell cal-empty"></div>';
+var cur=new Date(firstDt);
+while(cur<=lastDt){
+var ds=cur.toISOString().slice(0,10),day=cur.getDate();
+if(calMap[ds]!==undefined){
+var p=calMap[ds],pct=(p-mn)/range;
+var heat=pct<0.2?'1':pct<0.4?'2':pct<0.6?'3':pct<0.8?'4':'5';
+var isHit=target&&p<=target;
+html+='<div class="cal-cell cal-heat-'+heat+'" title="'+ds+' NT$'+p.toLocaleString()+(isHit?' *&#x5DF2;&#x9054;&#x6A19;':'')+'">'+
+'<div class="cal-tip">'+ds+'<br>NT$'+p.toLocaleString()+(isHit?' &#x2713;&#x5DF2;&#x9054;&#x6A19;':'')+'</div>'+day+'</div>';
+}else{html+='<div class="cal-cell cal-nodata" title="'+ds+'">'+day+'</div>';}
+cur.setDate(cur.getDate()+1);
+}
+html+='</div><div style="margin-top:12px;font-size:13px;color:var(--text-secondary)">&#x7DA0;&#x6DF1; = &#x4FBF;&#x5B9C; &nbsp;&#x7DA0;&#x6DFA; = &#x8CB4; &nbsp;|&nbsp; &#x6700;&#x4F4E;: <strong style="color:#059669">NT$'+mn.toLocaleString()+'</strong>'+(target?' &nbsp;&#x76EE;&#x6A19;: NT$'+target.toLocaleString():'')+'</div>';
+return html;
 }
 
 function renderFeatured(){
 var el=document.getElementById('featuredCard');if(!el)return;
 if(!subsData.length){el.innerHTML='<p style="text-align:center;color:var(--text-secondary);padding:24px">No routes tracked</p>';return;}
-var prices=pricesData.prices||{},history=pricesData.history||{};
 var best=subsData[0];
-subsData.forEach(function(s){if(prices[s.id]&&!prices[best.id])best=s;});
-var p=prices[best.id],hist=history[best.id]||[],price=p?p.price:null,target=best.target_price||0;
-var priceStr=price?'NT$'+price.toLocaleString():'--',targetStr=target?'NT$'+target.toLocaleString():'--';
-var trend='';
-if(hist.length>=2){
-var pct=Math.round((hist[hist.length-1].price-hist[0].price)/hist[0].price*100);
-trend='<span class="badge '+(pct<0?'badge-green':'badge-red')+'">'+(pct<0?'&#x25BC;':'&#x25B2;')+' '+Math.abs(pct)+'%</span>';
-}
-var origin=best.origin||'',dest=best.destination||'',initials=(origin.substring(0,2)+dest.substring(0,1)).toUpperCase();
-var smin=Math.round((price||5000)*0.7),smax=Math.round((price||5000)*1.3),sval=target||price||5000;
-var svgContent=makeTrendSVG(hist.length>=2?hist:null,280,80,2);
+subsData.forEach(function(s){if(getSubPrice(s)!==null&&getSubPrice(best)===null)best=s;});
+var s=best,price=getSubPrice(s),target=s.target_price||0;
+var cheapDate=getSubCheapestDate(s)||'--';
+var isHit=price&&target&&price<=target;
+var origin=s.origin||'',dest=s.destination||'';
+var initials=(origin.substring(0,2)+dest.substring(0,1)).toUpperCase();
 el.innerHTML=
 '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">'+
 '<div class="route-avatar">'+initials+'</div>'+
 '<div><div style="font-weight:700;font-size:1.1rem">'+origin+' &#x2192; '+dest+'</div>'+
 '<div style="font-size:13px;color:var(--text-secondary)">'+cityName(origin)+' &#x2192; '+cityName(dest)+'</div>'+
-'<div style="color:var(--text-secondary);font-size:13px">'+(best.date||'')+'</div></div>'+
-(trend?'<div style="margin-left:auto">'+trend+'</div>':'')+'</div>'+
-'<div style="font-size:2rem;font-weight:800;color:var(--primary);margin-bottom:4px">'+priceStr+'</div>'+
-'<div style="color:var(--text-secondary);font-size:13px;margin-bottom:16px">&#x76EE;&#x6A19;&#x50F9;: '+targetStr+'</div>'+
-'<div style="background:var(--bg-secondary);border-radius:8px;padding:12px;margin-bottom:16px">'+
-'<svg viewBox="0 0 280 80" style="width:100%;height:80px">'+svgContent+'</svg>'+
-'</div>'+
-'<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">'+
-'<label style="font-size:13px;color:var(--text-secondary)">&#x76EE;&#x6A19;&#x50F9;&#x683C;:</label>'+
-'<input type="range" id="fcSlider" min="'+smin+'" max="'+smax+'" value="'+sval+'" style="flex:1" oninput="updateSliderVal(this.value)">'+
-'<span id="fcVal" style="font-weight:600">'+targetStr+'</span></div>'+
-'<button id="fcSim" class="btn-primary" style="width:100%">&#x6A21;&#x64EC;&#x5230;&#x50F9;&#x63D0;&#x9192;</button>';
-var sim=document.getElementById('fcSim');
-if(sim)sim.onclick=function(){showToast('&#x2705; &#x5DF2;&#x9054;&#x6A19;!');};
+'<div style="font-size:13px;color:var(--text-secondary)">'+getSubDateRange(s)+'</div></div>'+
+(isHit?'<div style="margin-left:auto"><span class="badge badge-green">&#x5DF2;&#x9054;&#x6A19;</span></div>':'')+'</div>'+
+'<div style="font-size:2rem;font-weight:800;color:var(--primary);margin-bottom:4px">'+(price?'NT$'+price.toLocaleString():'--')+'</div>'+
+'<div style="color:var(--text-secondary);font-size:13px;margin-bottom:4px">&#x6700;&#x4F4E;&#x50F9;&#x65E5;&#x671F;: '+cheapDate+'</div>'+
+'<div style="color:var(--text-secondary);font-size:13px;margin-bottom:16px">&#x76EE;&#x6A19;&#x50F9;: '+(target?'NT$'+target.toLocaleString():'--')+'</div>'+
+'<button class="btn-primary" style="width:100%" onclick="showCalendar(''+s.id+'')">&#x1F4C5; &#x67E5;&#x770B;&#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;</button>';
 }
 
 function renderAlerts(){
 var el=document.getElementById('alertsList');if(!el)return;
-var prices=pricesData.prices||{};
-var items=subsData.filter(function(s){var p=prices[s.id];return p&&s.target_price&&p.price<=s.target_price*1.1;}).slice(0,5);
+var items=subsData.filter(function(s){var p=getSubPrice(s);return p!==null&&s.target_price&&p<=s.target_price*1.1;}).slice(0,5);
 if(!items.length){el.innerHTML='<p style="text-align:center;color:var(--text-secondary);padding:16px">&#x66AB;&#x7121;&#x50F9;&#x683C;&#x8B66;&#x5831;</p>';return;}
 el.innerHTML=items.map(function(s){
-var p=prices[s.id],isHit=p.price<=s.target_price;
+var p=getSubPrice(s),isHit=p<=s.target_price,cd=getSubCheapestDate(s);
 return '<div class="alert-item"><div style="flex:1"><div style="font-weight:600">'+s.origin+' &#x2192; '+s.destination+'</div>'+
-'<div style="font-size:13px;color:var(--text-secondary)">NT$'+p.price.toLocaleString()+'</div></div>'+
-'<span class="badge '+(isHit?'badge-green':'badge-yellow')+'">'+(isHit?'&#x5DF2;&#x9054;&#x6A19;':'&#x964D;&#x50F9;')+'</span></div>';
+'<div style="font-size:13px;color:var(--text-secondary)">NT$'+p.toLocaleString()+' ('+(cd||'--')+')</div></div>'+
+'<span class="badge '+(isHit?'badge-green':'badge-yellow')+'">'+(isHit?'&#x5DF2;&#x9054;&#x6A19;':'&#x63A5;&#x8FD1;')+'</span></div>';
 }).join('');
 }
 
 function renderTable(){
 var tbody=document.getElementById('routeTableBody');if(!tbody)return;
-if(!subsData.length){
-tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-secondary)">&#x66AB;&#x7121;&#x8FFD;&#x8E64;&#x8DEF;&#x7DDA;</td></tr>';
-return;
-}
-var prices=pricesData.prices||{},history=pricesData.history||{};
+if(!subsData.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-secondary)">&#x66AB;&#x7121;&#x8FFD;&#x8E64;&#x8DEF;&#x7DDA;</td></tr>';return;}
 tbody.innerHTML=subsData.map(function(s){
-var p=prices[s.id],hist=history[s.id]||[],price=p?p.price:null;
-var priceStr=price?'NT$'+price.toLocaleString():'--',target=s.target_price||0,targetStr=target?'NT$'+target.toLocaleString():'--';
+var price=getSubPrice(s),target=s.target_price||0;
+var priceStr=price?'NT$'+price.toLocaleString():'--';
+var targetStr=target?'NT$'+target.toLocaleString():'--';
+var cheapDate=getSubCheapestDate(s)||'--';
+var p=pricesData.prices[s.id],airline='';
+if(p){airline=p.cheapest_airline||p.airline||'';}
+if(!airline||airline.toLowerCase()==='unknown')airline='';
+var history=pricesData.history[s.id]||[];
 var badge='<span style="color:var(--text-secondary)">--</span>';
-if(price&&hist.length>=2){var pct=Math.round((hist[hist.length-1].price-hist[0].price)/hist[0].price*100);badge='<span class="badge '+(pct<0?'badge-green':'badge-red')+'">'+(pct<0?'&#x25BC;':'&#x25B2;')+' '+Math.abs(pct)+'%</span>';}
-var svgContent=makeTrendSVG(hist.length>=2?hist:null,60,20,1.5);
-var spark='<svg viewBox="0 0 60 20" style="width:60px;height:20px">'+svgContent+'</svg>';
+if(price&&history.length>=2){
+var prev=history.slice(0,-1).map(function(h){return h.cheapest_price||h.price||0;}).filter(function(v){return v>0;});
+if(prev.length){var prevLow=Math.min.apply(null,prev);var pct=Math.round((prevLow-price)/prevLow*100);if(pct>0)badge='<span class="badge badge-green">&#x25BC; '+pct+'%</span>';else if(pct<0)badge='<span class="badge badge-red">&#x25B2; '+Math.abs(pct)+'%</span>';else badge='<span class="badge badge-gray">--</span>';}
+}
 var isHit=price&&target&&price<=target;
 var status=isHit?'<span class="badge badge-green">&#x5DF2;&#x9054;&#x6A19;</span>':'<span class="badge badge-gray">&#x8FFD;&#x8E64;&#x4E2D;</span>';
-
 var sid=s.id||'';
-var airline=p&&p.airline&&p.airline.toLowerCase()!=='unknown'?p.airline:'';
-var cn=cityName(s.origin)+' &#x2192; '+cityName(s.destination);
-return '<tr><td><div style="display:flex;align-items:center;gap:8px">'+
-'<div class="route-avatar" style="width:32px;height:32px;font-size:13px">'+(airline?airline:'--')+'</div>'+
+return '<tr onclick="showCalendar(''+sid+'')" style="cursor:pointer"><td><div style="display:flex;align-items:center;gap:8px">'+
+'<div class="route-avatar" style="width:32px;height:32px;font-size:13px">'+(airline?airline.substring(0,3):'--')+'</div>'+
 '<div><div style="font-weight:600">'+s.origin+' &#x2192; '+s.destination+'</div>'+
-'<div style="font-size:13px;color:var(--text-secondary)">'+cn+'</div>'+
-'<div style="font-size:13px;color:var(--text-secondary)">'+s.date+'</div></div></div></td>'+
+'<div style="font-size:13px;color:var(--text-secondary)">'+cityName(s.origin)+' &#x2192; '+cityName(s.destination)+'</div>'+
+'<div style="font-size:13px;color:var(--text-secondary)">'+getSubDateRange(s)+'</div></div></div></td>'+
+'<td style="font-size:13px;color:#374151">'+cheapDate+'</td>'+
 '<td style="font-weight:700;color:var(--primary)">'+priceStr+'</td>'+
 '<td>'+badge+'</td>'+
 '<td style="font-size:13px;color:var(--text-secondary)">'+(airline||'--')+'</td>'+
-'<td>'+spark+'</td>'+
 '<td>'+targetStr+'</td>'+
-'<td>'+status+' <button class="btn-icon" data-del="'+sid+'" title="&#x522A;&#x9664;">&#x1F5D1;</button></td></tr>';
+'<td onclick="event.stopPropagation()">'+status+' <button class="btn-icon" data-del="'+sid+'" title="&#x522A;&#x9664;">&#x1F5D1;</button></td></tr>';
 }).join('');
-// attach delete handlers via data attribute - no quoting issues
 Array.from(tbody.querySelectorAll('[data-del]')).forEach(function(btn){
-btn.onclick=function(){deleteSub(btn.getAttribute('data-del'));};
+btn.onclick=function(e){e.stopPropagation();deleteSub(btn.getAttribute('data-del'));};
 });
 }
 
-function setTheme(t,btn){currentTheme=t;document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('.theme-btn').forEach(function(b){b.classList.remove('active');});if(btn)btn.classList.add('active');}
-function openModal(){var m=document.getElementById('addModal');if(m)m.style.display='flex';}
+function showCalendar(subId){
+var s=subsData.find(function(x){return x.id===subId;});if(!s)return;
+var cal=getSubCalendar(s);
+var title=document.getElementById('calModalTitle');
+if(title)title.innerHTML='&#x1F4C5; '+s.origin+' &#x2192; '+s.destination+' &#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;';
+var body=document.getElementById('calModalBody');
+if(body)body.innerHTML=makeCal(cal,s.target_price);
+var m=document.getElementById('calModal');if(m)m.style.display='flex';
+}
+function closeCalModal(){var m=document.getElementById('calModal');if(m)m.style.display='none';}
+
+function setTheme(t,btn){document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('.theme-btn').forEach(function(b){b.classList.remove('active');});if(btn)btn.classList.add('active');}
+function openModal(){
+var m=document.getElementById('addModal');if(m)m.style.display='flex';
+var now=new Date(),future=new Date();future.setDate(now.getDate()+90);
+var fmt=function(d){return d.toISOString().slice(0,10);};
+var df=document.getElementById('inputDateFrom'),dt=document.getElementById('inputDateTo');
+if(df&&!df.value)df.value=fmt(now);if(dt&&!dt.value)dt.value=fmt(future);
+}
 function closeModal(){var m=document.getElementById('addModal');if(m)m.style.display='none';}
 function showToast(msg){var t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:24px;right:24px;background:#1e293b;color:#fff;padding:12px 20px;border-radius:8px;z-index:9999;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:opacity .5s';document.body.appendChild(t);}t.innerHTML=msg;t.style.opacity='1';setTimeout(function(){t.style.opacity='0';},3000);}
 
 function addSub(){
-var origin=(document.getElementById('inputOrigin')||{}).value||'',destination=(document.getElementById('inputDest')||{}).value||'',date=(document.getElementById('inputDate')||{}).value||'',target=(document.getElementById('inputTarget')||{}).value||'';
-if(!origin||!destination||!date){showToast('Please fill required fields');return;}
-var id=origin.toLowerCase()+'-'+destination.toLowerCase()+'-'+date.replace(/-/g,'');
-var newSub={id:id,origin:origin.toUpperCase(),destination:destination.toUpperCase(),date:date,target_price:target?parseInt(target):null,active:true};
-if(subsData.some(function(s){return s.id===newSub.id;})){showToast('Route already exists');return;}
-subsData.push(newSub);
-saveSubs().then(function(){
-closeModal();updateStats();renderFeatured();renderAlerts();renderTable();
-showToast('&#x2705; Added');
-});
+var origin=(document.getElementById('inputOrigin')||{}).value||'';
+var dest=(document.getElementById('inputDest')||{}).value||'';
+var dateFrom=(document.getElementById('inputDateFrom')||{}).value||'';
+var dateTo=(document.getElementById('inputDateTo')||{}).value||'';
+var target=(document.getElementById('inputTarget')||{}).value||'';
+if(!origin||!dest||!dateFrom||!dateTo){showToast('&#x8ACB;&#x586B;&#x5BEB;&#x5FC5;&#x586B;&#x6B04;&#x4F4D;');return;}
+var id=origin.toLowerCase()+'-'+dest.toLowerCase();
+if(subsData.some(function(s){return s.id===id;})){showToast('&#x8A72;&#x822A;&#x7DDA;&#x5DF2;&#x5B58;&#x5728;');return;}
+subsData.push({id:id,origin:origin.toUpperCase(),destination:dest.toUpperCase(),date_from:dateFrom,date_to:dateTo,target_price:target?parseInt(target):null,active:true});
+saveSubs().then(function(){closeModal();updateStats();renderFeatured();renderAlerts();renderTable();showToast('&#x2705; &#x5DF2;&#x65B0;&#x589E;');});
 }
-
 function deleteSub(id){
 subsData=subsData.filter(function(s){return s.id!==id;});
-saveSubs().then(function(){
-updateStats();renderFeatured();renderAlerts();renderTable();
-showToast('&#x2705; Deleted');
-});
+saveSubs().then(function(){updateStats();renderFeatured();renderAlerts();renderTable();showToast('&#x2705; &#x5DF2;&#x522A;&#x9664;');});
 }
-
 function saveSubs(){
-return fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscriptions:subsData,sha:window._subsSha||''})}).then(function(r){
-if(!r.ok)throw new Error('HTTP '+r.status);
-return r.json();
-}).then(function(d){if(d&&d.sha)window._subsSha=d.sha;}).catch(function(e){showToast('Save failed: '+e.message);});
+return fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscriptions:subsData,sha:window._subsSha||''})}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(d){if(d&&d.sha)window._subsSha=d.sha;}).catch(function(e){showToast('Save failed: '+e.message);});
 }
-
-window.onclick=function(e){var m=document.getElementById('addModal');if(m&&e.target===m)closeModal();};
+window.onclick=function(e){var am=document.getElementById('addModal');if(am&&e.target===am)closeModal();var cm=document.getElementById('calModal');if(cm&&e.target===cm)closeCalModal();};
 loadSubs();
 </script>
 </body>
