@@ -290,7 +290,8 @@ el.innerHTML=
 '<div style="font-size:2rem;font-weight:800;color:var(--primary);margin-bottom:4px">'+(price?'NT$'+price.toLocaleString():'--')+'</div>'+
 '<div style="color:var(--text-secondary);font-size:13px;margin-bottom:4px">&#x6700;&#x4F4E;&#x50F9;&#x65E5;&#x671F;: '+cheapDate+'</div>'+
 '<div style="color:var(--text-secondary);font-size:13px;margin-bottom:16px">&#x76EE;&#x6A19;&#x50F9;: '+(target?'NT$'+target.toLocaleString():'--')+'</div>'+
-'<button class="btn-primary" style="width:100%" onclick="showCalendar(''+s.id+'')">&#x1F4C5; &#x67E5;&#x770B;&#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;</button>';
+'<button class="btn-primary" style="width:100%" data-cal="'+s.id+'">&#x1F4C5; &#x67E5;&#x770B;&#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;</button>';
+var fcBtn=el.querySelector('[data-cal]');if(fcBtn)fcBtn.onclick=function(){showCalendar(this.getAttribute('data-cal'));};
 }
 
 function renderAlerts(){
@@ -325,7 +326,7 @@ if(prev.length){var prevLow=Math.min.apply(null,prev);var pct=Math.round((prevLo
 var isHit=price&&target&&price<=target;
 var status=isHit?'<span class="badge badge-green">&#x5DF2;&#x9054;&#x6A19;</span>':'<span class="badge badge-gray">&#x8FFD;&#x8E64;&#x4E2D;</span>';
 var sid=s.id||'';
-return '<tr onclick="showCalendar(''+sid+'')" style="cursor:pointer"><td><div style="display:flex;align-items:center;gap:8px">'+
+return '<tr data-cal="'+sid+'" style="cursor:pointer"><td><div style="display:flex;align-items:center;gap:8px">'+
 '<div class="route-avatar" style="width:32px;height:32px;font-size:13px">'+(airline?airline.substring(0,3):'--')+'</div>'+
 '<div><div style="font-weight:600">'+s.origin+' &#x2192; '+s.destination+'</div>'+
 '<div style="font-size:13px;color:var(--text-secondary)">'+cityName(s.origin)+' &#x2192; '+cityName(s.destination)+'</div>'+
@@ -339,6 +340,7 @@ return '<tr onclick="showCalendar(''+sid+'')" style="cursor:pointer"><td><div st
 }).join('');
 Array.from(tbody.querySelectorAll('[data-del]')).forEach(function(btn){
 btn.onclick=function(e){e.stopPropagation();deleteSub(btn.getAttribute('data-del'));};
+Array.from(tbody.querySelectorAll('[data-cal]')).forEach(function(tr){tr.onclick=function(){showCalendar(this.getAttribute('data-cal'));};});
 });
 }
 
