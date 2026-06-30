@@ -15,7 +15,7 @@
 | 📅 **日曆掃描** | 每次執行自動掃描訂閱航線未來 3 個月的完整票價日曆 |
 | 🗓️ **熱力圖介面** | 前台顯示日曆熱力圖，綠色深淺代表票價高低，一眼看出便宜日期 |
 | 🔔 **智慧通知** | 任一日期票價低於目標即觸發 Telegram / Email 通知 |
-| ⏰ **自動排程** | 每日台灣時間 10:00 / 22:00 自動執行（GitHub Actions）|
+| ⏰ **自動排程** | 每日台灣時間 10:00 自動執行（GitHub Actions）|
 | 🌐 **Web 介面** | Cloudflare Pages 靜態前台，支援新增/刪除訂閱、查看日曆 |
 
 ---
@@ -178,7 +178,7 @@ python -m scraper.main --test
 | 層級 | 技術 |
 |------|------|
 | 爬蟲 | Python 3.11 + Playwright（stealth 模式）|
-| 排程 | GitHub Actions Cron（UTC 02:00 & 14:00）|
+| 排程 | GitHub Actions Cron（UTC 02:00 = 台灣時間 10:00）|
 | 資料 | JSON 存於 `gh-pages` 分支（GitHub Pages 公開讀取）|
 | 後端 API | Cloudflare Workers（讀寫 subscriptions.json）|
 | 前台 | Vanilla JS，純靜態 HTML（Cloudflare Pages）|
@@ -190,5 +190,5 @@ python -m scraper.main --test
 
 - Google Flights 有反爬機制，已加入 stealth 模式與人類行為模擬（隨機 UA、滾動、延遲）
 - 日曆掃描若無法抓取完整日曆視圖，會自動切換為每 7 天取樣的 fallback 模式
-- GitHub Actions 免費方案每月 2,000 分鐘，本系統每次約 5~15 分鐘，每日 2 次共約 900 分鐘/月
+- GitHub Actions 免費方案每月 2,000 分鐘，本系統每次約 5~15 分鐘，每日 1 次約 450 分鐘/月
 - 訂閱的 `id` 欄位會成為 `prices.json` 的 key，修改 id 等同重置該航線的歷史資料
