@@ -284,7 +284,7 @@ class GoogleFlightsScraper:
                         }
                     }
                 }
-                return results;esults;
+                return results;
                 }
             """)
 
@@ -327,11 +327,20 @@ class GoogleFlightsScraper:
         current = from_dt
         while current <= to_dt:
             date_str = current.strftime("%Y-%m-%d")
-            result = await self.search(
-                origin=origin,
-                destination=destination,
-                date=date_str,
-            )
+            try:
+                result = await asyncio.wait_for(
+                    self.search(
+                        origin=origin,
+                        destination=destination,
+                        date=date_str,
+                    ),
+                    timeout=60,  # 60s per date
+                )
+            except asyncio.TimeoutError:
+                logger.warning(
+                    f"Weekly scan [{origin}->{destination}] {date_str}: timeout"
+                )
+                result = None
             if result and result.get("price"):
                 price_calendar[date_str] = result["price"]
                 logger.info(
@@ -342,7 +351,7 @@ class GoogleFlightsScraper:
                 logger.warning(
                     f"Weekly scan [{origin}->{destination}] {date_str}: no price"
                 )
-            current += timedelta(days=7)
+            current += timedelta(days=14)
             await self._human_delay(5000, 10000)
 
         return price_calendar
