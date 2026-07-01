@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-01T16:44:12.367839Z",
+  "updated_at": "2026-07-01T16:52:20.458065Z",
   "prices": {
     "tpe-nrt": {
       "subscription_id": "tpe-nrt",
@@ -8,18 +8,18 @@
       "date_from": "2026-07-01",
       "date_to": "2026-09-30",
       "price_calendar": {
-        "2026-07-01": 8208,
-        "2026-07-15": 8208,
-        "2026-07-29": 8208,
-        "2026-08-12": 8208,
-        "2026-08-26": 8208,
-        "2026-09-09": 8208,
-        "2026-09-23": 8208
+        "2026-07-01": 8209,
+        "2026-07-15": 8209,
+        "2026-07-29": 8209,
+        "2026-08-12": 8209,
+        "2026-08-26": 8209,
+        "2026-09-09": 8209,
+        "2026-09-23": 8209
       },
       "cheapest_date": "2026-07-01",
-      "cheapest_price": 8208,
-      "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-02T00:25:14.427788+08:00",
+      "cheapest_price": 8209,
+      "cheapest_airline": "中華航空",
+      "scraped_at": "2026-07-02T00:33:23.327360+08:00",
       "dates_found": 7
     },
     "tpe-kix": {
@@ -29,18 +29,18 @@
       "date_from": "2026-07-01",
       "date_to": "2026-09-30",
       "price_calendar": {
-        "2026-07-01": 7233,
-        "2026-07-15": 7233,
-        "2026-07-29": 7233,
-        "2026-08-12": 7233,
-        "2026-08-26": 7233,
-        "2026-09-09": 7233,
-        "2026-09-23": 7233
+        "2026-07-01": 7234,
+        "2026-07-15": 7234,
+        "2026-07-29": 7234,
+        "2026-08-12": 7234,
+        "2026-08-26": 7234,
+        "2026-09-09": 7234,
+        "2026-09-23": 7234
       },
       "cheapest_date": "2026-07-01",
-      "cheapest_price": 7233,
-      "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-02T00:27:05.052275+08:00",
+      "cheapest_price": 7234,
+      "cheapest_airline": "中華航空",
+      "scraped_at": "2026-07-02T00:35:24.861380+08:00",
       "dates_found": 7
     },
     "tpe-fuk": {
@@ -60,8 +60,8 @@
       },
       "cheapest_date": "2026-07-01",
       "cheapest_price": 9683,
-      "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-02T00:29:00.438242+08:00",
+      "cheapest_airline": "中華航空",
+      "scraped_at": "2026-07-02T00:37:10.525633+08:00",
       "dates_found": 7
     },
     "tpe-kmq": {
@@ -76,13 +76,14 @@
         "2026-07-29": 10627,
         "2026-08-12": 10627,
         "2026-08-26": 10627,
+        "2026-09-09": 10627,
         "2026-09-23": 10627
       },
       "cheapest_date": "2026-07-01",
       "cheapest_price": 10627,
-      "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-02T00:30:45.688503+08:00",
-      "dates_found": 6
+      "cheapest_airline": "中華航空",
+      "scraped_at": "2026-07-02T00:38:58.169560+08:00",
+      "dates_found": 7
     },
     "tpe-tak": {
       "subscription_id": "tpe-tak",
@@ -101,8 +102,8 @@
       },
       "cheapest_date": "2026-07-01",
       "cheapest_price": 9691,
-      "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-02T00:32:56.892497+08:00",
+      "cheapest_airline": "中華航空",
+      "scraped_at": "2026-07-02T00:40:50.404641+08:00",
       "dates_found": 7
     },
     "khh-nrt": {
@@ -122,8 +123,8 @@
       },
       "cheapest_date": "2026-07-01",
       "cheapest_price": 7994,
-      "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-02T00:34:55.600093+08:00",
+      "cheapest_airline": "中華航空",
+      "scraped_at": "2026-07-02T00:42:44.008452+08:00",
       "dates_found": 7
     },
     "khh-kix": {
@@ -143,8 +144,8 @@
       },
       "cheapest_date": "2026-07-01",
       "cheapest_price": 7820,
-      "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-02T00:36:51.622102+08:00",
+      "cheapest_airline": "中華航空",
+      "scraped_at": "2026-07-02T00:44:39.339126+08:00",
       "dates_found": 7
     },
     "khh-fuk": {
@@ -157,16 +158,15 @@
         "2026-07-01": 9974,
         "2026-07-15": 9974,
         "2026-07-29": 9974,
-        "2026-08-12": 9974,
         "2026-08-26": 9974,
         "2026-09-09": 9974,
         "2026-09-23": 9974
       },
       "cheapest_date": "2026-07-01",
       "cheapest_price": 9974,
-      "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-02T00:38:40.826012+08:00",
-      "dates_found": 7
+      "cheapest_airline": "中華航空",
+      "scraped_at": "2026-07-02T00:46:27.499526+08:00",
+      "dates_found": 6
     },
     "khh-kmq": {
       "subscription_id": "khh-kmq",
@@ -185,8 +185,8 @@
       },
       "cheapest_date": "2026-07-01",
       "cheapest_price": 5788,
-      "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-02T00:40:32.109150+08:00",
+      "cheapest_airline": "ANA",
+      "scraped_at": "2026-07-02T00:48:42.576969+08:00",
       "dates_found": 7
     },
     "khh-tak": {
@@ -206,8 +206,8 @@
       },
       "cheapest_date": "2026-07-01",
       "cheapest_price": 15000,
-      "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-02T00:42:28.408542+08:00",
+      "cheapest_airline": "中華航空",
+      "scraped_at": "2026-07-02T00:50:32.641090+08:00",
       "dates_found": 7
     }
   }
