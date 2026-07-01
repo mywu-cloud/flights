@@ -178,19 +178,11 @@ async def main():
     try:
         await scraper.start()
         for sub in subscriptions:
-            try:
-                await asyncio.wait_for(
-                    process_subscription(scraper, store, engine, notifier, sub),
-                    timeout=300,  # 5 minutes max per subscription
-                )
-            except asyncio.TimeoutError:
-                logger.warning(
-                    f"[{sub['id']}] Timed out after 5 min, skipping to next subscription"
-                )
-            except Exception as sub_err:
-                logger.error(f"[{sub['id']}] Unexpected error: {sub_err}", exc_info=True)
+            await process_subscription(scraper, store, engine, notifier, sub)
+            # Save after each subscription so data is persisted even if later ones fail
+            store.save()
             # Polite delay between subscriptions
-            await asyncio.sleep(5)
+            await asyncio.sleep(3)
     finally:
         await scraper.stop()
 
