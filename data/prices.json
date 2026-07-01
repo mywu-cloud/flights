@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-01T14:50:28.149218Z",
+  "updated_at": "2026-07-01T15:01:40.865087Z",
   "prices": {
     "tpe-nrt": {
       "subscription_id": "tpe-nrt",
@@ -8,15 +8,18 @@
       "date_from": "2026-07-01",
       "date_to": "2026-09-30",
       "price_calendar": {
-        "2026-07-01": 8195,
+        "2026-07-15": 8195,
+        "2026-07-29": 8195,
+        "2026-08-12": 8195,
         "2026-08-26": 8195,
-        "2026-09-09": 8195
+        "2026-09-09": 8195,
+        "2026-09-23": 8195
       },
-      "cheapest_date": "2026-07-01",
+      "cheapest_date": "2026-07-15",
       "cheapest_price": 8195,
       "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-01T22:17:53.899998+08:00",
-      "dates_found": 3
+      "scraped_at": "2026-07-01T22:04:18.393636+08:00",
+      "dates_found": 6
     },
     "tpe-kix": {
       "subscription_id": "tpe-kix",
@@ -25,14 +28,17 @@
       "date_from": "2026-07-01",
       "date_to": "2026-09-30",
       "price_calendar": {
-        "2026-09-09": 7229,
-        "2026-09-23": 7229
+        "2026-07-01": 7228,
+        "2026-07-15": 7228,
+        "2026-07-29": 7229,
+        "2026-08-12": 7229,
+        "2026-08-26": 7229
       },
-      "cheapest_date": "2026-09-09",
-      "cheapest_price": 7229,
+      "cheapest_date": "2026-07-01",
+      "cheapest_price": 7228,
       "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-01T22:21:11.167423+08:00",
-      "dates_found": 2
+      "scraped_at": "2026-07-01T22:08:49.486098+08:00",
+      "dates_found": 5
     },
     "tpe-fuk": {
       "subscription_id": "tpe-fuk",
@@ -42,13 +48,15 @@
       "date_to": "2026-09-30",
       "price_calendar": {
         "2026-07-01": 9691,
-        "2026-07-29": 9691
+        "2026-07-15": 9691,
+        "2026-08-26": 9691,
+        "2026-09-09": 9691
       },
       "cheapest_date": "2026-07-01",
       "cheapest_price": 9691,
       "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-01T22:24:47.634525+08:00",
-      "dates_found": 2
+      "scraped_at": "2026-07-01T22:14:04.789948+08:00",
+      "dates_found": 4
     },
     "tpe-kmq": {
       "subscription_id": "tpe-kmq",
@@ -57,16 +65,14 @@
       "date_from": "2026-07-01",
       "date_to": "2026-09-30",
       "price_calendar": {
-        "2026-07-01": 10627,
-        "2026-08-12": 10627,
-        "2026-08-26": 10627,
+        "2026-09-09": 10627,
         "2026-09-23": 10627
       },
-      "cheapest_date": "2026-07-01",
+      "cheapest_date": "2026-09-09",
       "cheapest_price": 10627,
       "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-01T22:28:22.986091+08:00",
-      "dates_found": 4
+      "scraped_at": "2026-07-01T22:19:47.503036+08:00",
+      "dates_found": 2
     },
     "tpe-tak": {
       "subscription_id": "tpe-tak",
@@ -75,14 +81,14 @@
       "date_from": "2026-07-01",
       "date_to": "2026-09-30",
       "price_calendar": {
+        "2026-07-29": 9699,
         "2026-08-12": 9699,
-        "2026-08-26": 9699,
-        "2026-09-09": 9699
+        "2026-08-26": 9699
       },
-      "cheapest_date": "2026-08-12",
+      "cheapest_date": "2026-07-29",
       "cheapest_price": 9699,
       "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-01T22:31:09.757721+08:00",
+      "scraped_at": "2026-07-01T22:26:46.984875+08:00",
       "dates_found": 3
     },
     "khh-nrt": {
@@ -92,16 +98,16 @@
       "date_from": "2026-07-01",
       "date_to": "2026-09-30",
       "price_calendar": {
-        "2026-07-01": 7991,
         "2026-07-15": 7991,
-        "2026-08-12": 7991,
+        "2026-07-29": 7991,
         "2026-08-26": 7991,
-        "2026-09-09": 7991
+        "2026-09-09": 7991,
+        "2026-09-23": 7991
       },
-      "cheapest_date": "2026-07-01",
+      "cheapest_date": "2026-07-15",
       "cheapest_price": 7991,
       "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-01T22:34:16.167689+08:00",
+      "scraped_at": "2026-07-01T22:33:05.846901+08:00",
       "dates_found": 5
     },
     "khh-kix": {
@@ -111,16 +117,18 @@
       "date_from": "2026-07-01",
       "date_to": "2026-09-30",
       "price_calendar": {
+        "2026-07-01": 7830,
+        "2026-07-15": 7830,
         "2026-07-29": 7830,
+        "2026-08-12": 7830,
         "2026-08-26": 7830,
-        "2026-09-09": 7830,
-        "2026-09-23": 7830
+        "2026-09-09": 7830
       },
-      "cheapest_date": "2026-07-29",
+      "cheapest_date": "2026-07-01",
       "cheapest_price": 7830,
       "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-01T22:36:50.684295+08:00",
-      "dates_found": 4
+      "scraped_at": "2026-07-01T22:38:10.504588+08:00",
+      "dates_found": 6
     },
     "khh-fuk": {
       "subscription_id": "khh-fuk",
@@ -131,13 +139,13 @@
       "price_calendar": {
         "2026-07-01": 9986,
         "2026-07-15": 9986,
-        "2026-09-09": 9986,
-        "2026-09-23": 9986
+        "2026-07-29": 9986,
+        "2026-08-12": 9986
       },
       "cheapest_date": "2026-07-01",
       "cheapest_price": 9986,
       "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-01T22:39:40.256510+08:00",
+      "scraped_at": "2026-07-01T22:42:39.448938+08:00",
       "dates_found": 4
     },
     "khh-kmq": {
@@ -147,13 +155,30 @@
       "date_from": "2026-07-01",
       "date_to": "2026-09-30",
       "price_calendar": {
-        "2026-07-29": 5821,
-        "2026-08-26": 5821
+        "2026-08-26": 5821,
+        "2026-09-09": 5821,
+        "2026-09-23": 5821
       },
-      "cheapest_date": "2026-07-29",
+      "cheapest_date": "2026-08-26",
       "cheapest_price": 5821,
       "cheapest_airline": "Unknown",
-      "scraped_at": "2026-07-01T22:42:23.971950+08:00",
+      "scraped_at": "2026-07-01T22:48:24.431093+08:00",
+      "dates_found": 3
+    },
+    "khh-tak": {
+      "subscription_id": "khh-tak",
+      "origin": "KHH",
+      "destination": "TAK",
+      "date_from": "2026-07-01",
+      "date_to": "2026-09-30",
+      "price_calendar": {
+        "2026-08-12": 11700,
+        "2026-09-09": 11700
+      },
+      "cheapest_date": "2026-08-12",
+      "cheapest_price": 11700,
+      "cheapest_airline": "Unknown",
+      "scraped_at": "2026-07-01T22:54:49.536099+08:00",
       "dates_found": 2
     }
   }
