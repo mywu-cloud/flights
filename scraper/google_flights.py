@@ -501,6 +501,9 @@ class GoogleFlightsScraper:
                     return results.slice(0, 20);
                 }
             """)
+            logger.info(f"DOM JS returned {len(flight_data) if flight_data else 0} results")
+            if flight_data:
+                logger.info(f"DOM first result: {flight_data[0]}")
             if not flight_data:
                 return None
             valid = [f for f in flight_data if f.get("price_raw") and 3000 <= f["price_raw"] <= 200000]
@@ -553,13 +556,18 @@ class GoogleFlightsScraper:
             airline_list = [
                 "China Airlines", "EVA Air", "Japan Airlines", "ANA",
                 "Peach", "Jetstar", "Starlux", "Tiger Air", "Scoot",
+                "Zipair", "Air Japan", "Vanilla Air",
                 "\u4e2d\u83ef\u822a\u7a7a", "\u9577\u69ae\u822a\u7a7a",
                 "\u661f\u5b87\u822a\u7a7a", "\u53f0\u7063\u864e\u822a",
+                "\u6afb\u6a02\u6afb", "\u5168\u65e5\u7a7a", "\u6cf0\u7687\u822a\u7a7a",
+                "\u4e38\u4e95\u7a7a\u8f38", "\u6afb\u6a02\u6afb\u822a\u7a7a",
+                "\u5929\u99ac\u822a\u7a7a", "\u4e9e\u4e9e\u822a\u7a7a",
             ]
             for name in airline_list:
                 if name.lower() in text.lower():
                     detected_airline = name
                     break
+            logger.info(f"Text extraction airline detected: {detected_airline}")
             return {
                 "price": all_prices[0],
                 "airline": detected_airline,
