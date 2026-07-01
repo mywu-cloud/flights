@@ -443,7 +443,34 @@ class GoogleFlightsScraper:
             flight_data = await page.evaluate("""
                 () => {
                     const results = [];
-                    // Primary: known Google Flights price class selectors
+                    const airlineNames = [
+                        'China Airlines', 'EVA Air', 'Japan Airlines', 'ANA',
+                        'Peach', 'Jetstar', 'Starlux', 'Tiger Air', 'Scoot',
+                        '\u4e2d\u83ef\u822a\u7a7a', '\u9577\u69ae\u822a\u7a7a',
+                        '\u661f\u5b87\u822a\u7a7a', '\u53f0\u7063\u864e\u822a',
+                    ];
+                    function findAirlineInCard(el) {
+                        let card = el;
+                        for (let i = 0; i < 10; i++) {
+                            if (!card || !card.parentElement) break;
+                            card = card.parentElement;
+                            if (card.tagName === 'LI' || card.getAttribute('role') === 'listitem' ||
+                                card.classList.contains('pIav2d') || card.classList.contains('yR1myc')) break;
+                        }
+                        const airlineSelectors = ['.Ir0Voe', '.sSHqwe', '.h1fkLb', '.VY3BNb', '[data-iata]'];
+                        for (const sel of airlineSelectors) {
+                            const airEl = card.querySelector(sel);
+                            if (airEl) {
+                                const txt = airEl.textContent.trim();
+                                if (txt.length > 1 && txt.length < 60) return txt;
+                            }
+                        }
+                        const cardText = card.textContent || '';
+                        for (const name of airlineNames) {
+                            if (cardText.includes(name)) return name;
+                        }
+                        return 'Unknown';
+                    }
                     const knownEls = document.querySelectorAll('.YMlIz, .FpEdX');
                     for (const el of knownEls) {
                         const text = (el.textContent || '').trim();
@@ -452,11 +479,11 @@ class GoogleFlightsScraper:
                             const raw = (match[1] || match[2] || '').replace(/,/g, '');
                             const price = parseInt(raw, 10);
                             if (price >= 3000 && price <= 200000) {
-                                results.push({ price_raw: price, element_text: text });
+                                const airline = findAirlineInCard(el);
+                                results.push({ price_raw: price, element_text: text, airline: airline });
                             }
                         }
                     }
-                    // Fallback: aria-label with NT$
                     if (results.length === 0) {
                         const ariaEls = document.querySelectorAll('[aria-label*="NT$"]');
                         for (const el of ariaEls) {
@@ -465,7 +492,8 @@ class GoogleFlightsScraper:
                             if (match) {
                                 const price = parseInt(match[1].replace(/,/g, ''), 10);
                                 if (price >= 3000 && price <= 200000) {
-                                    results.push({ price_raw: price, element_text: lbl.substring(0, 100) });
+                                    const airline = findAirlineInCard(el);
+                                    results.push({ price_raw: price, element_text: lbl.substring(0, 100), airline: airline });
                                 }
                             }
                         }
@@ -483,7 +511,7 @@ class GoogleFlightsScraper:
             logger.info(f"DOM extraction: found {len(valid)} prices, lowest: {best['price_raw']}")
             return {
                 "price": best["price_raw"],
-                "airline": self._extract_airline(best.get("element_text", "")),
+                "airline": best.get("airline", "Unknown"),
                 "duration": "",
                 "link": page.url,
                 "extraction_method": "dom",
@@ -520,9 +548,21 @@ class GoogleFlightsScraper:
             logger.info(
                 f"Text extraction: found {len(all_prices)} prices, lowest: {all_prices[0]}"
             )
+            # Try to find airline from page text
+            detected_airline = "Unknown"
+            airline_list = [
+                "China Airlines", "EVA Air", "Japan Airlines", "ANA",
+                "Peach", "Jetstar", "Starlux", "Tiger Air", "Scoot",
+                "\u4e2d\u83ef\u822a\u7a7a", "\u9577\u69ae\u822a\u7a7a",
+                "\u661f\u5b87\u822a\u7a7a", "\u53f0\u7063\u864e\u822a",
+            ]
+            for name in airline_list:
+                if name.lower() in text.lower():
+                    detected_airline = name
+                    break
             return {
                 "price": all_prices[0],
-                "airline": "Unknown",
+                "airline": detected_airline,
                 "duration": "",
                 "link": page.url,
                 "extraction_method": "text",
