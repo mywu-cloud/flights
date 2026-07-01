@@ -170,6 +170,7 @@ class GoogleFlightsScraper:
         context = await self._create_stealth_context()
         page = await context.new_page()
         price_calendar = {}
+        cheapest_airline = "Unknown"
         try:
             # Use flexible dates URL with view=2 to encourage calendar display
             url = (
@@ -200,7 +201,7 @@ class GoogleFlightsScraper:
                 )
                 await context.close()
                 context = None
-                price_calendar = await self._scan_weekly(
+                price_calendar, cheapest_airline = await self._scan_weekly(
                     origin, destination, date_from, date_to
                 )
 
@@ -223,7 +224,7 @@ class GoogleFlightsScraper:
             f"Calendar result: {len(price_calendar)} dates found for "
             f"{origin}->{destination}"
         )
-        return price_calendar
+        return price_calendar, cheapest_airline
 
     async def _extract_calendar_prices(
         self,
@@ -321,6 +322,7 @@ class GoogleFlightsScraper:
         scraping each individual date. Slower but reliable.
         """
         price_calendar = {}
+        airline_by_date = {}  # track airline for each date
         from_dt = datetime.strptime(date_from, "%Y-%m-%d")
         to_dt = datetime.strptime(date_to, "%Y-%m-%d")
 
@@ -343,9 +345,10 @@ class GoogleFlightsScraper:
                 result = None
             if result and result.get("price"):
                 price_calendar[date_str] = result["price"]
+                airline_by_date[date_str] = result.get("airline", "Unknown")
                 logger.info(
                     f"Weekly scan [{origin}->{destination}] {date_str}: "
-                    f"{result['price']} TWD"
+                    f"{result['price']} TWD (airline: {result.get('airline', 'Unknown')})"
                 )
             else:
                 logger.warning(
@@ -354,7 +357,12 @@ class GoogleFlightsScraper:
             current += timedelta(days=14)
             await self._human_delay(5000, 10000)
 
-        return price_calendar
+        # Find airline for cheapest date
+        cheapest_airline = "Unknown"
+        if price_calendar:
+            cheapest_date = min(price_calendar, key=price_calendar.get)
+            cheapest_airline = airline_by_date.get(cheapest_date, "Unknown")
+        return price_calendar, cheapest_airline
 
     async def search(
         self,
