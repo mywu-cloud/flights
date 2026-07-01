@@ -8,7 +8,7 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-22.04
-    timeout-minutes: 30
+    timeout-minutes: 60
     permissions:
       contents: write
     steps:
@@ -38,18 +38,21 @@ jobs:
         run: PYTHONPATH=. python scraper/main.py
 
       - name: Checkout gh-pages branch
+        if: always()
         uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages-data
 
       - name: Update price data on gh-pages
+        if: always()
         run: |
           mkdir -p gh-pages-data/data
           cp data/prices.json gh-pages-data/data/prices.json 2>/dev/null || true
           cp data/history.json gh-pages-data/data/history.json 2>/dev/null || true
 
       - name: Commit and push price data
+        if: always()
         working-directory: gh-pages-data
         run: |
           git config user.name 'github-actions[bot]'
