@@ -178,7 +178,6 @@ class GoogleFlightsScraper:
                 f"&q={origin}+to+{destination}"
                 f"&departure_date={date_from}"
                 f"&trip_type=1"
-                f"&view=2"
             )
             logger.info(
                 f"Calendar scan: {origin}->{destination} {date_from} to {date_to}"
@@ -247,37 +246,45 @@ class GoogleFlightsScraper:
             raw = await page.evaluate("""
                 () => {
                     const results = [];
-                    const allEls = document.querySelectorAll('[aria-label]');
-                    for (const el of allEls) {
-                        const lbl = el.getAttribute('aria-label') || '';
-                        const dateMatch = lbl.match(/(\d{4})\u5e74(\d{1,2})\u6708(\d{1,2})\u65e5/);
-                        const priceMatch = lbl.match(/NT\$\s*([\d,]+)|TWD\s*([\d,]+)|([\d,]+)\s*TWD/);
-                        if (dateMatch && priceMatch) {
-                            const yr = dateMatch[1];
-                            const mo = String(dateMatch[2]).padStart(2, '0');
-                            const dy = String(dateMatch[3]).padStart(2, '0');
-                            const dateStr = yr + '-' + mo + '-' + dy;
-                            const priceRaw = (priceMatch[1] || priceMatch[2] || priceMatch[3] || '').replace(/,/g, '');
-                            const price = parseInt(priceRaw, 10);
-                            if (price >= 1000 && price <= 500000) {
+                    // Strategy 1: scan aria-labels for date + price patterns
+                const seen = {};
+                const allEls = document.querySelectorAll('[aria-label]');
+                for (const el of allEls) {
+                    const lbl = el.getAttribute('aria-label') || '';
+                    const dateMatch = lbl.match(/(\d{4})\u5e74(\d{1,2})\u6708(\d{1,2})\u65e5/);
+                    const priceMatch = lbl.match(/NT\$\s*([\d,]+)|TWD\s*([\d,]+)|([\d,]+)\s*TWD/);
+                    if (dateMatch && priceMatch) {
+                        const yr = dateMatch[1];
+                        const mo = String(dateMatch[2]).padStart(2, '0');
+                        const dy = String(dateMatch[3]).padStart(2, '0');
+                        const dateStr = yr + '-' + mo + '-' + dy;
+                        const priceRaw = (priceMatch[1] || priceMatch[2] || priceMatch[3] || '').replace(/,/g, '');
+                        const price = parseInt(priceRaw, 10);
+                        if (price >= 3000 && price <= 200000) {
+                            if (!seen[dateStr] || price < seen[dateStr]) {
+                                seen[dateStr] = price;
                                 results.push({ date: dateStr, price: price });
                             }
                         }
                     }
-                    const dateCells = document.querySelectorAll('[data-date]');
-                    for (const cell of dateCells) {
-                        const d = cell.getAttribute('data-date');
-                        if (!d) continue;
-                        const txt = cell.textContent || '';
-                        const pm = txt.match(/NT\$\s*([\d,]+)|([\d,]+)/);
-                        if (pm) {
-                            const price = parseInt((pm[1] || pm[2] || '').replace(/,/g, ''), 10);
-                            if (price >= 1000 && price <= 500000) {
-                                results.push({ date: d, price: price });
-                            }
+                }
+                // Strategy 2: data-date cells
+                const dateCells = document.querySelectorAll('[data-date]');
+                for (const cell of dateCells) {
+                    const d = cell.getAttribute('data-date');
+                    if (!d) continue;
+                    const priceEl = cell.querySelector('.YMlIz, .FpEdX, [class*="price"]');
+                    const txt = priceEl ? priceEl.textContent : cell.textContent;
+                    const pm = txt.match(/NT\$\s*([\d,]+)/);
+                    if (pm) {
+                        const price = parseInt(pm[1].replace(/,/g, ''), 10);
+                        if (price >= 3000 && price <= 200000 && (!seen[d] || price < seen[d])) {
+                            seen[d] = price;
+                            results.push({ date: d, price: price });
                         }
                     }
-                    return results;
+                }
+                return results;esults;
                 }
             """)
 
@@ -336,7 +343,7 @@ class GoogleFlightsScraper:
                     f"Weekly scan [{origin}->{destination}] {date_str}: no price"
                 )
             current += timedelta(days=7)
-            await self._human_delay(3000, 6000)
+            await self._human_delay(5000, 10000)
 
         return price_calendar
 
@@ -449,30 +456,18 @@ class GoogleFlightsScraper:
                             });
                         }
                     }
-                    if (results.length === 0) {
-                        const spans = document.querySelectorAll('span, div');
-                        for (const span of spans) {
-                            const text = span.textContent.trim();
-                            if (/^(NT\$|TWD\s*)?[1-9][\d,]{3,}(\s*TWD)?$/.test(text)) {
-                                const num = parseInt(text.replace(/[^\d]/g, ''));
-                                if (num >= 1000 && num <= 500000) {
-                                    results.push({
-                                        price_text: text,
-                                        price_raw: num,
-                                        element_text: span.parentElement?.textContent?.trim().substring(0, 200) || text,
-                                    });
-                                }
-                            }
-                        }
-                    }
-                    return results.slice(0, 20);
+                    // Only use results with realistic prices (no fallback to all spans)
+                    // Filter to realistic TWD flight prices: 3000 ~ 200000
+                    const filtered = results.filter(r => r.price_raw >= 3000 && r.price_raw <= 200000);
+
+                    return filtered.slice(0, 20);
                 }
             """)
             if not flight_data:
                 return None
             valid_prices = [
                 f for f in flight_data
-                if f.get("price_raw") and 1000 <= f["price_raw"] <= 500000
+                if f.get("price_raw") and 3000 <= f["price_raw"] <= 200000
             ]
             if not valid_prices:
                 return None
@@ -510,7 +505,7 @@ class GoogleFlightsScraper:
                 for match in matches:
                     try:
                         price = int(match.replace(",", ""))
-                        if 1000 <= price <= 500000:
+                        if 3000 <= price <= 200000:
                             all_prices.append(price)
                     except ValueError:
                         pass
