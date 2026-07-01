@@ -414,28 +414,20 @@ class GoogleFlightsScraper:
         self, page: Page, origin: str, destination: str, date: str
     ) -> Optional[dict]:
         """Wait for results and extract the best price."""
-        await self._human_scroll(page, times=2)
-        price_selectors = [
-            '[data-gs*="price"]',
-            '.YMlIz',
-            '.FpEdX',
-            'div[class*="price"]',
-            'span:has-text("TWD")',
-            'span:has-text("NT$")',
-            'span:has-text("$")',
-        ]
-        results_loaded = False
-        for selector in price_selectors:
+        # Wait for page to settle with known-safe selectors only
+        loaded = False
+        for selector in ['.YMlIz', '.FpEdX']:
             try:
-                await page.wait_for_selector(selector, timeout=15000)
-                results_loaded = True
+                await page.wait_for_selector(selector, timeout=8000)
                 logger.info(f"Results loaded (selector: {selector})")
+                loaded = True
                 break
             except Exception:
                 continue
-        if not results_loaded:
-            logger.warning("Could not confirm results loaded, attempting extraction anyway")
-        await self._human_delay(1500, 3000)
+        if not loaded:
+            # Fallback: just wait a fixed time for page to render
+            await asyncio.sleep(5)
+            logger.info("Results loaded (fixed wait)")
         await self._human_scroll(page, times=2)
         result = (
             await self._extract_from_dom(page, origin, destination, date)
@@ -446,45 +438,49 @@ class GoogleFlightsScraper:
     async def _extract_from_dom(
         self, page: Page, origin: str, destination: str, date: str
     ) -> Optional[dict]:
-        """Extract price from DOM elements."""
+        """Extract price from DOM elements using known Google Flights selectors."""
         try:
             flight_data = await page.evaluate("""
                 () => {
                     const results = [];
-                    const priceElements = document.querySelectorAll(
-                        '[aria-label*="TWD"], [aria-label*="NT$"]'
-                    );
-                    for (const el of priceElements) {
-                        const text = el.getAttribute('aria-label') || el.textContent;
-                        const match = text.match(/([\d,]+)\s*(TWD|NT\$)?/);
+                    // Primary: known Google Flights price class selectors
+                    const knownEls = document.querySelectorAll('.YMlIz, .FpEdX');
+                    for (const el of knownEls) {
+                        const text = (el.textContent || '').trim();
+                        const match = text.match(/NT\$\s*([\d,]+)|([\d,]+)\s*TWD/);
                         if (match) {
-                            results.push({
-                                price_text: match[0],
-                                price_raw: parseInt(match[1].replace(/,/g, '')),
-                                element_text: el.textContent.trim().substring(0, 200),
-                            });
+                            const raw = (match[1] || match[2] || '').replace(/,/g, '');
+                            const price = parseInt(raw, 10);
+                            if (price >= 3000 && price <= 200000) {
+                                results.push({ price_raw: price, element_text: text });
+                            }
                         }
                     }
-                    // Only use results with realistic prices (no fallback to all spans)
-                    // Filter to realistic TWD flight prices: 3000 ~ 200000
-                    const filtered = results.filter(r => r.price_raw >= 3000 && r.price_raw <= 200000);
-
-                    return filtered.slice(0, 20);
+                    // Fallback: aria-label with NT$
+                    if (results.length === 0) {
+                        const ariaEls = document.querySelectorAll('[aria-label*="NT$"]');
+                        for (const el of ariaEls) {
+                            const lbl = el.getAttribute('aria-label') || '';
+                            const match = lbl.match(/NT\$\s*([\d,]+)/);
+                            if (match) {
+                                const price = parseInt(match[1].replace(/,/g, ''), 10);
+                                if (price >= 3000 && price <= 200000) {
+                                    results.push({ price_raw: price, element_text: lbl.substring(0, 100) });
+                                }
+                            }
+                        }
+                    }
+                    return results.slice(0, 20);
                 }
             """)
             if not flight_data:
                 return None
-            valid_prices = [
-                f for f in flight_data
-                if f.get("price_raw") and 3000 <= f["price_raw"] <= 200000
-            ]
-            if not valid_prices:
+            valid = [f for f in flight_data if f.get("price_raw") and 3000 <= f["price_raw"] <= 200000]
+            if not valid:
                 return None
-            valid_prices.sort(key=lambda x: x["price_raw"])
-            best = valid_prices[0]
-            logger.info(
-                f"DOM extraction: found {len(valid_prices)} prices, lowest: {best['price_raw']}"
-            )
+            valid.sort(key=lambda x: x["price_raw"])
+            best = valid[0]
+            logger.info(f"DOM extraction: found {len(valid)} prices, lowest: {best['price_raw']}")
             return {
                 "price": best["price_raw"],
                 "airline": self._extract_airline(best.get("element_text", "")),
@@ -495,7 +491,6 @@ class GoogleFlightsScraper:
         except Exception as e:
             logger.error(f"DOM extraction failed: {e}")
             return None
-
     async def _extract_from_text(
         self, page: Page, origin: str, destination: str, date: str
     ) -> Optional[dict]:
