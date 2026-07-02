@@ -454,8 +454,13 @@ class GoogleFlightsScraper:
                     const airlineNames = [
                         'China Airlines', 'EVA Air', 'Japan Airlines', 'ANA',
                         'Peach', 'Jetstar', 'Starlux', 'Tiger Air', 'Scoot',
-                        '\u4e2d\u83ef\u822a\u7a7a', '\u9577\u69ae\u822a\u7a7a',
-                        '\u661f\u5b87\u822a\u7a7a', '\u53f0\u7063\u864e\u822a',
+                        'Zipair', 'Air Japan', 'Vanilla Air', 'Spring Airlines',
+                        'HK Express', 'Cebu Pacific', 'VietJet', 'AirAsia',
+                        '中華航空', '長榮航空',
+                        '星宇航空', '台灣虎航',
+                        '櫻樂櫻', '全日空',
+                        '櫻樂櫻航空', '酒井安航空',
+                        '春秋航空', '天馬航空',
                     ];
                     function findAirlineInCard(el) {
                         let card = el;
@@ -564,12 +569,14 @@ class GoogleFlightsScraper:
             airline_list = [
                 "China Airlines", "EVA Air", "Japan Airlines", "ANA",
                 "Peach", "Jetstar", "Starlux", "Tiger Air", "Scoot",
-                "Zipair", "Air Japan", "Vanilla Air",
-                "\u4e2d\u83ef\u822a\u7a7a", "\u9577\u69ae\u822a\u7a7a",
-                "\u661f\u5b87\u822a\u7a7a", "\u53f0\u7063\u864e\u822a",
-                "\u6afb\u6a02\u6afb", "\u5168\u65e5\u7a7a", "\u6cf0\u7687\u822a\u7a7a",
-                "\u4e38\u4e95\u7a7a\u8f38", "\u6afb\u6a02\u6afb\u822a\u7a7a",
-                "\u5929\u99ac\u822a\u7a7a", "\u4e9e\u4e9e\u822a\u7a7a",
+                "Zipair", "Air Japan", "Vanilla Air", "Spring Airlines",
+                "HK Express", "Cebu Pacific", "VietJet", "AirAsia",
+                "中華航空", "長榮航空",
+                "星宇航空", "台灣虎航",
+                "櫻樂櫻", "全日空", "泰皇航空",
+                "丸井空輸", "櫻樂櫻航空",
+                "天馬航空", "亞亞航空",
+                "酒井安航空", "春秋航空",
             ]
             for name in airline_list:
                 if name.lower() in text.lower():
@@ -593,8 +600,14 @@ class GoogleFlightsScraper:
         airlines = [
             "China Airlines", "EVA Air", "Japan Airlines", "ANA",
             "Peach", "Jetstar", "Starlux", "Tiger Air", "Scoot",
-            "\u4e2d\u83ef\u822a\u7a7a", "\u9577\u69ae\u822a\u7a7a",
-            "\u661f\u5b87\u822a\u7a7a", "\u53f0\u7063\u864e\u822a",
+            "Zipair", "Air Japan", "Vanilla Air", "Spring Airlines",
+            "HK Express", "Cebu Pacific", "VietJet", "AirAsia",
+            "中華航空", "長榮航空",
+            "星宇航空", "台灣虎航",
+            "櫻樂櫻", "全日空", "泰皇航空",
+            "丸井空輸", "櫻樂櫻航空",
+            "天馬航空", "亞亞航空",
+            "酒井安航空", "春秋航空",
         ]
         for airline in airlines:
             if airline.lower() in text.lower():
