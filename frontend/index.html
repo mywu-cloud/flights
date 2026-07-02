@@ -250,6 +250,7 @@ if(document.getElementById('statTriggered'))document.getElementById('statTrigger
 if(document.getElementById('statSaving'))document.getElementById('statSaving').textContent=bestPrice!==null?'NT$'+bestPrice.toLocaleString():'--';
 if(document.getElementById('statSavingSub'))document.getElementById('statSavingSub').innerHTML=bestRoute||'--';
 if(document.getElementById('statDrop'))document.getElementById('statDrop').textContent=ts;
+  if(typeof renderAirlineChips==="function") renderAirlineChips();
 }
 
 function updateBellAlerts(){
@@ -446,7 +447,7 @@ function renderAirlineChips(){
   var keys = Object.keys(airlines);
   if(!keys.length){ bar.style.display='none'; return; }
   bar.style.display = 'flex';
-  bar.innerHTML = '<span style="font-size:11px;color:var(--text-secondary);font-weight:600;white-space:nowrap">已有資料：</span>' +
+  bar.innerHTML = '<span style="font-size:11px;color:var(--text-secondary);font-weight:600;white-space:nowrap">å·²æè³æï¼</span>' +
     keys.map(function(a){
       var active = a===_activeAirlineFilter;
       return '<button class="airline-chip'+(active?' active':'')+'" onclick="selectAirlineChip(this)" data-airline="'+encodeURIComponent(a)+'">'+
@@ -487,11 +488,11 @@ function renderAirlineResults(query){
     return a && a!=='unknown' && a.includes(q);
   });
   if(!matches.length){
-    body.innerHTML='<div style="padding:20px;text-align:center;color:var(--text-secondary);font-size:13px">未找到相關航空公司</div>';
+    body.innerHTML='<div style="padding:20px;text-align:center;color:var(--text-secondary);font-size:13px">æªæ¾å°ç¸éèªç©ºå¬å¸</div>';
     renderAirlineChips();
     return;
   }
-  var h='<div style="padding:10px 20px 4px;font-size:13px;font-weight:600;color:var(--text-secondary)">找到 '+matches.length+' 條路線</div>';
+  var h='<div style="padding:10px 20px 4px;font-size:13px;font-weight:600;color:var(--text-secondary)">æ¾å° '+matches.length+' æ¢è·¯ç·</div>';
   h+=matches.map(function(s){
     var p=pricesData.prices[s.id]||{};
     var price=p.cheapest_price||p.price;
@@ -501,13 +502,13 @@ function renderAirlineResults(query){
     var isHit=price&&target&&price<=target;
     var abbr=airline?airline.substring(0,3):'??';
     var priceStr=price?(_CURRENCY_PREFIX+price.toLocaleString()):'--';
-    var badge=isHit?'<span class="badge badge-green">已達標</span>':'';
+    var badge=isHit?'<span class="badge badge-green">å·²éæ¨</span>':'';
     return '<div class="airline-result-item" onclick="showCalendar(\'' + s.id + '\')" >'+
       '<div class="route-avatar" style="width:36px;height:36px;font-size:11px;flex-shrink:0">'+abbr+'</div>'+
       '<div style="flex:1">'+
-        '<div style="font-weight:600">'+s.origin+' → '+s.destination+'</div>'+
-        '<div style="font-size:13px;color:var(--text-secondary)">'+(cityName(s.origin)||s.origin)+' → '+(cityName(s.destination)||s.destination)+'</div>'+
-        '<div style="font-size:12px;color:#94a3b8;margin-top:2px">最低價日期: '+date+'</div>'+
+        '<div style="font-weight:600">'+s.origin+' â '+s.destination+'</div>'+
+        '<div style="font-size:13px;color:var(--text-secondary)">'+(cityName(s.origin)||s.origin)+' â '+(cityName(s.destination)||s.destination)+'</div>'+
+        '<div style="font-size:12px;color:#94a3b8;margin-top:2px">æä½å¹æ¥æ: '+date+'</div>'+
       '</div>'+
       '<div style="text-align:right">'+
         '<div style="font-weight:700;color:var(--primary);font-size:1rem">'+priceStr+'</div>'+
@@ -517,12 +518,6 @@ function renderAirlineResults(query){
     '</div>';
   }).join('');
   body.innerHTML=h;
-  renderAirlineChips();
-}
-
-var _origUpdateStats=updateStats;
-function updateStats(){
-  _origUpdateStats.apply(this,arguments);
   renderAirlineChips();
 }
 
