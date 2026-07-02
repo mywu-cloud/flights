@@ -99,6 +99,17 @@ tr:hover td{background:#fafbfc}
 .cal-heat-5{background:#15803D;color:#fff}
 .cal-nodata{background:#F1F5F9;color:#94a3b8}
 footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px}
+.airline-filter-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#f8fafc;border-bottom:1px solid #f1f5f9;flex-wrap:wrap}
+.airline-chip{padding:4px 12px;border-radius:20px;border:1px solid #e2e8f0;background:#fff;font-size:13px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.airline-chip:hover{border-color:var(--primary);color:var(--primary)}
+.airline-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.airline-search-section{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:24px}
+.airline-search-header{padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:12px}
+.airline-search-input{flex:1;padding:8px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none}
+.airline-search-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(74,108,247,.1)}
+.airline-result-item{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #f9fafb;cursor:pointer}
+.airline-result-item:hover{background:#fafbfc}
+.airline-result-item:last-child{border-bottom:none}
 </style>
 </head>
 <body>
@@ -140,6 +151,16 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <div class="main-grid">
 <div class="card"><div id="featuredCard"><p style="text-align:center;color:var(--text-secondary);padding:24px">Loading...</p></div></div>
 <div class="card"><div class="card-header"><div class="card-title">&#x1F4E2; &#x50F9;&#x683C;&#x8B66;&#x5831;</div><a href="#" class="card-link">&#x67E5;&#x770B;&#x5168;&#x90E8;</a></div><div id="alertsList"><p style="text-align:center;color:var(--text-secondary);padding:16px">Loading...</p></div></div>
+</div>
+<div class="airline-search-section">
+<div class="airline-search-header">
+<span style="font-size:1.1rem">&#x2708;</span>
+<div style="font-weight:700;font-size:1rem">&#x4EE5;&#x822A;&#x7A7A;&#x516C;&#x53F8;&#x67E5;&#x8A62;</div>
+<input class="airline-search-input" id="airlineSearchInput" type="text" placeholder="&#x8F38;&#x5165;&#x822A;&#x7A7A;&#x516C;&#x53F8;&#x540D;&#x7A31;&#xFF0C;&#x4F8B;&#xFF1A;&#x4E2D;&#x83EF;&#x822A;&#x7A7A;&#x3001;Tiger Air&#x3001;&#x6AFB;&#x6A02;&#x6AFB;" oninput="onAirlineSearch(this.value)">
+<button class="btn-secondary" onclick="clearAirlineSearch()" id="airlineClearBtn" style="display:none">&#x6E05;&#x9664;</button>
+</div>
+<div id="airlineFilterBar" class="airline-filter-bar" style="display:none"></div>
+<div id="airlineResultBody"></div>
 </div>
 <div class="table-section">
 <div class="table-section-header"><div class="table-section-title">&#x8FFD;&#x8E64;&#x4E2D;&#x7684;&#x822A;&#x7DDA; <span class="badge badge-blue" id="tableCount">0</span></div><div style="font-size:13px;color:var(--text-secondary)">&#x9EDE;&#x9078;&#x822A;&#x7DDA;&#x67E5;&#x770B;&#x65E5;&#x66C6;</div></div>
@@ -386,6 +407,148 @@ function saveSubs(){
 return fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscriptions:subsData,sha:window._subsSha||''})}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(d){if(d&&d.sha)window._subsSha=d.sha;}).catch(function(e){showToast('Save failed: '+e.message);});
 }
 window.onclick=function(e){var am=document.getElementById('addModal');if(am&&e.target===am)closeModal();var cm=document.getElementById('calModal');if(cm&&e.target===cm)closeCalModal();};
+// ===== AIRLINE SEARCH =====
+var _airlineSearchTimer = null;
+var _activeAirlineFilter = '';
+
+function getAvailableAirlines(){
+  var airlines = {};
+  Object.values(pricesData.prices||{}).forEach(function(p){
+    var a = p.cheapest_airline||p.airline||'';
+    if(a && a.toLowerCase()!=='unknown') {
+      airlines[a] = (airlines[a]||0)+1;
+    }
+  });
+  return airlines;
+}
+
+function onAirlineSearch(val){
+  var clearBtn = document.getElementById('airlineClearBtn');
+  if(clearBtn) clearBtn.style.display = val ? '' : 'none';
+  if(!val.trim()){
+    _activeAirlineFilter = '';
+    renderAirlineResults('');
+    return;
+  }
+  clearTimeout(_airlineSearchTimer);
+  _airlineSearchTimer = setTimeout(function(){
+    renderAirlineResults(val.trim());
+  }, 200);
+}
+
+function clearAirlineSearch(){
+  var inp = document.getElementById('airlineSearchInput');
+  if(inp) inp.value = '';
+  var clearBtn = document.getElementById('airlineClearBtn');
+  if(clearBtn) clearBtn.style.display = 'none';
+  _activeAirlineFilter = '';
+  renderAirlineResults('');
+  renderAirlineChips();
+}
+
+function renderAirlineChips(){
+  var bar = document.getElementById('airlineFilterBar');
+  if(!bar) return;
+  var airlines = getAvailableAirlines();
+  var keys = Object.keys(airlines);
+  if(!keys.length){ bar.style.display='none'; return; }
+  bar.style.display = 'flex';
+  bar.innerHTML = '<span style="font-size:13px;color:var(--text-secondary);font-weight:600;white-space:nowrap">&#x5DF2;&#x6709;&#x8CC7;&#x6599;&#xFF1A;</span>' +
+    keys.map(function(a){
+      var active = a===_activeAirlineFilter;
+      return '<button class="airline-chip'+(active?' active':'')+'" onclick="selectAirlineChip(''+encodeURIComponent(a)+'')">'+
+        a+' <span style="opacity:.6;font-size:11px">('+airlines[a]+')</span></button>';
+    }).join('');
+}
+
+function selectAirlineChip(encodedName){
+  var name = decodeURIComponent(encodedName);
+  if(_activeAirlineFilter === name){
+    _activeAirlineFilter = '';
+    var inp = document.getElementById('airlineSearchInput');
+    if(inp) inp.value = '';
+    renderAirlineResults('');
+    renderAirlineChips();
+    return;
+  }
+  _activeAirlineFilter = name;
+  var inp = document.getElementById('airlineSearchInput');
+  if(inp){ inp.value = name; }
+  var clearBtn = document.getElementById('airlineClearBtn');
+  if(clearBtn) clearBtn.style.display = '';
+  renderAirlineResults(name);
+  renderAirlineChips();
+}
+
+function renderAirlineResults(query){
+  var body = document.getElementById('airlineResultBody');
+  if(!body) return;
+  if(!query){
+    body.innerHTML = '';
+    renderAirlineChips();
+    return;
+  }
+  var q = query.toLowerCase();
+  var matches = subsData.filter(function(s){
+    var p = pricesData.prices[s.id];
+    if(!p) return false;
+    var a = (p.cheapest_airline||p.airline||'').toLowerCase();
+    return a && a!=='unknown' && a.includes(q);
+  });
+  var matchedAirlines = {};
+  Object.values(pricesData.prices||{}).forEach(function(p){
+    var a = p.cheapest_airline||p.airline||'';
+    if(a && a.toLowerCase()!=='unknown' && a.toLowerCase().includes(q)){
+      matchedAirlines[a] = true;
+    }
+  });
+
+  if(!matches.length && !Object.keys(matchedAirlines).length){
+    body.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-secondary);font-size:13px">&#x672A;&#x627E;&#x5230;&#x76F8;&#x95DC;&#x822A;&#x7A7A;&#x516C;&#x53F8;</div>';
+    renderAirlineChips();
+    return;
+  }
+
+  var h = '';
+  if(!matches.length){
+    h += '<div style="padding:12px 20px;font-size:13px;color:var(--text-secondary)">&#x672A;&#x6709;&#x8A72;&#x822A;&#x7A7A;&#x7684;&#x8FFD;&#x8E64;&#x8DEF;&#x7DDA;</div>';
+  } else {
+    h += '<div style="padding:10px 20px 4px;font-size:13px;font-weight:600;color:var(--text-secondary)">&#x627E;&#x5230; '+matches.length+' &#x689D;&#x8DEF;&#x7DDA;</div>';
+    h += matches.map(function(s){
+      var p = pricesData.prices[s.id]||{};
+      var price = p.cheapest_price||p.price;
+      var airline = p.cheapest_airline||p.airline||'';
+      var date = p.cheapest_date||p.date||'--';
+      var target = s.target_price;
+      var isHit = price&&target&&price<=target;
+      return '<div class="airline-result-item" onclick="showCalendar(''+s.id+'')">'+
+        '<div class="route-avatar" style="width:36px;height:36px;font-size:11px;flex-shrink:0">'+(airline?airline.substring(0,3):'??')+'</div>'+
+        '<div style="flex:1">'+
+          '<div style="font-weight:600">'+s.origin+' &#x2192; '+s.destination+'</div>'+
+          '<div style="font-size:13px;color:var(--text-secondary)">'+(cityName(s.origin)||s.origin)+' &#x2192; '+(cityName(s.destination)||s.destination)+' &nbsp;&#x2022;&nbsp; '+getSubDateRange(s)+'</div>'+
+          '<div style="font-size:12px;color:#94a3b8;margin-top:2px">&#x6700;&#x4F4E;&#x50F9;&#x65E5;&#x671F;: '+date+'</div>'+
+        '</div>'+
+        '<div style="text-align:right">'+
+          '<div style="font-weight:700;color:var(--primary);font-size:1rem">'+(price?'NT
+</body>
+</html>
++price.toLocaleString():'--')+'</div>'+
+          '<div style="font-size:12px;color:var(--text-secondary)">'+airline+'</div>'+
+          (isHit?'<span class="badge badge-green" style="margin-top:4px">&#x5DF2;&#x9054;&#x6A19;</span>':'')+
+        '</div>'+
+      '</div>';
+    }).join('');
+  }
+  body.innerHTML = h;
+  renderAirlineChips();
+}
+
+var _origUpdateStats = updateStats;
+function updateStats(){
+  _origUpdateStats.apply(this, arguments);
+  renderAirlineChips();
+}
+
 loadSubs();
 </script>
 </body>
