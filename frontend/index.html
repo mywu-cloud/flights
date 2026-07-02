@@ -411,7 +411,6 @@ window.onclick=function(e){var am=document.getElementById('addModal');if(am&&e.t
 // ===== AIRLINE SEARCH =====
 var _airlineSearchTimer = null;
 var _activeAirlineFilter = '';
-var _CURRENCY_PREFIX = 'NT$';
 
 function getAvailableAirlines(){
   var airlines = {};
@@ -447,7 +446,7 @@ function renderAirlineChips(){
   var keys = Object.keys(airlines);
   if(!keys.length){ bar.style.display='none'; return; }
   bar.style.display = 'flex';
-  bar.innerHTML = '<span style="font-size:11px;color:var(--text-secondary);font-weight:600;white-space:nowrap">å·²æè³æï¼</span>' +
+  bar.innerHTML = '<span style="font-size:11px;color:var(--text-secondary);font-weight:600;white-space:nowrap">&#x5DF2;&#x6709;&#x8CC7;&#x6599;&#xFF1A;</span>' +
     keys.map(function(a){
       var active = a===_activeAirlineFilter;
       return '<button class="airline-chip'+(active?' active':'')+'" onclick="selectAirlineChip(this)" data-airline="'+encodeURIComponent(a)+'">'+
@@ -488,11 +487,11 @@ function renderAirlineResults(query){
     return a && a!=='unknown' && a.includes(q);
   });
   if(!matches.length){
-    body.innerHTML='<div style="padding:20px;text-align:center;color:var(--text-secondary);font-size:13px">æªæ¾å°ç¸éèªç©ºå¬å¸</div>';
+    body.innerHTML='<div style="padding:20px;text-align:center;color:var(--text-secondary);font-size:13px">&#x672A;&#x627E;&#x5230;&#x76F8;&#x95DC;&#x822A;&#x7A7A;&#x516C;&#x53F8;</div>';
     renderAirlineChips();
     return;
   }
-  var h='<div style="padding:10px 20px 4px;font-size:13px;font-weight:600;color:var(--text-secondary)">æ¾å° '+matches.length+' æ¢è·¯ç·</div>';
+  var h='<div style="padding:10px 20px 4px;font-size:13px;font-weight:600;color:var(--text-secondary)">&#x627E;&#x5230; '+matches.length+' &#x689D;&#x8DEF;&#x7DDA;</div>';
   h+=matches.map(function(s){
     var p=pricesData.prices[s.id]||{};
     var price=p.cheapest_price||p.price;
@@ -501,14 +500,16 @@ function renderAirlineResults(query){
     var target=s.target_price;
     var isHit=price&&target&&price<=target;
     var abbr=airline?airline.substring(0,3):'??';
-    var priceStr=price?(_CURRENCY_PREFIX+price.toLocaleString()):'--';
-    var badge=isHit?'<span class="badge badge-green">å·²éæ¨</span>':'';
-    return '<div class="airline-result-item" onclick="showCalendar(\'' + s.id + '\')" >'+
+    var priceStr=price?('NT&#x24;'+price.toLocaleString()):'--';
+    var badge=isHit?'<span class="badge badge-green">&#x5DF2;&#x9054;&#x6A19;</span>':'';
+    var originCity=cityName(s.origin)||s.origin;
+    var destCity=cityName(s.destination)||s.destination;
+    return '<div class="airline-result-item" onclick="showCalendar(''+s.id+'')">'+
       '<div class="route-avatar" style="width:36px;height:36px;font-size:11px;flex-shrink:0">'+abbr+'</div>'+
       '<div style="flex:1">'+
-        '<div style="font-weight:600">'+s.origin+' â '+s.destination+'</div>'+
-        '<div style="font-size:13px;color:var(--text-secondary)">'+(cityName(s.origin)||s.origin)+' â '+(cityName(s.destination)||s.destination)+'</div>'+
-        '<div style="font-size:12px;color:#94a3b8;margin-top:2px">æä½å¹æ¥æ: '+date+'</div>'+
+        '<div style="font-weight:600">'+s.origin+' &#x2192; '+s.destination+'</div>'+
+        '<div style="font-size:13px;color:var(--text-secondary)">'+originCity+' &#x2192; '+destCity+'</div>'+
+        '<div style="font-size:12px;color:#94a3b8;margin-top:2px">&#x6700;&#x4F4E;&#x50F9;&#x65E5;&#x671F;: '+date+'</div>'+
       '</div>'+
       '<div style="text-align:right">'+
         '<div style="font-weight:700;color:var(--primary);font-size:1rem">'+priceStr+'</div>'+
