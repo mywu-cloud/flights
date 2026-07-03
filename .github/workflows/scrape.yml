@@ -2,7 +2,7 @@ name: Flight Price Tracker
 
 on:
   schedule:
-    - cron: '0 2 * * *'   # Taiwan time 10:00 (UTC+8)
+    - cron: '17 2 * * *'   # Taiwan time 10:00 (UTC+8)
   workflow_dispatch:
 
 jobs:
@@ -26,6 +26,16 @@ jobs:
           pip install -r scraper/requirements.txt
           playwright install chromium
           playwright install-deps chromium
+
+      - name: Restore previous data from gh-pages
+        run: |
+          mkdir -p data
+          curl -sf \
+            "https://raw.githubusercontent.com/mywu-cloud/flights/gh-pages/data/prices.json" \
+            -o data/prices.json || echo "No existing prices.json"
+          curl -sf \
+            "https://raw.githubusercontent.com/mywu-cloud/flights/gh-pages/data/history.json" \
+            -o data/history.json || echo "No existing history.json"
 
       - name: Run flight price scraper
         env:
