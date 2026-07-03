@@ -504,7 +504,7 @@ function renderAirlineResults(query){
     var badge=isHit?'<span class="badge badge-green">&#x5DF2;&#x9054;&#x6A19;</span>':'';
     var originCity=cityName(s.origin)||s.origin;
     var destCity=cityName(s.destination)||s.destination;
-    return '<div class="airline-result-item" onclick="showCalendar(''+s.id+'')">'+
+    return '<div class="airline-result-item" onclick="showCalendar(this.getAttribute('data-sid'))" data-sid="'+s.id+'">'+
       '<div class="route-avatar" style="width:36px;height:36px;font-size:11px;flex-shrink:0">'+abbr+'</div>'+
       '<div style="flex:1">'+
         '<div style="font-weight:600">'+s.origin+' &#x2192; '+s.destination+'</div>'+
