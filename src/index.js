@@ -5,14 +5,25 @@ const GITHUB_API = 'https://api.github.com/repos/' + REPO + '/contents/' + SUBS_
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, X-Api-Key',
 };
+
+const IATA_RE = /^[A-Z]{3}$/;
+const MAX_SUBS = 20;
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
     headers: { 'Content-Type': 'application/json', ...CORS },
   });
+}
+
+function checkApiKey(request, env) {
+  // GET /subscriptions is public read-only
+  // PUT requires API key verification
+  const key = request.headers.get('X-Api-Key');
+  if (!env.API_KEY) return true; // backward-compat if key not yet configured
+  return key === env.API_KEY;
 }
 
 async function ghGet(token) {
@@ -62,7 +73,7 @@ export default {
     const token = env.GH_TOKEN;
     if (!token) return json({ error: 'GH_TOKEN not configured' }, 500);
 
-    // GET /subscriptions
+    // GET /subscriptions - public read-only
     if (url.pathname === '/subscriptions' && request.method === 'GET') {
       try {
         const { content, sha } = await ghGet(token);
@@ -72,13 +83,33 @@ export default {
       }
     }
 
-    // PUT /subscriptions
+    // PUT /subscriptions - requires API key
     if (url.pathname === '/subscriptions' && request.method === 'PUT') {
+      if (!checkApiKey(request, env)) {
+        return json({ error: 'Unauthorized' }, 401);
+      }
       try {
         const body = await request.json();
         const { subscriptions, sha } = body;
-        if (!Array.isArray(subscriptions)) return json({ error: 'subscriptions must be array' }, 400);
-        if (!sha) return json({ error: 'sha is required' }, 400);
+
+        if (!Array.isArray(subscriptions)) {
+          return json({ error: 'subscriptions must be array' }, 400);
+        }
+        if (!sha) {
+          return json({ error: 'sha is required' }, 400);
+        }
+        if (subscriptions.length > MAX_SUBS) {
+          return json({ error: 'Too many subscriptions (max ' + MAX_SUBS + ')' }, 400);
+        }
+        for (const s of subscriptions) {
+          if (!IATA_RE.test(s.origin) || !IATA_RE.test(s.destination)) {
+            return json({ error: 'Invalid IATA code: ' + s.origin + '/' + s.destination }, 400);
+          }
+          if (typeof s.target_price !== 'number' || s.target_price < 0 || s.target_price > 500000) {
+            return json({ error: 'Invalid target_price for ' + s.id }, 400);
+          }
+        }
+
         const newSha = await ghPut(token, { subscriptions }, sha);
         return json({ ok: true, sha: newSha });
       } catch (e) {
@@ -86,18 +117,6 @@ export default {
       }
     }
 
-    // GET /debug — check token scope
-    if (url.pathname === '/debug' && request.method === 'GET') {
-      const r = await fetch('https://api.github.com/user', {
-        headers: { Authorization: 'token ' + token, 'User-Agent': 'flights-worker' },
-      });
-      const d = await r.json();
-      const scopes = r.headers.get('x-oauth-scopes') || 'N/A';
-      return json({ status: r.status, login: d.login, scopes, token_prefix: token.substring(0, 12) });
-    }
-
     return json({ error: 'Not found' }, 404);
   },
 };
-
-// redeploy to pick up latest GH_TOKEN secret
