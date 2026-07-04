@@ -37,6 +37,15 @@ class PriceEngine:
 
         # Rule 1: target reached
         if target_price and cheapest_price <= target_price:
+            last = self.store.get_last_alert(sub_id)
+            if last is not None:
+                last_price = last.get("price", 0)
+                # Only re-notify if price dropped at least 5% further than last alert
+                if cheapest_price >= last_price * 0.95:
+                    return False, (
+                        f"Target already alerted at {last_price} TWD "
+                        f"(current {cheapest_price}, not 5% lower)"
+                    )
             return True, (
                 f"Target reached! {cheapest_date} @ {cheapest_price} TWD "
                 f"<= {target_price} TWD"
