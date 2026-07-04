@@ -164,3 +164,19 @@ class DataStore:
             if p:
                 prices.append(p)
         return min(prices) if prices else None
+
+
+    def get_last_alert(self, sid: str) -> dict | None:
+        """Return the last sent alert record for a subscription, or None."""
+        alerts = self._history.get("__alerts__", {})
+        return alerts.get(sid)
+
+    def set_last_alert(self, sid: str, price: int, reason: str, ts: str):
+        """Persist the most recently sent alert to avoid repeat notifications."""
+        if "__alerts__" not in self._history:
+            self._history["__alerts__"] = {}
+        self._history["__alerts__"][sid] = {
+            "price": price,
+            "reason": reason,
+            "alerted_at": ts,
+        }
