@@ -144,6 +144,13 @@ async def process_subscription(scraper, store, engine, notifier, sub):
                 ),
             }
             await notifier.send_alert(sub, price_entry, reason)
+            # Record this alert so we don't spam the same price repeatedly
+            store.set_last_alert(
+                sid=sub_id,
+                price=cheapest_price,
+                reason=reason,
+                ts=scraped_at,
+            )
         else:
             logger.info(f"[{sub_id}] No alert (reason: {reason})")
 
