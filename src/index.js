@@ -4,26 +4,19 @@ const GITHUB_API = 'https://api.github.com/repos/' + REPO + '/contents/' + SUBS_
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, X-Api-Key',
+  'Access-Control-Allow-Methods': 'GET, PUT, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, X-Api-Key, Authorization, X-Admin-Token',
 };
 
 const IATA_RE = /^[A-Z]{3}$/;
 const MAX_SUBS = 20;
+const SESSION_TTL = 60 * 60 * 24 * 30;
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
     headers: { 'Content-Type': 'application/json', ...CORS },
   });
-}
-
-function checkApiKey(request, env) {
-  // GET /subscriptions is public read-only
-  // PUT requires API key verification
-  const key = request.headers.get('X-Api-Key');
-  if (!env.API_KEY) return true; // backward-compat if key not yet configured
-  return key === env.API_KEY;
 }
 
 async function ghGet(token) {
@@ -39,27 +32,78 @@ async function ghGet(token) {
   return { content, sha: meta.sha };
 }
 
-async function ghPut(token, content, sha) {
-  const body = JSON.stringify(content, null, 2);
-  const encoded = btoa(unescape(encodeURIComponent(body)));
-  const r = await fetch(GITHUB_API, {
-    method: 'PUT',
-    headers: {
-      Authorization: 'token ' + token,
-      'Content-Type': 'application/json',
-      'User-Agent': 'flights-worker',
-    },
-    body: JSON.stringify({
-      message: 'feat: update subscriptions via Worker API',
-      content: encoded,
-      sha,
-    }),
-  });
-  const resBody = await r.json();
-  if (!r.ok) {
-    throw new Error('GitHub PUT ' + r.status + ': ' + (resBody.message || JSON.stringify(resBody)));
-  }
-  return resBody.content.sha;
+function bufToHex(buf) {
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+function hexToBuf(hex) {
+  const arr = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < arr.length; i++) arr[i] = parseInt(hex.substr(i * 2, 2), 16);
+  return arr.buffer;
+}
+function randomHex(len) {
+  const arr = new Uint8Array(len);
+  crypto.getRandomValues(arr);
+  return bufToHex(arr.buffer);
+}
+async function pbkdf2Hash(password, saltHex) {
+  const enc = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']);
+  const salt = hexToBuf(saltHex);
+  const bits = await crypto.subtle.deriveBits(
+    { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+    keyMaterial,
+    256
+  );
+  return bufToHex(bits);
+}
+async function hashPassword(password) {
+  const salt = randomHex(16);
+  const hash = await pbkdf2Hash(password, salt);
+  return { salt, hash };
+}
+async function verifyPassword(password, salt, hash) {
+  const computed = await pbkdf2Hash(password, salt);
+  return computed === hash;
+}
+function genToken() {
+  return randomHex(32);
+}
+
+async function getUser(env, username) {
+  const raw = await env.FARERADAR_KV.get('user:' + username);
+  return raw ? JSON.parse(raw) : null;
+}
+async function saveUser(env, username, record) {
+  await env.FARERADAR_KV.put('user:' + username, JSON.stringify(record));
+}
+async function createSession(env, username) {
+  const token = genToken();
+  await env.FARERADAR_KV.put('session:' + token, JSON.stringify({ username }), { expirationTtl: SESSION_TTL });
+  return token;
+}
+async function getSessionUser(request, env) {
+  const auth = request.headers.get('Authorization') || '';
+  const m = auth.match(/^Bearer\s+(.+)$/i);
+  if (!m) return null;
+  const raw = await env.FARERADAR_KV.get('session:' + m[1]);
+  if (!raw) return null;
+  return JSON.parse(raw).username;
+}
+async function deleteSession(request, env) {
+  const auth = request.headers.get('Authorization') || '';
+  const m = auth.match(/^Bearer\s+(.+)$/i);
+  if (!m) return;
+  await env.FARERADAR_KV.delete('session:' + m[1]);
+}
+async function getUserSubs(env, username) {
+  const raw = await env.FARERADAR_KV.get('subs:' + username);
+  return raw ? JSON.parse(raw) : [];
+}
+async function saveUserSubs(env, username, subscriptions) {
+  await env.FARERADAR_KV.put('subs:' + username, JSON.stringify(subscriptions));
+}
+function validUsername(u) {
+  return typeof u === 'string' && /^[a-zA-Z0-9_]{3,20}$/.test(u);
 }
 
 export default {
@@ -70,33 +114,112 @@ export default {
       return new Response(null, { status: 204, headers: CORS });
     }
 
-    const token = env.GH_TOKEN;
-    if (!token) return json({ error: 'GH_TOKEN not configured' }, 500);
-
-    // GET /subscriptions - public read-only
-    if (url.pathname === '/subscriptions' && request.method === 'GET') {
+    if (url.pathname === '/api/register' && request.method === 'POST') {
       try {
-        const { content, sha } = await ghGet(token);
-        return json({ ...content, sha });
+        const body = await request.json();
+        const { username, password, inviteCode } = body;
+        if (!env.INVITE_CODE || inviteCode !== env.INVITE_CODE) {
+          return json({ error: '邀請碼錯誤' }, 403);
+        }
+        if (!validUsername(username)) {
+          return json({ error: '使用者名稱格式錯誤（3-20 位英數字或底線）' }, 400);
+        }
+        if (typeof password !== 'string' || password.length < 6) {
+          return json({ error: '密碼至少需要 6 個字元' }, 400);
+        }
+        const existing = await getUser(env, username);
+        if (existing) {
+          return json({ error: '使用者名稱已被使用' }, 409);
+        }
+        const { salt, hash } = await hashPassword(password);
+        await saveUser(env, username, { username, salt, hash, createdAt: Date.now() });
+
+        try {
+          const list = await env.FARERADAR_KV.list({ prefix: 'user:' });
+          if (list.keys.length === 1 && env.GH_TOKEN) {
+            const { content } = await ghGet(env.GH_TOKEN);
+            if (content && Array.isArray(content.subscriptions)) {
+              await saveUserSubs(env, username, content.subscriptions);
+            }
+          }
+        } catch (e) {
+          // migration is best-effort, ignore failures
+        }
+
+        const sessionToken = await createSession(env, username);
+        return json({ ok: true, token: sessionToken, username });
+      } catch (e) {
+        return json({ error: e.message }, 500);
+      }
+    }
+
+    if (url.pathname === '/api/login' && request.method === 'POST') {
+      try {
+        const body = await request.json();
+        const { username, password } = body;
+        const user = await getUser(env, username);
+        if (!user) return json({ error: '帳號或密碼錯誤' }, 401);
+        const ok = await verifyPassword(password, user.salt, user.hash);
+        if (!ok) return json({ error: '帳號或密碼錯誤' }, 401);
+        const sessionToken = await createSession(env, username);
+        return json({ ok: true, token: sessionToken, username });
+      } catch (e) {
+        return json({ error: e.message }, 500);
+      }
+    }
+
+    if (url.pathname === '/api/logout' && request.method === 'POST') {
+      await deleteSession(request, env);
+      return json({ ok: true });
+    }
+
+    if (url.pathname === '/api/me' && request.method === 'GET') {
+      const username = await getSessionUser(request, env);
+      if (!username) return json({ error: 'Unauthorized' }, 401);
+      return json({ username });
+    }
+
+    if (url.pathname === '/api/admin/all-subscriptions' && request.method === 'GET') {
+      const adminToken = request.headers.get('X-Admin-Token');
+      if (!env.ADMIN_TOKEN || adminToken !== env.ADMIN_TOKEN) {
+        return json({ error: 'Unauthorized' }, 401);
+      }
+      try {
+        const list = await env.FARERADAR_KV.list({ prefix: 'subs:' });
+        let all = [];
+        for (const k of list.keys) {
+          const raw = await env.FARERADAR_KV.get(k.name);
+          if (raw) {
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr)) all = all.concat(arr);
+          }
+        }
+        return json({ subscriptions: all });
+      } catch (e) {
+        return json({ error: e.message }, 500);
+      }
+    }
+
+    if (url.pathname === '/subscriptions' && request.method === 'GET') {
+      const username = await getSessionUser(request, env);
+      if (!username) return json({ error: 'Unauthorized' }, 401);
+      try {
+        const subscriptions = await getUserSubs(env, username);
+        return json({ subscriptions });
       } catch (e) {
         return json({ error: e.message }, 502);
       }
     }
 
-    // PUT /subscriptions - requires API key
     if (url.pathname === '/subscriptions' && request.method === 'PUT') {
-      if (!checkApiKey(request, env)) {
-        return json({ error: 'Unauthorized' }, 401);
-      }
+      const username = await getSessionUser(request, env);
+      if (!username) return json({ error: 'Unauthorized' }, 401);
       try {
         const body = await request.json();
-        const { subscriptions, sha } = body;
+        const { subscriptions } = body;
 
         if (!Array.isArray(subscriptions)) {
           return json({ error: 'subscriptions must be array' }, 400);
-        }
-        if (!sha) {
-          return json({ error: 'sha is required' }, 400);
         }
         if (subscriptions.length > MAX_SUBS) {
           return json({ error: 'Too many subscriptions (max ' + MAX_SUBS + ')' }, 400);
@@ -110,8 +233,8 @@ export default {
           }
         }
 
-        const newSha = await ghPut(token, { subscriptions }, sha);
-        return json({ ok: true, sha: newSha });
+        await saveUserSubs(env, username, subscriptions);
+        return json({ ok: true });
       } catch (e) {
         return json({ error: e.message }, 502);
       }
