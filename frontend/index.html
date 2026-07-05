@@ -197,9 +197,9 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <footer>&#x6A5F;&#x7968;&#x96F7;&#x9054; FareRadar &mdash; &#x8CC7;&#x6599;&#x4F86;&#x6E90;&#xFF1A;Google Flights &mdash; <a href="https://github.com/mywu-cloud/flights">GitHub</a></footer>
 <script>
 var WORKER_URL='https://flights.tw-mywu.workers.dev';
-var WORKER_API_KEY='27b3fb0a229a902143f374fc0635fc061922a54d2550110675a61fb28b10838a';
+
 var CITIES={'TPE':'&#x53F0;&#x5317;','KHH':'&#x9AD8;&#x96C4;','NRT':'&#x6771;&#x4EAC;','KIX':'&#x5927;&#x962A;','FUK':'&#x798F;&#x5CA1;','KMQ':'&#x5C0F;&#x677E;','TAK':'&#x9AD8;&#x677E;','HKG':'&#x9999;&#x6E2F;','ICN':'&#x9996;&#x723E;','BKK':'&#x66FC;&#x8C37;','SIN':'&#x65B0;&#x52A0;&#x5761;','PVG':'&#x4E0A;&#x6D77;','PEK':'&#x5317;&#x4EAC;','OKA':'&#x6C96;&#x7E04;','CTS':'&#x672D;&#x5E4C;','NGO':'&#x540D;&#x53E4;&#x5C4B;'};
-function cityName(c){return CITIES[c]||'';}
+function cityName(c){return CITIES[c]||'';} function getApiKey(){var k=localStorage.getItem('fareradar_api_key');if(!k){k=prompt('請輸入管理用 API Key:')||'';if(k)localStorage.setItem('fareradar_api_key',k);}return k;}
 var subsData=[],pricesData={prices:{},history:{}};
 
 function toggleBell(e){e.stopPropagation();var d=document.getElementById('bellDrop');d.classList.toggle('open');document.getElementById('avatarDrop').classList.remove('open');}
@@ -406,7 +406,7 @@ subsData=subsData.filter(function(s){return s.id!==id;});
 saveSubs().then(function(){updateStats();renderFeatured();renderAlerts();renderTable();showToast('&#x2705; &#x5DF2;&#x522A;&#x9664;');});
 }
 function saveSubs(){
-return fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json','X-Api-Key':WORKER_API_KEY},body:JSON.stringify({subscriptions:subsData,sha:window._subsSha||''})}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(d){if(d&&d.sha)window._subsSha=d.sha;}).catch(function(e){showToast('Save failed: '+e.message);});
+return fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json','X-Api-Key':getApiKey()},body:JSON.stringify({subscriptions:subsData,sha:window._subsSha||''})}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(d){if(d&&d.sha)window._subsSha=d.sha;}).catch(function(e){showToast('Save failed: '+e.message);});
 }
 window.onclick=function(e){var am=document.getElementById('addModal');if(am&&e.target===am)closeModal();var cm=document.getElementById('calModal');if(cm&&e.target===cm)closeCalModal();};
 // ===== AIRLINE SEARCH =====
