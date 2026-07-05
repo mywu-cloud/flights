@@ -179,8 +179,8 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <div class="modal-overlay" id="addModal"><div class="modal-box">
 <div class="modal-title" id="modalTitleText">&#xFF0B; &#x65B0;&#x589E;&#x8FFD;&#x8E64;&#x822A;&#x7DDA;</div>
 <div class="form-row">
-<div class="form-group"><label class="form-label">&#x51FA;&#x767C;&#x5730; (IATA)</label><input type="text" id="inputOrigin" class="form-input" placeholder="TPE" maxlength="3"></div>
-<div class="form-group"><label class="form-label">&#x76EE;&#x7684;&#x5730; (IATA)</label><input type="text" id="inputDest" class="form-input" placeholder="NRT" maxlength="3"></div>
+<div class="form-group"><label class="form-label">&#x51FA;&#x767C;&#x5730; (IATA)</label><input type="text" id="inputOrigin" class="form-input" placeholder="TPE" maxlength="3" list="airportList"></div>
+<div class="form-group"><label class="form-label">&#x76EE;&#x7684;&#x5730; (IATA)</label><input type="text" id="inputDest" class="form-input" placeholder="NRT" maxlength="3" list="airportList"></div><datalist id="airportList"></datalist>
 </div>
 <div class="form-row">
 <div class="form-group"><label class="form-label">&#x641C;&#x5C0B;&#x958B;&#x59CB;&#x65E5;</label><input type="date" id="inputDateFrom" class="form-input"></div>
@@ -199,7 +199,7 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 var WORKER_URL='https://flights.tw-mywu.workers.dev';
 
 var CITIES={'TPE':'&#x53F0;&#x5317;','KHH':'&#x9AD8;&#x96C4;','NRT':'&#x6771;&#x4EAC;','KIX':'&#x5927;&#x962A;','FUK':'&#x798F;&#x5CA1;','KMQ':'&#x5C0F;&#x677E;','TAK':'&#x9AD8;&#x677E;','HKG':'&#x9999;&#x6E2F;','ICN':'&#x9996;&#x723E;','BKK':'&#x66FC;&#x8C37;','SIN':'&#x65B0;&#x52A0;&#x5761;','PVG':'&#x4E0A;&#x6D77;','PEK':'&#x5317;&#x4EAC;','OKA':'&#x6C96;&#x7E04;','CTS':'&#x672D;&#x5E4C;','NGO':'&#x540D;&#x53E4;&#x5C4B;'};
-function cityName(c){return CITIES[c]||'';} function getApiKey(){var k=localStorage.getItem('fareradar_api_key');if(!k){k=prompt('請輸入管理用 API Key:')||'';if(k)localStorage.setItem('fareradar_api_key',k);}return k;}
+function cityName(c){return CITIES[c]||'';} function getApiKey(){var k=localStorage.getItem('fareradar_api_key');if(!k){k=prompt('請輸入管理用 API Key:')||'';if(k)localStorage.setItem('fareradar_api_key',k);}return k;} function populateAirportList(){var dl=document.getElementById('airportList');if(!dl)return;var h='';Object.keys(CITIES).sort().forEach(function(c){h+='<option value="'+c+'">'+CITIES[c]+' ('+c+')</option>';});dl.innerHTML=h;}
 var subsData=[],pricesData={prices:{},history:{}};
 
 function toggleBell(e){e.stopPropagation();var d=document.getElementById('bellDrop');d.classList.toggle('open');document.getElementById('avatarDrop').classList.remove('open');}
@@ -523,7 +523,7 @@ function renderAirlineResults(query){
   renderAirlineChips();
 }
 
-initTheme();loadSubs();
+initTheme();populateAirportList();loadSubs();
 </script>
 </body>
 </html>
