@@ -37,6 +37,17 @@ jobs:
             "https://raw.githubusercontent.com/mywu-cloud/flights/gh-pages/data/history.json" \
             -o data/history.json || echo "No existing history.json"
 
+      - name: Fetch subscriptions from Worker
+        env:
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+        run: |
+          mkdir -p config
+          curl -sf "https://flights.tw-mywu.workers.dev/api/admin/all-subscriptions" \
+            -H "X-Admin-Token: ${ADMIN_TOKEN}" \
+            -o config/subscriptions.json
+          echo "Fetched subscriptions:"
+          cat config/subscriptions.json
+
       - name: Run flight price scraper
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
