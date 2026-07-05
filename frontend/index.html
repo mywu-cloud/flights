@@ -113,7 +113,7 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 </style>
 </head>
 <body>
-<nav class="nav">
+<nav class="nav" style="display:none">
 <div class="nav-brand"><div class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 22 2"/></svg></div><div><div>&#x6A5F;&#x7968;&#x96F7;&#x9054; FareRadar</div><div class="nav-brand-sub">&#x7968;&#x50F9;&#x8FFD;&#x8E64;</div></div></div>
 <div class="nav-search"><span class="nav-search-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span><input type="text" oninput="onNavSearch(this.value)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="&#x641C;&#x5C0B;&#x822A;&#x7DDA;..."></div>
 <div class="nav-spacer"></div>
@@ -127,15 +127,36 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <div class="bell-drop-title">&#x63D0;&#x9192;&#x901A;&#x77E5;</div>
 <div class="bell-drop-item"><div class="bell-drop-msg">&#x66AB;&#x7121;&#x65B0;&#x901A;&#x77E5;</div></div>
 </div></div>
-<div class="nav-avatar" id="avatarBtn" onclick="toggleAvatar(event)">&#x9673;
+<div class="nav-avatar" id="avatarBtn" onclick="toggleAvatar(event)"><span id="avatarInitial">&#x9673;</span>
 <div class="avatar-drop" id="avatarDrop">
-<div class="avatar-drop-name">&#x9673; &#x540C;&#x5B78;</div>
+<div class="avatar-drop-name" id="avatarDropName">&#x9673; &#x540C;&#x5B78;</div>
 <div class="avatar-drop-item" onclick="showToast('&#x8A2D;&#x5B9A;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg> &#x8A2D;&#x5B9A;</div>
 <div class="avatar-drop-item" onclick="showToast('&#x901A;&#x77E5;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg> &#x901A;&#x77E5;&#x504F;&#x597D;</div>
-<div class="avatar-drop-item" onclick="showToast('&#x5DF2;&#x767B;&#x51FA;')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> &#x767B;&#x51FA;</div>
+<div class="avatar-drop-item" onclick="doLogout()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> &#x767B;&#x51FA;</div>
 </div></div>
 </nav>
-<div class="container">
+<div id="authOverlay" style="display:none;position:fixed;inset:0;background:var(--bg,#f0f4f8);z-index:2000;align-items:center;justify-content:center">
+<div style="background:#fff;border-radius:16px;padding:32px;width:90%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.15)">
+<div style="font-weight:800;font-size:1.3rem;margin-bottom:4px;text-align:center">&#x6A5F;&#x7968;&#x96F7;&#x9054; FareRadar</div>
+<div style="text-align:center;color:#64748b;font-size:13px;margin-bottom:24px">&#x767B;&#x5165;&#x4EE5;&#x958B;&#x59CB;&#x4F7F;&#x7528;</div>
+<div id="authLoginForm">
+<div class="form-group"><label class="form-label">&#x4F7F;&#x7528;&#x8005;&#x540D;&#x7A31;</label><input class="form-input" id="loginUsername" type="text" autocomplete="username"></div>
+<div class="form-group"><label class="form-label">&#x5BC6;&#x78BC;</label><input class="form-input" id="loginPassword" type="password" autocomplete="current-password"></div>
+<div id="authError" style="color:#DC2626;font-size:13px;margin-bottom:12px;display:none"></div>
+<button class="btn-primary" style="width:100%;justify-content:center;margin-bottom:10px" onclick="doLogin()">&#x767B;&#x5165;</button>
+<div style="text-align:center;font-size:13px;color:#64748b">&#x9084;&#x6C92;&#x6709;&#x5E33;&#x865F;&#xFF1F;<a href="javascript:void(0)" onclick="toggleAuthMode()" style="color:var(--primary)">&#x8A3B;&#x518A;&#x65B0;&#x5E33;&#x865F;</a></div>
+</div>
+<div id="authRegisterForm" style="display:none">
+<div class="form-group"><label class="form-label">&#x4F7F;&#x7528;&#x8005;&#x540D;&#x7A31;</label><input class="form-input" id="regUsername" type="text" autocomplete="username"></div>
+<div class="form-group"><label class="form-label">&#x5BC6;&#x78BC;</label><input class="form-input" id="regPassword" type="password" autocomplete="new-password"></div>
+<div class="form-group"><label class="form-label">&#x9080;&#x8ACB;&#x78BC;</label><input class="form-input" id="regInviteCode" type="text"></div>
+<div id="authError2" style="color:#DC2626;font-size:13px;margin-bottom:12px;display:none"></div>
+<button class="btn-primary" style="width:100%;justify-content:center;margin-bottom:10px" onclick="doRegister()">&#x8A3B;&#x518A;</button>
+<div style="text-align:center;font-size:13px;color:#64748b">&#x5DF2;&#x7D93;&#x6709;&#x5E33;&#x865F;&#xFF1F;<a href="javascript:void(0)" onclick="toggleAuthMode()" style="color:var(--primary)">&#x767B;&#x5165;</a></div>
+</div>
+</div>
+</div>
+<div class="container" style="display:none">
 <div class="page-header">
 <div class="page-label">&#x5100;&#x8868;&#x677F; &middot; DASHBOARD</div>
 <h1 class="page-title">&#x6211;&#x7684;&#x7968;&#x50F9;&#x8FFD;&#x8E64;</h1>
@@ -199,7 +220,7 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 var WORKER_URL='https://flights.tw-mywu.workers.dev';
 
 var CITIES={'TPE':'&#x53F0;&#x5317;','KHH':'&#x9AD8;&#x96C4;','NRT':'&#x6771;&#x4EAC;','KIX':'&#x5927;&#x962A;','FUK':'&#x798F;&#x5CA1;','KMQ':'&#x5C0F;&#x677E;','TAK':'&#x9AD8;&#x677E;','HKG':'&#x9999;&#x6E2F;','ICN':'&#x9996;&#x723E;','BKK':'&#x66FC;&#x8C37;','SIN':'&#x65B0;&#x52A0;&#x5761;','PVG':'&#x4E0A;&#x6D77;','PEK':'&#x5317;&#x4EAC;','OKA':'&#x6C96;&#x7E04;','CTS':'&#x672D;&#x5E4C;','NGO':'&#x540D;&#x53E4;&#x5C4B;'};
-function cityName(c){return CITIES[c]||'';} function getApiKey(){var k=localStorage.getItem('fareradar_api_key');if(!k){k=prompt('請輸入管理用 API Key:')||'';if(k)localStorage.setItem('fareradar_api_key',k);}return k;} function populateAirportList(){var dl=document.getElementById('airportList');if(!dl)return;var h='';Object.keys(CITIES).sort().forEach(function(c){h+='<option value="'+c+'">'+CITIES[c]+' ('+c+')</option>';});dl.innerHTML=h;}var navSearchKeyword='';function decodeEntity(str){var d=document.createElement('div');d.innerHTML=str;return d.textContent;}function onNavSearch(v){navSearchKeyword=(v||'').trim().toUpperCase();renderTable();}
+function cityName(c){return CITIES[c]||'';} function getToken(){return localStorage.getItem('fareradar_token')||'';}function setToken(t){if(t){localStorage.setItem('fareradar_token',t);}else{localStorage.removeItem('fareradar_token');}}function getUsername(){return localStorage.getItem('fareradar_username')||'';}function setUsername(u){if(u){localStorage.setItem('fareradar_username',u);}else{localStorage.removeItem('fareradar_username');}}function updateAvatarName(){var u=getUsername()||'使用者';var ini=document.getElementById('avatarInitial');if(ini)ini.textContent=u.charAt(0).toUpperCase();var nm=document.getElementById('avatarDropName');if(nm)nm.textContent=u;}function showApp(){var n=document.querySelector('.nav');if(n)n.style.display='flex';var c=document.querySelector('.container');if(c)c.style.display='block';var a=document.getElementById('authOverlay');if(a)a.style.display='none';}function showAuth(){var n=document.querySelector('.nav');if(n)n.style.display='none';var c=document.querySelector('.container');if(c)c.style.display='none';var a=document.getElementById('authOverlay');if(a)a.style.display='flex';}function toggleAuthMode(){var l=document.getElementById('authLoginForm'),r=document.getElementById('authRegisterForm');var showingLogin=l.style.display!=='none';l.style.display=showingLogin?'none':'block';r.style.display=showingLogin?'block':'none';}function startApp(){initTheme();populateAirportList();loadSubs();}function checkAuth(){var token=getToken();if(!token){showAuth();return;}fetch(WORKER_URL+'/api/me',{headers:{'Authorization':'Bearer '+token}}).then(function(r){if(!r.ok)throw new Error('unauthorized');return r.json();}).then(function(d){setUsername(d.username);updateAvatarName();showApp();startApp();}).catch(function(){setToken('');showAuth();});}function doLogin(){var u=(document.getElementById('loginUsername')||{}).value||'';var p=(document.getElementById('loginPassword')||{}).value||'';var errEl=document.getElementById('authError');errEl.style.display='none';if(!u||!p){errEl.textContent='請輸入使用者名稱與密碼';errEl.style.display='block';return;}fetch(WORKER_URL+'/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})}).then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});}).then(function(res){if(!res.ok){errEl.textContent=res.d.error||'登入失敗';errEl.style.display='block';return;}setToken(res.d.token);setUsername(res.d.username);updateAvatarName();showApp();startApp();}).catch(function(e){errEl.textContent='網路錯誤，請稍後再試';errEl.style.display='block';});}function doRegister(){var u=(document.getElementById('regUsername')||{}).value||'';var p=(document.getElementById('regPassword')||{}).value||'';var ic=(document.getElementById('regInviteCode')||{}).value||'';var errEl=document.getElementById('authError2');errEl.style.display='none';if(!u||!p||!ic){errEl.textContent='請完整填寫所有欄位';errEl.style.display='block';return;}fetch(WORKER_URL+'/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p,inviteCode:ic})}).then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});}).then(function(res){if(!res.ok){errEl.textContent=res.d.error||'註冊失敗';errEl.style.display='block';return;}setToken(res.d.token);setUsername(res.d.username);updateAvatarName();showApp();startApp();}).catch(function(e){errEl.textContent='網路錯誤，請稍後再試';errEl.style.display='block';});}function doLogout(){var token=getToken();fetch(WORKER_URL+'/api/logout',{method:'POST',headers:{'Authorization':'Bearer '+token}}).catch(function(){});setToken('');setUsername('');showAuth();} function populateAirportList(){var dl=document.getElementById('airportList');if(!dl)return;var h='';Object.keys(CITIES).sort().forEach(function(c){h+='<option value="'+c+'">'+CITIES[c]+' ('+c+')</option>';});dl.innerHTML=h;}var navSearchKeyword='';function decodeEntity(str){var d=document.createElement('div');d.innerHTML=str;return d.textContent;}function onNavSearch(v){navSearchKeyword=(v||'').trim().toUpperCase();renderTable();}
 var subsData=[],pricesData={prices:{},history:{}};
 
 function toggleBell(e){e.stopPropagation();var d=document.getElementById('bellDrop');d.classList.toggle('open');document.getElementById('avatarDrop').classList.remove('open');}
@@ -207,10 +228,11 @@ function toggleAvatar(e){e.stopPropagation();var d=document.getElementById('avat
 document.addEventListener('click',function(){document.querySelectorAll('.bell-drop,.avatar-drop').forEach(function(d){d.classList.remove('open');});});
 
 function loadSubs(){
-fetch(WORKER_URL+'/subscriptions').then(function(r){
+fetch(WORKER_URL+'/subscriptions',{headers:{'Authorization':'Bearer '+getToken()}}).then(function(r){
+if(r.status===401){showAuth();throw new Error('unauthorized');}
 if(!r.ok)throw new Error('HTTP '+r.status);return r.json();
 }).then(function(json){
-subsData=Array.isArray(json)?json:(json.subscriptions||[]);window._subsSha=json.sha||'';
+subsData=Array.isArray(json)?json:(json.subscriptions||[]);
 var sub=document.getElementById('pageSubtitle');if(sub)sub.innerHTML='&#x8FFD;&#x8E64; '+subsData.length+' &#x689D;&#x822A;&#x7DDA;';
 var tc=document.getElementById('tableCount');if(tc)tc.textContent=subsData.length;
 return loadPrices();
@@ -406,7 +428,7 @@ subsData=subsData.filter(function(s){return s.id!==id;});
 saveSubs().then(function(){updateStats();renderFeatured();renderAlerts();renderTable();showToast('&#x2705; &#x5DF2;&#x522A;&#x9664;');});
 }
 function saveSubs(){
-return fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json','X-Api-Key':getApiKey()},body:JSON.stringify({subscriptions:subsData,sha:window._subsSha||''})}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(d){if(d&&d.sha)window._subsSha=d.sha;}).catch(function(e){showToast('Save failed: '+e.message);});
+return fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({subscriptions:subsData})}).then(function(r){if(r.status===401){showAuth();}if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).catch(function(e){showToast('Save failed: '+e.message);});
 }
 window.onclick=function(e){var am=document.getElementById('addModal');if(am&&e.target===am)closeModal();var cm=document.getElementById('calModal');if(cm&&e.target===cm)closeCalModal();};
 // ===== AIRLINE SEARCH =====
@@ -523,7 +545,7 @@ function renderAirlineResults(query){
   renderAirlineChips();
 }
 
-initTheme();populateAirportList();loadSubs();
+checkAuth();
 </script>
 </body>
 </html>
