@@ -114,15 +114,15 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 </head>
 <body>
 <nav class="nav">
-<div class="nav-brand"><div class="nav-icon">&#x2708;</div><div><div>&#x6A5F;&#x7968;&#x96F7;&#x9054; FareRadar</div><div class="nav-brand-sub">&#x7968;&#x50F9;&#x8FFD;&#x8E64;</div></div></div>
-<div class="nav-search"><span class="nav-search-icon">&#x1F50D;</span><input type="text" placeholder="&#x641C;&#x5C0B;&#x822A;&#x7DDA;..."></div>
+<div class="nav-brand"><div class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 22 2"/></svg></div><div><div>&#x6A5F;&#x7968;&#x96F7;&#x9054; FareRadar</div><div class="nav-brand-sub">&#x7968;&#x50F9;&#x8FFD;&#x8E64;</div></div></div>
+<div class="nav-search"><span class="nav-search-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span><input type="text" placeholder="&#x641C;&#x5C0B;&#x822A;&#x7DDA;..."></div>
 <div class="nav-spacer"></div>
 <div style="display:flex;gap:6px;align-items:center">
-<button class="theme-btn theme-sky active" onclick="setTheme('sky',this)">&#x2600; &#x6674;&#x7A7A;</button>
-<button class="theme-btn theme-mint" onclick="setTheme('mint',this)">&#x1F33F; &#x8584;&#x8377;</button>
-<button class="theme-btn theme-warm" onclick="setTheme('warm',this)">&#x2600; &#x6696;&#x967D;</button><button class="theme-btn theme-dark" onclick="setTheme('dark',this)">🌙 夜間</button>
+<button class="theme-btn theme-sky active" onclick="setTheme('sky',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg> &#x6674;&#x7A7A;</button>
+<button class="theme-btn theme-mint" onclick="setTheme('mint',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg> &#x8584;&#x8377;</button>
+<button class="theme-btn theme-warm" onclick="setTheme('warm',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg> &#x6696;&#x967D;</button><button class="theme-btn theme-dark" onclick="setTheme('dark',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg> 夜間</button>
 </div>
-<div class="nav-bell" id="bellBtn" onclick="toggleBell(event)">&#x1F514;<span class="bell-badge" id="bellBadge">0</span>
+<div class="nav-bell" id="bellBtn" onclick="toggleBell(event)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="bell-badge" id="bellBadge">0</span>
 <div class="bell-drop" id="bellDrop">
 <div class="bell-drop-title">&#x63D0;&#x9192;&#x901A;&#x77E5;</div>
 <div class="bell-drop-item"><div class="bell-drop-msg">&#x66AB;&#x7121;&#x65B0;&#x901A;&#x77E5;</div></div>
@@ -130,9 +130,9 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <div class="nav-avatar" id="avatarBtn" onclick="toggleAvatar(event)">&#x9673;
 <div class="avatar-drop" id="avatarDrop">
 <div class="avatar-drop-name">&#x9673; &#x540C;&#x5B78;</div>
-<div class="avatar-drop-item" onclick="showToast('&#x8A2D;&#x5B9A;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')">&#x2699; &#x8A2D;&#x5B9A;</div>
-<div class="avatar-drop-item" onclick="showToast('&#x901A;&#x77E5;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')">&#x1F514; &#x901A;&#x77E5;&#x504F;&#x597D;</div>
-<div class="avatar-drop-item" onclick="showToast('&#x5DF2;&#x767B;&#x51FA;')">&#x1F6AA; &#x767B;&#x51FA;</div>
+<div class="avatar-drop-item" onclick="showToast('&#x8A2D;&#x5B9A;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg> &#x8A2D;&#x5B9A;</div>
+<div class="avatar-drop-item" onclick="showToast('&#x901A;&#x77E5;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg> &#x901A;&#x77E5;&#x504F;&#x597D;</div>
+<div class="avatar-drop-item" onclick="showToast('&#x5DF2;&#x767B;&#x51FA;')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> &#x767B;&#x51FA;</div>
 </div></div>
 </nav>
 <div class="container">
@@ -143,18 +143,18 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <button class="btn-primary" onclick="openModal()">&#xFF0B; &#x65B0;&#x589E;&#x8FFD;&#x8E64;</button>
 </div>
 <div class="stats-grid">
-<div class="stat-card"><div class="stat-icon blue">&#x2708;</div><div><div class="stat-label">&#x8FFD;&#x8E64;&#x822A;&#x7DDA;</div><div class="stat-value" id="statTotal">--</div><div class="stat-sub">&#x689D;&#x822A;&#x7DDA;&#x76E3;&#x63A7;&#x4E2D;</div></div></div>
-<div class="stat-card"><div class="stat-icon yellow">&#x1F514;</div><div><div class="stat-label">&#x89F8;&#x767C;&#x63D0;&#x9192;</div><div class="stat-value" id="statTriggered">--</div><div class="stat-sub">&#x689D;&#x5DF2;&#x9054;&#x5230;&#x76EE;&#x6A19;&#x50F9;</div></div></div>
-<div class="stat-card"><div class="stat-icon green">&#x1F4B0;</div><div><div class="stat-label">&#x6700;&#x4F4E;&#x6700;&#x4F18;&#x60E0;</div><div class="stat-value" id="statSaving">--</div><div class="stat-sub" id="statSavingSub">--</div></div></div>
-<div class="stat-card"><div class="stat-icon purple">&#x23F0;</div><div><div class="stat-label">&#x6700;&#x5F8C;&#x66F4;&#x65B0;</div><div class="stat-value" id="statDrop">--</div><div class="stat-sub" id="statDropSub">&#x81EA;&#x52D5;&#x6BCF;&#x65E5; 1 &#x6B21;</div></div></div>
+<div class="stat-card"><div class="stat-icon blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 22 2"/></svg></div><div><div class="stat-label">&#x8FFD;&#x8E64;&#x822A;&#x7DDA;</div><div class="stat-value" id="statTotal">--</div><div class="stat-sub">&#x689D;&#x822A;&#x7DDA;&#x76E3;&#x63A7;&#x4E2D;</div></div></div>
+<div class="stat-card"><div class="stat-icon yellow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></div><div><div class="stat-label">&#x89F8;&#x767C;&#x63D0;&#x9192;</div><div class="stat-value" id="statTriggered">--</div><div class="stat-sub">&#x689D;&#x5DF2;&#x9054;&#x5230;&#x76EE;&#x6A19;&#x50F9;</div></div></div>
+<div class="stat-card"><div class="stat-icon green"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><div class="stat-label">&#x6700;&#x4F4E;&#x6700;&#x4F18;&#x60E0;</div><div class="stat-value" id="statSaving">--</div><div class="stat-sub" id="statSavingSub">--</div></div></div>
+<div class="stat-card"><div class="stat-icon purple"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="stat-label">&#x6700;&#x5F8C;&#x66F4;&#x65B0;</div><div class="stat-value" id="statDrop">--</div><div class="stat-sub" id="statDropSub">&#x81EA;&#x52D5;&#x6BCF;&#x65E5; 1 &#x6B21;</div></div></div>
 </div>
 <div class="main-grid">
 <div class="card"><div id="featuredCard"><div class="skeleton" style="height:40px;width:40px;border-radius:10px"></div><div class="skeleton" style="height:32px;width:60%;margin-top:16px"></div><div class="skeleton" style="height:14px;width:40%;margin-top:12px"></div><div class="skeleton" style="height:14px;width:50%;margin-top:8px"></div><div class="skeleton" style="height:38px;width:100%;margin-top:16px;border-radius:10px"></div></div></div>
-<div class="card"><div class="card-header"><div class="card-title">&#x1F4E2; &#x50F9;&#x683C;&#x8B66;&#x5831;</div><a href="#" class="card-link">&#x67E5;&#x770B;&#x5168;&#x90E8;</a></div><div id="alertsList"><div class="skeleton" style="height:44px;width:100%;margin-bottom:8px"></div><div class="skeleton" style="height:44px;width:100%;margin-bottom:8px"></div><div class="skeleton" style="height:44px;width:100%"></div></div></div>
+<div class="card"><div class="card-header"><div class="card-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg> &#x50F9;&#x683C;&#x8B66;&#x5831;</div><a href="#" class="card-link">&#x67E5;&#x770B;&#x5168;&#x90E8;</a></div><div id="alertsList"><div class="skeleton" style="height:44px;width:100%;margin-bottom:8px"></div><div class="skeleton" style="height:44px;width:100%;margin-bottom:8px"></div><div class="skeleton" style="height:44px;width:100%"></div></div></div>
 </div>
 <div class="airline-search-section">
 <div class="airline-search-header">
-<span style="font-size:1.1rem">&#x2708;</span>
+<span style="font-size:1.1rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 22 2"/></svg></span>
 <div style="font-weight:700;font-size:1rem">&#x4EE5;&#x822A;&#x7A7A;&#x516C;&#x53F8;&#x67E5;&#x8A62;</div>
 <input class="airline-search-input" id="airlineSearchInput" type="text" placeholder="&#x8F38;&#x5165;&#x822A;&#x7A7A;&#x516C;&#x53F8;&#x540D;&#x7A31;&#xFF0C;&#x4F8B;&#xFF1A;&#x4E2D;&#x83EF;&#x822A;&#x7A7A;&#x3001;Tiger Air&#x3001;&#x6AFB;&#x6A02;&#x6AFB;" oninput="onAirlineSearch(this.value)">
 <button class="btn-secondary" onclick="clearAirlineSearch()" id="airlineClearBtn" style="display:none">&#x6E05;&#x9664;</button>
@@ -190,7 +190,7 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <div class="modal-footer"><button class="btn-secondary" onclick="closeModal()">Cancel</button><button class="btn-primary" id="modalConfirmBtn" onclick="addSub()">&#x78BA;&#x8A8D;&#x65B0;&#x589E;</button></div>
 </div></div>
 <div class="modal-overlay" id="calModal"><div class="modal-box" style="max-width:640px">
-<div class="modal-title" id="calModalTitle">&#x1F4C5; &#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;</div>
+<div class="modal-title" id="calModalTitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> &#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;</div>
 <div id="calModalBody" style="max-height:420px;overflow-y:auto"></div>
 <div class="modal-footer"><button class="btn-secondary" onclick="closeCalModal()">&#x95DC;&#x9589;</button></div>
 </div></div>
@@ -313,7 +313,7 @@ el.innerHTML=
 '<div style="font-size:2rem;font-weight:800;color:var(--primary);margin-bottom:4px">'+(price?'NT$'+price.toLocaleString():'--')+'</div>'+
 '<div style="color:var(--text-secondary);font-size:13px;margin-bottom:4px">&#x6700;&#x4F4E;&#x50F9;&#x65E5;&#x671F;: '+cheapDate+'</div>'+
 '<div style="color:var(--text-secondary);font-size:13px;margin-bottom:16px">&#x76EE;&#x6A19;&#x50F9;: '+(target?'NT$'+target.toLocaleString():'--')+'</div>'+
-'<button class="btn-primary" style="width:100%" data-cal="'+s.id+'">&#x1F4C5; &#x67E5;&#x770B;&#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;</button>';
+'<button class="btn-primary" style="width:100%" data-cal="'+s.id+'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> &#x67E5;&#x770B;&#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;</button>';
 var fcBtn=el.querySelector('[data-cal]');if(fcBtn)fcBtn.onclick=function(){showCalendar(this.getAttribute('data-cal'));};
 }
 
@@ -359,7 +359,7 @@ return '<tr data-cal="'+sid+'" style="cursor:pointer"><td><div style="display:fl
 '<td>'+badge+'</td>'+'<td>'+makeSparkline(history)+'</td>'+
 '<td style="font-size:13px;color:var(--text-secondary)">'+(airline||'--')+'</td>'+
 '<td>'+targetStr+'</td>'+
-'<td onclick="event.stopPropagation()">'+status+' <button class="btn-icon" data-edit="'+sid+'" title="編輯">✏️</button> <button class="btn-icon" data-del="'+sid+'" title="&#x522A;&#x9664;">&#x1F5D1;</button></td></tr>';
+'<td onclick="event.stopPropagation()">'+status+' <button class="btn-icon" data-edit="'+sid+'" title="編輯"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button> <button class="btn-icon" data-del="'+sid+'" title="&#x522A;&#x9664;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></td></tr>';
 }).join('');
 Array.from(tbody.querySelectorAll('[data-edit]')).forEach(function(btn){btn.onclick=function(e){e.stopPropagation();openEditModal(btn.getAttribute('data-edit'));};});Array.from(tbody.querySelectorAll('[data-del]')).forEach(function(btn){
 btn.onclick=function(e){e.stopPropagation();deleteSub(btn.getAttribute('data-del'));};
@@ -371,7 +371,7 @@ function showCalendar(subId){
 var s=subsData.find(function(x){return x.id===subId;});if(!s)return;
 var cal=getSubCalendar(s);
 var title=document.getElementById('calModalTitle');
-if(title)title.innerHTML='&#x1F4C5; '+s.origin+' &#x2192; '+s.destination+' &#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;';
+if(title)title.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> '+s.origin+' &#x2192; '+s.destination+' &#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;';
 var body=document.getElementById('calModalBody');
 if(body)body.innerHTML=makeCal(cal,s.target_price);
 var m=document.getElementById('calModal');if(m)m.style.display='flex';
@@ -379,7 +379,7 @@ var m=document.getElementById('calModal');if(m)m.style.display='flex';
 function closeCalModal(){var m=document.getElementById('calModal');if(m)m.style.display='none';}
 
 function setTheme(t,btn){document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('.theme-btn').forEach(function(b){b.classList.remove('active');});if(btn)btn.classList.add('active');try{localStorage.setItem('fareradar_theme',t);}catch(e){}}function initTheme(){try{var t=localStorage.getItem('fareradar_theme');if(t){var btn=document.querySelector('.theme-'+t);setTheme(t,btn);}}catch(e){}}
-var _editingId=null;function openEditModal(id){var s=subsData.find(function(x){return x.id===id;});if(!s)return;_editingId=id;var mt=document.getElementById('modalTitleText');if(mt)mt.textContent='✏️ 編輯追蹤航線';var oi=document.getElementById('inputOrigin'),di=document.getElementById('inputDest');if(oi){oi.value=s.origin;oi.disabled=true;}if(di){di.value=s.destination;di.disabled=true;}var df=document.getElementById('inputDateFrom'),dt=document.getElementById('inputDateTo'),tg=document.getElementById('inputTarget');if(df)df.value=s.date_from||s.date||'';if(dt)dt.value=s.date_to||s.date||'';if(tg)tg.value=s.target_price||'';var m=document.getElementById('addModal');if(m)m.style.display='flex';var cb=document.getElementById('modalConfirmBtn');if(cb)cb.textContent='✅ 儲存變更';}function openModal(){_editingId=null;var mt=document.getElementById('modalTitleText');if(mt)mt.textContent='＋ 新增追蹤航線';var oi=document.getElementById('inputOrigin'),di=document.getElementById('inputDest');if(oi){oi.value='';oi.disabled=false;}if(di){di.value='';di.disabled=false;}var cb=document.getElementById('modalConfirmBtn');if(cb)cb.textContent='確認新增';
+var _editingId=null;function openEditModal(id){var s=subsData.find(function(x){return x.id===id;});if(!s)return;_editingId=id;var mt=document.getElementById('modalTitleText');if(mt)mt.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> 編輯追蹤航線';var oi=document.getElementById('inputOrigin'),di=document.getElementById('inputDest');if(oi){oi.value=s.origin;oi.disabled=true;}if(di){di.value=s.destination;di.disabled=true;}var df=document.getElementById('inputDateFrom'),dt=document.getElementById('inputDateTo'),tg=document.getElementById('inputTarget');if(df)df.value=s.date_from||s.date||'';if(dt)dt.value=s.date_to||s.date||'';if(tg)tg.value=s.target_price||'';var m=document.getElementById('addModal');if(m)m.style.display='flex';var cb=document.getElementById('modalConfirmBtn');if(cb)cb.textContent='✅ 儲存變更';}function openModal(){_editingId=null;var mt=document.getElementById('modalTitleText');if(mt)mt.textContent='＋ 新增追蹤航線';var oi=document.getElementById('inputOrigin'),di=document.getElementById('inputDest');if(oi){oi.value='';oi.disabled=false;}if(di){di.value='';di.disabled=false;}var cb=document.getElementById('modalConfirmBtn');if(cb)cb.textContent='確認新增';
 var m=document.getElementById('addModal');if(m)m.style.display='flex';
 var now=new Date(),future=new Date();future.setDate(now.getDate()+90);
 var fmt=function(d){return d.toISOString().slice(0,10);};
