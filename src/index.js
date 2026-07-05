@@ -106,6 +106,10 @@ function validUsername(u) {
   return typeof u === 'string' && /^[a-zA-Z0-9_]{3,20}$/.test(u);
 }
 
+function validEmail(e) {
+  return typeof e === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -117,7 +121,7 @@ export default {
     if (url.pathname === '/api/register' && request.method === 'POST') {
       try {
         const body = await request.json();
-        const { username, password, inviteCode } = body;
+        const { username, password, inviteCode, email } = body;
         if (!env.INVITE_CODE || inviteCode !== env.INVITE_CODE) {
           return json({ error: '邀請碼錯誤' }, 403);
         }
@@ -127,12 +131,15 @@ export default {
         if (typeof password !== 'string' || password.length < 6) {
           return json({ error: '密碼至少需要 6 個字元' }, 400);
         }
+        if (!validEmail(email)) {
+          return json({ error: '請輸入有效的 Email 地址' }, 400);
+        }
         const existing = await getUser(env, username);
         if (existing) {
           return json({ error: '使用者名稱已被使用' }, 409);
         }
         const { salt, hash } = await hashPassword(password);
-        await saveUser(env, username, { username, salt, hash, createdAt: Date.now() });
+        await saveUser(env, username, { username, salt, hash, email, createdAt: Date.now() });
 
         try {
           const list = await env.FARERADAR_KV.list({ prefix: 'user:' });
@@ -176,7 +183,8 @@ export default {
     if (url.pathname === '/api/me' && request.method === 'GET') {
       const username = await getSessionUser(request, env);
       if (!username) return json({ error: 'Unauthorized' }, 401);
-      return json({ username });
+      const user = await getUser(env, username);
+      return json({ username, email: (user && user.email) || '' });
     }
 
     if (url.pathname === '/api/admin/all-subscriptions' && request.method === 'GET') {
