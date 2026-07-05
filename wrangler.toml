@@ -1,3 +1,7 @@
 name = "flights"
 main = "src/index.js"
 compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "FARERADAR_KV"
+id = "0ae39acb976f4dfd9d3e6365a92381ee"
