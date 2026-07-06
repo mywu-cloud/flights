@@ -478,16 +478,43 @@ class GoogleFlightsScraper:
                         'Zipair', 'Air Japan', 'Vanilla Air', 'Spring Airlines',
                         'HK Express', 'Cebu Pacific', 'VietJet', 'AirAsia',
                         '中華航空', '長榮航空', '星宇航空', '台灣虎航',
-                        '酷航', '樂桃航空', '泰國獅航', '香港航空',
-                        '國泰航空', '日本航空', '捷星日本航空',
+                        '酷航', '樂桃航空', '泰國獅航', '香港航空', '香港快運航空',
+                        '國泰航空', '日本航空', '捷星日本航空', '全日空航空', '全日空',
+                        '德威航空', '亞洲航空 X', '亞洲航空', '濟州航空', '真航空',
+                        '大韓航空', '韓亞航空', '聯合航空',
                     ];
                     function findAirlineName(card) {
                         const airlineEl = card.querySelector('.sSHqwe');
-                        if (airlineEl) {
-                            const txt = airlineEl.textContent.trim();
-                            if (txt.length > 1 && txt.length < 60 && !/[0-9]/.test(txt)) {
-                                return txt;
+                        let txt = airlineEl ? airlineEl.textContent.trim() : '';
+                        if (!txt || txt.length <= 1) {
+                            const cardText = card.textContent || '';
+                            for (const name of airlineNames) {
+                                if (cardText.includes(name)) return name;
                             }
+                            return 'Unknown';
+                        }
+                        // Strip codeshare / operated-by disclaimer suffix
+                        const disclaimerMatch = txt.match(/\u627f\u904b\u65b9|\u71df\u904b|operated by/i);
+                        if (disclaimerMatch && disclaimerMatch.index > 0) {
+                            txt = txt.slice(0, disclaimerMatch.index);
+                        }
+                        // Keep only the first (marketing) carrier before a separator
+                        const sepMatch = txt.match(/[\u3001,]/);
+                        if (sepMatch && sepMatch.index > 0) {
+                            txt = txt.slice(0, sepMatch.index);
+                        }
+                        txt = txt.trim();
+                        // If multiple known airline names got concatenated with no
+                        // separator, match the longest known name that prefixes txt
+                        let bestMatch = null;
+                        for (const name of airlineNames) {
+                            if (txt.startsWith(name) && (!bestMatch || name.length > bestMatch.length)) {
+                                bestMatch = name;
+                            }
+                        }
+                        if (bestMatch) return bestMatch;
+                        if (txt.length > 1 && txt.length < 30 && !/[0-9]/.test(txt)) {
+                            return txt;
                         }
                         const cardText = card.textContent || '';
                         for (const name of airlineNames) {
