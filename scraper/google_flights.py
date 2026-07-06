@@ -471,31 +471,22 @@ class GoogleFlightsScraper:
             flight_data = await page.evaluate("""
                 () => {
                     const results = [];
+                    const priceRegex = /(?:NT)?\$\s*([\d,]+)|([\d,]+)\s*TWD/;
                     const airlineNames = [
                         'China Airlines', 'EVA Air', 'Japan Airlines', 'ANA',
                         'Peach', 'Jetstar', 'Starlux', 'Tiger Air', 'Scoot',
                         'Zipair', 'Air Japan', 'Vanilla Air', 'Spring Airlines',
                         'HK Express', 'Cebu Pacific', 'VietJet', 'AirAsia',
-                        '中華航空', '長榮航空',
-                        '星宇航空', '台灣虎航',
-                        '櫻樂櫻', '全日空',
-                        '櫻樂櫻航空', '酒井安航空',
-                        '春秋航空', '天馬航空',
+                        '中華航空', '長榮航空', '星宇航空', '台灣虎航',
+                        '酷航', '樂桃航空', '泰國獅航', '香港航空',
+                        '國泰航空', '日本航空', '捷星日本航空',
                     ];
-                    function findAirlineInCard(el) {
-                        let card = el;
-                        for (let i = 0; i < 10; i++) {
-                            if (!card || !card.parentElement) break;
-                            card = card.parentElement;
-                            if (card.tagName === 'LI' || card.getAttribute('role') === 'listitem' ||
-                                card.classList.contains('pIav2d') || card.classList.contains('yR1myc')) break;
-                        }
-                        const airlineSelectors = ['.Ir0Voe', '.sSHqwe', '.h1fkLb', '.VY3BNb', '[data-iata]'];
-                        for (const sel of airlineSelectors) {
-                            const airEl = card.querySelector(sel);
-                            if (airEl) {
-                                const txt = airEl.textContent.trim();
-                                if (txt.length > 1 && txt.length < 60) return txt;
+                    function findAirlineName(card) {
+                        const airlineEl = card.querySelector('.sSHqwe');
+                        if (airlineEl) {
+                            const txt = airlineEl.textContent.trim();
+                            if (txt.length > 1 && txt.length < 60 && !/[0-9]/.test(txt)) {
+                                return txt;
                             }
                         }
                         const cardText = card.textContent || '';
@@ -504,34 +495,44 @@ class GoogleFlightsScraper:
                         }
                         return 'Unknown';
                     }
-                    const knownEls = document.querySelectorAll('.YMlIz, .FpEdX');
-                    for (const el of knownEls) {
-                        const text = (el.textContent || '').trim();
-                        const match = text.match(/NT\$\s*([\d,]+)|([\d,]+)\s*TWD/);
-                        if (match) {
-                            const raw = (match[1] || match[2] || '').replace(/,/g, '');
-                            const price = parseInt(raw, 10);
-                            if (price >= 3000 && price <= 200000) {
-                                const airline = findAirlineInCard(el);
-                                results.push({ price_raw: price, element_text: text, airline: airline });
+                    const cards = document.querySelectorAll('li.pIav2d');
+                    for (const card of cards) {
+                        const priceEls = card.querySelectorAll('.YMlIz, .FpEdX');
+                        let bestPrice = null;
+                        let bestText = '';
+                        for (const el of priceEls) {
+                            const text = (el.textContent || '').trim();
+                            const match = text.match(priceRegex);
+                            if (match) {
+                                const raw = (match[1] || match[2] || '').replace(/,/g, '');
+                                const price = parseInt(raw, 10);
+                                if (price >= 3000 && price <= 200000) {
+                                    if (bestPrice === null || price < bestPrice) {
+                                        bestPrice = price;
+                                        bestText = text;
+                                    }
+                                }
                             }
                         }
+                        if (bestPrice === null) continue;
+                        const airline = findAirlineName(card);
+                        results.push({ price_raw: bestPrice, element_text: bestText, airline: airline });
                     }
                     if (results.length === 0) {
-                        const ariaEls = document.querySelectorAll('[aria-label*="NT$"]');
+                        const ariaEls = document.querySelectorAll('[aria-label*="$"]');
                         for (const el of ariaEls) {
                             const lbl = el.getAttribute('aria-label') || '';
-                            const match = lbl.match(/NT\$\s*([\d,]+)/);
+                            const match = lbl.match(priceRegex);
                             if (match) {
-                                const price = parseInt(match[1].replace(/,/g, ''), 10);
+                                const raw = (match[1] || match[2] || '').replace(/,/g, '');
+                                const price = parseInt(raw, 10);
                                 if (price >= 3000 && price <= 200000) {
-                                    const airline = findAirlineInCard(el);
-                                    results.push({ price_raw: price, element_text: lbl.substring(0, 100), airline: airline });
+                                    results.push({ price_raw: price, element_text: lbl.substring(0, 100), airline: 'Unknown' });
                                 }
                             }
                         }
                     }
-                    return results.slice(0, 20);
+                    return results.slice(0, 60);
                 }
             """)
             logger.info(f"DOM JS returned {len(flight_data) if flight_data else 0} results")
