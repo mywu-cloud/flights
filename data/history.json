@@ -1,175 +1,310 @@
 {
-  "updated_at": "2026-07-06T03:31:20.667247Z",
+  "updated_at": "2026-07-06T05:48:26.377008Z",
   "history": {
-    "updated_at": "2026-07-05T06:35:03.679344Z",
+    "updated_at": "2026-07-06T03:31:20.667247Z",
     "history": {
-      "updated_at": "2026-07-04T06:16:17.024457Z",
+      "updated_at": "2026-07-05T06:35:03.679344Z",
       "history": {
-        "updated_at": "2026-07-03T06:15:25.802728Z",
+        "updated_at": "2026-07-04T06:16:17.024457Z",
         "history": {
+          "updated_at": "2026-07-03T06:15:25.802728Z",
+          "history": {
+            "tpe-nrt": [
+              {
+                "cheapest_price": 7974,
+                "cheapest_date": "2026-07-01",
+                "dates_found": 3,
+                "scraped_at": "2026-07-03T13:48:51.132069+08:00"
+              }
+            ],
+            "tpe-kix": [
+              {
+                "cheapest_price": 7272,
+                "cheapest_date": "2026-07-15",
+                "dates_found": 4,
+                "scraped_at": "2026-07-03T13:52:03.697474+08:00"
+              }
+            ],
+            "tpe-fuk": [
+              {
+                "cheapest_price": 9681,
+                "cheapest_date": "2026-08-12",
+                "dates_found": 4,
+                "scraped_at": "2026-07-03T13:54:57.302847+08:00"
+              }
+            ],
+            "tpe-kmq": [
+              {
+                "cheapest_price": 10627,
+                "cheapest_date": "2026-07-01",
+                "dates_found": 7,
+                "scraped_at": "2026-07-03T13:57:50.287837+08:00"
+              }
+            ],
+            "tpe-tak": [
+              {
+                "cheapest_price": 8869,
+                "cheapest_date": "2026-07-01",
+                "dates_found": 6,
+                "scraped_at": "2026-07-03T13:59:43.029123+08:00"
+              }
+            ],
+            "khh-nrt": [
+              {
+                "cheapest_price": 8335,
+                "cheapest_date": "2026-07-01",
+                "dates_found": 6,
+                "scraped_at": "2026-07-03T14:01:58.391496+08:00"
+              }
+            ],
+            "khh-kix": [
+              {
+                "cheapest_price": 7820,
+                "cheapest_date": "2026-07-01",
+                "dates_found": 3,
+                "scraped_at": "2026-07-03T14:04:12.759067+08:00"
+              }
+            ],
+            "khh-fuk": [
+              {
+                "cheapest_price": 8765,
+                "cheapest_date": "2026-07-15",
+                "dates_found": 6,
+                "scraped_at": "2026-07-03T14:07:27.871846+08:00"
+              }
+            ],
+            "khh-kmq": [
+              {
+                "cheapest_price": 16447,
+                "cheapest_date": "2026-07-15",
+                "dates_found": 3,
+                "scraped_at": "2026-07-03T14:09:38.161187+08:00"
+              }
+            ],
+            "khh-tak": [
+              {
+                "cheapest_price": 10511,
+                "cheapest_date": "2026-07-01",
+                "dates_found": 5,
+                "scraped_at": "2026-07-03T14:12:48.477480+08:00"
+              }
+            ]
+          },
           "tpe-nrt": [
             {
-              "cheapest_price": 7974,
+              "cheapest_price": 7965,
               "cheapest_date": "2026-07-01",
-              "dates_found": 3,
-              "scraped_at": "2026-07-03T13:48:51.132069+08:00"
+              "dates_found": 7,
+              "scraped_at": "2026-07-04T13:55:24.703252+08:00"
             }
           ],
+          "__alerts__": {
+            "tpe-nrt": {
+              "price": 7965,
+              "reason": "Target reached! 2026-07-01 @ 7965 TWD <= 12000 TWD",
+              "alerted_at": "2026-07-04T13:55:24.703252+08:00"
+            },
+            "tpe-kix": {
+              "price": 7267,
+              "reason": "Target reached! 2026-07-01 @ 7267 TWD <= 10000 TWD",
+              "alerted_at": "2026-07-04T13:57:09.587344+08:00"
+            },
+            "tpe-fuk": {
+              "price": 9695,
+              "reason": "Target reached! 2026-07-01 @ 9695 TWD <= 10000 TWD",
+              "alerted_at": "2026-07-04T13:58:56.315024+08:00"
+            },
+            "tpe-kmq": {
+              "price": 10402,
+              "reason": "Target reached! 2026-07-01 @ 10402 TWD <= 12000 TWD",
+              "alerted_at": "2026-07-04T14:01:13.072186+08:00"
+            },
+            "tpe-tak": {
+              "price": 8880,
+              "reason": "Target reached! 2026-07-01 @ 8880 TWD <= 12000 TWD",
+              "alerted_at": "2026-07-04T14:03:20.774479+08:00"
+            },
+            "khh-nrt": {
+              "price": 8326,
+              "reason": "Target reached! 2026-07-01 @ 8326 TWD <= 12000 TWD",
+              "alerted_at": "2026-07-04T14:05:13.230442+08:00"
+            },
+            "khh-kix": {
+              "price": 7820,
+              "reason": "Target reached! 2026-07-01 @ 7820 TWD <= 10000 TWD",
+              "alerted_at": "2026-07-04T14:07:13.117846+08:00"
+            },
+            "khh-fuk": {
+              "price": 8760,
+              "reason": "Target reached! 2026-07-01 @ 8760 TWD <= 10000 TWD",
+              "alerted_at": "2026-07-04T14:09:08.109869+08:00"
+            },
+            "khh-kmq": {
+              "price": 5842,
+              "reason": "Target reached! 2026-07-01 @ 5842 TWD <= 12000 TWD",
+              "alerted_at": "2026-07-04T14:11:36.519813+08:00"
+            },
+            "khh-tak": {
+              "price": 10520,
+              "reason": "Target reached! 2026-07-15 @ 10520 TWD <= 12000 TWD",
+              "alerted_at": "2026-07-04T14:13:58.077638+08:00"
+            }
+          },
           "tpe-kix": [
             {
-              "cheapest_price": 7272,
-              "cheapest_date": "2026-07-15",
-              "dates_found": 4,
-              "scraped_at": "2026-07-03T13:52:03.697474+08:00"
+              "cheapest_price": 7267,
+              "cheapest_date": "2026-07-01",
+              "dates_found": 7,
+              "scraped_at": "2026-07-04T13:57:09.587344+08:00"
             }
           ],
           "tpe-fuk": [
             {
-              "cheapest_price": 9681,
-              "cheapest_date": "2026-08-12",
-              "dates_found": 4,
-              "scraped_at": "2026-07-03T13:54:57.302847+08:00"
+              "cheapest_price": 9695,
+              "cheapest_date": "2026-07-01",
+              "dates_found": 6,
+              "scraped_at": "2026-07-04T13:58:56.315024+08:00"
             }
           ],
           "tpe-kmq": [
             {
-              "cheapest_price": 10627,
+              "cheapest_price": 10402,
               "cheapest_date": "2026-07-01",
-              "dates_found": 7,
-              "scraped_at": "2026-07-03T13:57:50.287837+08:00"
+              "dates_found": 6,
+              "scraped_at": "2026-07-04T14:01:13.072186+08:00"
             }
           ],
           "tpe-tak": [
             {
-              "cheapest_price": 8869,
+              "cheapest_price": 8880,
               "cheapest_date": "2026-07-01",
-              "dates_found": 6,
-              "scraped_at": "2026-07-03T13:59:43.029123+08:00"
+              "dates_found": 7,
+              "scraped_at": "2026-07-04T14:03:20.774479+08:00"
             }
           ],
           "khh-nrt": [
             {
-              "cheapest_price": 8335,
+              "cheapest_price": 8326,
               "cheapest_date": "2026-07-01",
               "dates_found": 6,
-              "scraped_at": "2026-07-03T14:01:58.391496+08:00"
+              "scraped_at": "2026-07-04T14:05:13.230442+08:00"
             }
           ],
           "khh-kix": [
             {
               "cheapest_price": 7820,
               "cheapest_date": "2026-07-01",
-              "dates_found": 3,
-              "scraped_at": "2026-07-03T14:04:12.759067+08:00"
+              "dates_found": 7,
+              "scraped_at": "2026-07-04T14:07:13.117846+08:00"
             }
           ],
           "khh-fuk": [
             {
-              "cheapest_price": 8765,
-              "cheapest_date": "2026-07-15",
-              "dates_found": 6,
-              "scraped_at": "2026-07-03T14:07:27.871846+08:00"
+              "cheapest_price": 8760,
+              "cheapest_date": "2026-07-01",
+              "dates_found": 5,
+              "scraped_at": "2026-07-04T14:09:08.109869+08:00"
             }
           ],
           "khh-kmq": [
             {
-              "cheapest_price": 16447,
-              "cheapest_date": "2026-07-15",
-              "dates_found": 3,
-              "scraped_at": "2026-07-03T14:09:38.161187+08:00"
+              "cheapest_price": 5842,
+              "cheapest_date": "2026-07-01",
+              "dates_found": 6,
+              "scraped_at": "2026-07-04T14:11:36.519813+08:00"
             }
           ],
           "khh-tak": [
             {
-              "cheapest_price": 10511,
-              "cheapest_date": "2026-07-01",
-              "dates_found": 5,
-              "scraped_at": "2026-07-03T14:12:48.477480+08:00"
+              "cheapest_price": 10520,
+              "cheapest_date": "2026-07-15",
+              "dates_found": 6,
+              "scraped_at": "2026-07-04T14:13:58.077638+08:00"
             }
           ]
         },
         "tpe-nrt": [
           {
-            "cheapest_price": 7965,
+            "cheapest_price": 7986,
             "cheapest_date": "2026-07-01",
             "dates_found": 7,
-            "scraped_at": "2026-07-04T13:55:24.703252+08:00"
+            "scraped_at": "2026-07-05T14:15:16.160390+08:00"
           }
         ],
         "__alerts__": {
           "tpe-nrt": {
-            "price": 7965,
-            "reason": "Target reached! 2026-07-01 @ 7965 TWD <= 12000 TWD",
-            "alerted_at": "2026-07-04T13:55:24.703252+08:00"
+            "price": 7986,
+            "reason": "Target reached! 2026-07-01 @ 7986 TWD <= 12000 TWD",
+            "alerted_at": "2026-07-05T14:15:16.160390+08:00"
           },
           "tpe-kix": {
-            "price": 7267,
-            "reason": "Target reached! 2026-07-01 @ 7267 TWD <= 10000 TWD",
-            "alerted_at": "2026-07-04T13:57:09.587344+08:00"
+            "price": 7289,
+            "reason": "Target reached! 2026-07-01 @ 7289 TWD <= 10000 TWD",
+            "alerted_at": "2026-07-05T14:16:57.929816+08:00"
           },
           "tpe-fuk": {
             "price": 9695,
             "reason": "Target reached! 2026-07-01 @ 9695 TWD <= 10000 TWD",
-            "alerted_at": "2026-07-04T13:58:56.315024+08:00"
+            "alerted_at": "2026-07-05T14:18:52.202499+08:00"
           },
           "tpe-kmq": {
-            "price": 10402,
-            "reason": "Target reached! 2026-07-01 @ 10402 TWD <= 12000 TWD",
-            "alerted_at": "2026-07-04T14:01:13.072186+08:00"
+            "price": 10431,
+            "reason": "Target reached! 2026-07-01 @ 10431 TWD <= 12000 TWD",
+            "alerted_at": "2026-07-05T14:20:36.305151+08:00"
           },
           "tpe-tak": {
             "price": 8880,
             "reason": "Target reached! 2026-07-01 @ 8880 TWD <= 12000 TWD",
-            "alerted_at": "2026-07-04T14:03:20.774479+08:00"
+            "alerted_at": "2026-07-05T14:22:27.843226+08:00"
           },
           "khh-nrt": {
-            "price": 8326,
-            "reason": "Target reached! 2026-07-01 @ 8326 TWD <= 12000 TWD",
-            "alerted_at": "2026-07-04T14:05:13.230442+08:00"
+            "price": 8348,
+            "reason": "Target reached! 2026-07-01 @ 8348 TWD <= 12000 TWD",
+            "alerted_at": "2026-07-05T14:24:14.276189+08:00"
           },
           "khh-kix": {
             "price": 7820,
             "reason": "Target reached! 2026-07-01 @ 7820 TWD <= 10000 TWD",
-            "alerted_at": "2026-07-04T14:07:13.117846+08:00"
+            "alerted_at": "2026-07-05T14:26:00.265786+08:00"
           },
           "khh-fuk": {
-            "price": 8760,
-            "reason": "Target reached! 2026-07-01 @ 8760 TWD <= 10000 TWD",
-            "alerted_at": "2026-07-04T14:09:08.109869+08:00"
+            "price": 9658,
+            "reason": "Target reached! 2026-07-01 @ 9658 TWD <= 10000 TWD",
+            "alerted_at": "2026-07-05T14:27:44.972547+08:00"
           },
           "khh-kmq": {
-            "price": 5842,
-            "reason": "Target reached! 2026-07-01 @ 5842 TWD <= 12000 TWD",
-            "alerted_at": "2026-07-04T14:11:36.519813+08:00"
+            "price": 7884,
+            "reason": "Target reached! 2026-07-01 @ 7884 TWD <= 12000 TWD",
+            "alerted_at": "2026-07-05T14:29:30.239217+08:00"
           },
           "khh-tak": {
-            "price": 10520,
-            "reason": "Target reached! 2026-07-15 @ 10520 TWD <= 12000 TWD",
-            "alerted_at": "2026-07-04T14:13:58.077638+08:00"
+            "price": 11954,
+            "reason": "Target reached! 2026-07-01 @ 11954 TWD <= 12000 TWD",
+            "alerted_at": "2026-07-05T14:31:18.293861+08:00"
           }
         },
         "tpe-kix": [
           {
-            "cheapest_price": 7267,
+            "cheapest_price": 7289,
             "cheapest_date": "2026-07-01",
             "dates_found": 7,
-            "scraped_at": "2026-07-04T13:57:09.587344+08:00"
+            "scraped_at": "2026-07-05T14:16:57.929816+08:00"
           }
         ],
         "tpe-fuk": [
           {
             "cheapest_price": 9695,
             "cheapest_date": "2026-07-01",
-            "dates_found": 6,
-            "scraped_at": "2026-07-04T13:58:56.315024+08:00"
+            "dates_found": 7,
+            "scraped_at": "2026-07-05T14:18:52.202499+08:00"
           }
         ],
         "tpe-kmq": [
           {
-            "cheapest_price": 10402,
+            "cheapest_price": 10431,
             "cheapest_date": "2026-07-01",
-            "dates_found": 6,
-            "scraped_at": "2026-07-04T14:01:13.072186+08:00"
+            "dates_found": 7,
+            "scraped_at": "2026-07-05T14:20:36.305151+08:00"
           }
         ],
         "tpe-tak": [
@@ -177,15 +312,15 @@
             "cheapest_price": 8880,
             "cheapest_date": "2026-07-01",
             "dates_found": 7,
-            "scraped_at": "2026-07-04T14:03:20.774479+08:00"
+            "scraped_at": "2026-07-05T14:22:27.843226+08:00"
           }
         ],
         "khh-nrt": [
           {
-            "cheapest_price": 8326,
+            "cheapest_price": 8348,
             "cheapest_date": "2026-07-01",
-            "dates_found": 6,
-            "scraped_at": "2026-07-04T14:05:13.230442+08:00"
+            "dates_found": 7,
+            "scraped_at": "2026-07-05T14:24:14.276189+08:00"
           }
         ],
         "khh-kix": [
@@ -193,132 +328,140 @@
             "cheapest_price": 7820,
             "cheapest_date": "2026-07-01",
             "dates_found": 7,
-            "scraped_at": "2026-07-04T14:07:13.117846+08:00"
+            "scraped_at": "2026-07-05T14:26:00.265786+08:00"
           }
         ],
         "khh-fuk": [
           {
-            "cheapest_price": 8760,
+            "cheapest_price": 9658,
             "cheapest_date": "2026-07-01",
-            "dates_found": 5,
-            "scraped_at": "2026-07-04T14:09:08.109869+08:00"
+            "dates_found": 7,
+            "scraped_at": "2026-07-05T14:27:44.972547+08:00"
           }
         ],
         "khh-kmq": [
           {
-            "cheapest_price": 5842,
+            "cheapest_price": 7884,
             "cheapest_date": "2026-07-01",
-            "dates_found": 6,
-            "scraped_at": "2026-07-04T14:11:36.519813+08:00"
+            "dates_found": 7,
+            "scraped_at": "2026-07-05T14:29:30.239217+08:00"
           }
         ],
         "khh-tak": [
           {
-            "cheapest_price": 10520,
-            "cheapest_date": "2026-07-15",
-            "dates_found": 6,
-            "scraped_at": "2026-07-04T14:13:58.077638+08:00"
+            "cheapest_price": 11954,
+            "cheapest_date": "2026-07-01",
+            "dates_found": 7,
+            "scraped_at": "2026-07-05T14:31:18.293861+08:00"
+          }
+        ],
+        "khh-ngo": [
+          {
+            "cheapest_price": 11420,
+            "cheapest_date": "2026-07-05",
+            "dates_found": 7,
+            "scraped_at": "2026-07-05T14:33:17.540126+08:00"
           }
         ]
       },
       "tpe-nrt": [
         {
-          "cheapest_price": 7986,
+          "cheapest_price": 7965,
           "cheapest_date": "2026-07-01",
           "dates_found": 7,
-          "scraped_at": "2026-07-05T14:15:16.160390+08:00"
+          "scraped_at": "2026-07-06T11:09:42.816914+08:00"
         }
       ],
       "__alerts__": {
         "tpe-nrt": {
-          "price": 7986,
-          "reason": "Target reached! 2026-07-01 @ 7986 TWD <= 12000 TWD",
-          "alerted_at": "2026-07-05T14:15:16.160390+08:00"
+          "price": 7965,
+          "reason": "Target reached! 2026-07-01 @ 7965 TWD <= 12000 TWD",
+          "alerted_at": "2026-07-06T11:09:42.816914+08:00"
         },
         "tpe-kix": {
-          "price": 7289,
-          "reason": "Target reached! 2026-07-01 @ 7289 TWD <= 10000 TWD",
-          "alerted_at": "2026-07-05T14:16:57.929816+08:00"
+          "price": 7267,
+          "reason": "Target reached! 2026-07-01 @ 7267 TWD <= 10000 TWD",
+          "alerted_at": "2026-07-06T11:11:28.623132+08:00"
         },
         "tpe-fuk": {
-          "price": 9695,
-          "reason": "Target reached! 2026-07-01 @ 9695 TWD <= 10000 TWD",
-          "alerted_at": "2026-07-05T14:18:52.202499+08:00"
+          "price": 9679,
+          "reason": "Target reached! 2026-07-01 @ 9679 TWD <= 10000 TWD",
+          "alerted_at": "2026-07-06T11:13:23.598373+08:00"
         },
         "tpe-kmq": {
-          "price": 10431,
-          "reason": "Target reached! 2026-07-01 @ 10431 TWD <= 12000 TWD",
-          "alerted_at": "2026-07-05T14:20:36.305151+08:00"
+          "price": 10400,
+          "reason": "Target reached! 2026-07-01 @ 10400 TWD <= 12000 TWD",
+          "alerted_at": "2026-07-06T11:15:13.445328+08:00"
         },
         "tpe-tak": {
-          "price": 8880,
-          "reason": "Target reached! 2026-07-01 @ 8880 TWD <= 12000 TWD",
-          "alerted_at": "2026-07-05T14:22:27.843226+08:00"
+          "price": 9169,
+          "reason": "Target reached! 2026-07-01 @ 9169 TWD <= 12000 TWD",
+          "alerted_at": "2026-07-06T11:17:08.102525+08:00"
         },
         "khh-nrt": {
-          "price": 8348,
-          "reason": "Target reached! 2026-07-01 @ 8348 TWD <= 12000 TWD",
-          "alerted_at": "2026-07-05T14:24:14.276189+08:00"
+          "price": 8326,
+          "reason": "Target reached! 2026-07-01 @ 8326 TWD <= 12000 TWD",
+          "alerted_at": "2026-07-06T11:18:58.013437+08:00"
         },
         "khh-kix": {
           "price": 7820,
           "reason": "Target reached! 2026-07-01 @ 7820 TWD <= 10000 TWD",
-          "alerted_at": "2026-07-05T14:26:00.265786+08:00"
+          "alerted_at": "2026-07-06T11:20:44.639740+08:00"
         },
         "khh-fuk": {
-          "price": 9658,
-          "reason": "Target reached! 2026-07-01 @ 9658 TWD <= 10000 TWD",
-          "alerted_at": "2026-07-05T14:27:44.972547+08:00"
+          "price": 9987,
+          "reason": "Target reached! 2026-07-01 @ 9987 TWD <= 10000 TWD",
+          "alerted_at": "2026-07-06T11:22:37.274421+08:00"
         },
         "khh-kmq": {
-          "price": 7884,
-          "reason": "Target reached! 2026-07-01 @ 7884 TWD <= 12000 TWD",
-          "alerted_at": "2026-07-05T14:29:30.239217+08:00"
+          "price": 6187,
+          "reason": "Target reached! 2026-07-01 @ 6187 TWD <= 12000 TWD",
+          "alerted_at": "2026-07-06T11:24:21.011693+08:00"
         },
         "khh-tak": {
-          "price": 11954,
-          "reason": "Target reached! 2026-07-01 @ 11954 TWD <= 12000 TWD",
-          "alerted_at": "2026-07-05T14:31:18.293861+08:00"
+          "price": 11916,
+          "reason": "Target reached! 2026-07-01 @ 11916 TWD <= 12000 TWD",
+          "alerted_at": "2026-07-06T11:26:07.482337+08:00"
         }
       },
       "tpe-kix": [
         {
-          "cheapest_price": 7289,
+          "cheapest_price": 7267,
           "cheapest_date": "2026-07-01",
           "dates_found": 7,
-          "scraped_at": "2026-07-05T14:16:57.929816+08:00"
+          "scraped_at": "2026-07-06T11:11:28.623132+08:00"
         }
       ],
       "tpe-fuk": [
         {
-          "cheapest_price": 9695,
+          "cheapest_price": 9679,
           "cheapest_date": "2026-07-01",
           "dates_found": 7,
-          "scraped_at": "2026-07-05T14:18:52.202499+08:00"
+          "scraped_at": "2026-07-06T11:13:23.598373+08:00"
         }
       ],
       "tpe-kmq": [
         {
-          "cheapest_price": 10431,
+          "cheapest_price": 10400,
           "cheapest_date": "2026-07-01",
           "dates_found": 7,
-          "scraped_at": "2026-07-05T14:20:36.305151+08:00"
+          "scraped_at": "2026-07-06T11:15:13.445328+08:00"
         }
       ],
       "tpe-tak": [
         {
-          "cheapest_price": 8880,
+          "cheapest_price": 9169,
           "cheapest_date": "2026-07-01",
           "dates_found": 7,
-          "scraped_at": "2026-07-05T14:22:27.843226+08:00"
+          "scraped_at": "2026-07-06T11:17:08.102525+08:00"
         }
       ],
       "khh-nrt": [
         {
-          "cheapest_price": 8348,
+          "cheapest_price": 8326,
           "cheapest_date": "2026-07-01",
           "dates_found": 7,
-          "scraped_at": "2026-07-05T14:24:14.276189+08:00"
+          "scraped_at": "2026-07-06T11:18:58.013437+08:00"
         }
       ],
       "khh-kix": [
@@ -326,108 +469,108 @@
           "cheapest_price": 7820,
           "cheapest_date": "2026-07-01",
           "dates_found": 7,
-          "scraped_at": "2026-07-05T14:26:00.265786+08:00"
+          "scraped_at": "2026-07-06T11:20:44.639740+08:00"
         }
       ],
       "khh-fuk": [
         {
-          "cheapest_price": 9658,
+          "cheapest_price": 9987,
           "cheapest_date": "2026-07-01",
           "dates_found": 7,
-          "scraped_at": "2026-07-05T14:27:44.972547+08:00"
+          "scraped_at": "2026-07-06T11:22:37.274421+08:00"
         }
       ],
       "khh-kmq": [
         {
-          "cheapest_price": 7884,
+          "cheapest_price": 6187,
           "cheapest_date": "2026-07-01",
           "dates_found": 7,
-          "scraped_at": "2026-07-05T14:29:30.239217+08:00"
+          "scraped_at": "2026-07-06T11:24:21.011693+08:00"
         }
       ],
       "khh-tak": [
         {
-          "cheapest_price": 11954,
+          "cheapest_price": 11916,
           "cheapest_date": "2026-07-01",
           "dates_found": 7,
-          "scraped_at": "2026-07-05T14:31:18.293861+08:00"
+          "scraped_at": "2026-07-06T11:26:07.482337+08:00"
         }
       ],
       "khh-ngo": [
         {
           "cheapest_price": 11420,
           "cheapest_date": "2026-07-05",
-          "dates_found": 7,
-          "scraped_at": "2026-07-05T14:33:17.540126+08:00"
+          "dates_found": 13,
+          "scraped_at": "2026-07-06T11:27:55.157084+08:00"
         }
       ]
     },
     "tpe-nrt": [
       {
-        "cheapest_price": 7965,
+        "cheapest_price": 7968,
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
-        "scraped_at": "2026-07-06T11:09:42.816914+08:00"
+        "scraped_at": "2026-07-06T13:23:13.963732+08:00"
       }
     ],
     "__alerts__": {
       "tpe-nrt": {
-        "price": 7965,
-        "reason": "Target reached! 2026-07-01 @ 7965 TWD <= 12000 TWD",
-        "alerted_at": "2026-07-06T11:09:42.816914+08:00"
+        "price": 7968,
+        "reason": "Target reached! 2026-07-01 @ 7968 TWD <= 12000 TWD",
+        "alerted_at": "2026-07-06T13:23:13.963732+08:00"
       },
       "tpe-kix": {
-        "price": 7267,
-        "reason": "Target reached! 2026-07-01 @ 7267 TWD <= 10000 TWD",
-        "alerted_at": "2026-07-06T11:11:28.623132+08:00"
+        "price": 7274,
+        "reason": "Target reached! 2026-07-01 @ 7274 TWD <= 10000 TWD",
+        "alerted_at": "2026-07-06T13:25:08.975465+08:00"
       },
       "tpe-fuk": {
         "price": 9679,
         "reason": "Target reached! 2026-07-01 @ 9679 TWD <= 10000 TWD",
-        "alerted_at": "2026-07-06T11:13:23.598373+08:00"
+        "alerted_at": "2026-07-06T13:27:00.795236+08:00"
       },
       "tpe-kmq": {
-        "price": 10400,
-        "reason": "Target reached! 2026-07-01 @ 10400 TWD <= 12000 TWD",
-        "alerted_at": "2026-07-06T11:15:13.445328+08:00"
+        "price": 10409,
+        "reason": "Target reached! 2026-07-01 @ 10409 TWD <= 12000 TWD",
+        "alerted_at": "2026-07-06T13:28:52.722465+08:00"
       },
       "tpe-tak": {
         "price": 9169,
         "reason": "Target reached! 2026-07-01 @ 9169 TWD <= 12000 TWD",
-        "alerted_at": "2026-07-06T11:17:08.102525+08:00"
+        "alerted_at": "2026-07-06T13:30:40.236566+08:00"
       },
       "khh-nrt": {
-        "price": 8326,
-        "reason": "Target reached! 2026-07-01 @ 8326 TWD <= 12000 TWD",
-        "alerted_at": "2026-07-06T11:18:58.013437+08:00"
+        "price": 8329,
+        "reason": "Target reached! 2026-07-01 @ 8329 TWD <= 12000 TWD",
+        "alerted_at": "2026-07-06T13:32:34.736481+08:00"
       },
       "khh-kix": {
         "price": 7820,
         "reason": "Target reached! 2026-07-01 @ 7820 TWD <= 10000 TWD",
-        "alerted_at": "2026-07-06T11:20:44.639740+08:00"
+        "alerted_at": "2026-07-06T13:34:28.002159+08:00"
       },
       "khh-fuk": {
         "price": 9987,
         "reason": "Target reached! 2026-07-01 @ 9987 TWD <= 10000 TWD",
-        "alerted_at": "2026-07-06T11:22:37.274421+08:00"
-      },
-      "khh-kmq": {
-        "price": 6187,
-        "reason": "Target reached! 2026-07-01 @ 6187 TWD <= 12000 TWD",
-        "alerted_at": "2026-07-06T11:24:21.011693+08:00"
+        "alerted_at": "2026-07-06T13:36:23.051322+08:00"
       },
       "khh-tak": {
-        "price": 11916,
-        "reason": "Target reached! 2026-07-01 @ 11916 TWD <= 12000 TWD",
-        "alerted_at": "2026-07-06T11:26:07.482337+08:00"
+        "price": 11921,
+        "reason": "Target reached! 2026-07-01 @ 11921 TWD <= 12000 TWD",
+        "alerted_at": "2026-07-06T13:40:03.290604+08:00"
+      },
+      "tpe-ngo": {
+        "price": 9540,
+        "reason": "Target reached! 2026-07-06 @ 9540 TWD <= 12000 TWD",
+        "alerted_at": "2026-07-06T13:45:07.022342+08:00"
       }
     },
     "tpe-kix": [
       {
-        "cheapest_price": 7267,
+        "cheapest_price": 7274,
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
-        "scraped_at": "2026-07-06T11:11:28.623132+08:00"
+        "scraped_at": "2026-07-06T13:25:08.975465+08:00"
       }
     ],
     "tpe-fuk": [
@@ -435,15 +578,15 @@
         "cheapest_price": 9679,
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
-        "scraped_at": "2026-07-06T11:13:23.598373+08:00"
+        "scraped_at": "2026-07-06T13:27:00.795236+08:00"
       }
     ],
     "tpe-kmq": [
       {
-        "cheapest_price": 10400,
+        "cheapest_price": 10409,
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
-        "scraped_at": "2026-07-06T11:15:13.445328+08:00"
+        "scraped_at": "2026-07-06T13:28:52.722465+08:00"
       }
     ],
     "tpe-tak": [
@@ -451,15 +594,15 @@
         "cheapest_price": 9169,
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
-        "scraped_at": "2026-07-06T11:17:08.102525+08:00"
+        "scraped_at": "2026-07-06T13:30:40.236566+08:00"
       }
     ],
     "khh-nrt": [
       {
-        "cheapest_price": 8326,
+        "cheapest_price": 8329,
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
-        "scraped_at": "2026-07-06T11:18:58.013437+08:00"
+        "scraped_at": "2026-07-06T13:32:34.736481+08:00"
       }
     ],
     "khh-kix": [
@@ -467,7 +610,7 @@
         "cheapest_price": 7820,
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
-        "scraped_at": "2026-07-06T11:20:44.639740+08:00"
+        "scraped_at": "2026-07-06T13:34:28.002159+08:00"
       }
     ],
     "khh-fuk": [
@@ -475,23 +618,23 @@
         "cheapest_price": 9987,
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
-        "scraped_at": "2026-07-06T11:22:37.274421+08:00"
+        "scraped_at": "2026-07-06T13:36:23.051322+08:00"
       }
     ],
     "khh-kmq": [
       {
-        "cheapest_price": 6187,
+        "cheapest_price": 13350,
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
-        "scraped_at": "2026-07-06T11:24:21.011693+08:00"
+        "scraped_at": "2026-07-06T13:38:19.650928+08:00"
       }
     ],
     "khh-tak": [
       {
-        "cheapest_price": 11916,
+        "cheapest_price": 11921,
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
-        "scraped_at": "2026-07-06T11:26:07.482337+08:00"
+        "scraped_at": "2026-07-06T13:40:03.290604+08:00"
       }
     ],
     "khh-ngo": [
@@ -499,7 +642,15 @@
         "cheapest_price": 11420,
         "cheapest_date": "2026-07-05",
         "dates_found": 13,
-        "scraped_at": "2026-07-06T11:27:55.157084+08:00"
+        "scraped_at": "2026-07-06T13:41:54.558012+08:00"
+      }
+    ],
+    "tpe-ngo": [
+      {
+        "cheapest_price": 9540,
+        "cheapest_date": "2026-07-06",
+        "dates_found": 13,
+        "scraped_at": "2026-07-06T13:45:07.022342+08:00"
       }
     ]
   }
