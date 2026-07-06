@@ -88,7 +88,7 @@ async def process_subscription(scraper, store, engine, notifier, sub):
     )
 
     try:
-        price_calendar, cheapest_airline = await scraper.search_calendar(
+        price_calendar, cheapest_airline, airline_prices = await scraper.search_calendar(
             origin=origin,
             destination=destination,
             date_from=date_from,
@@ -109,6 +109,7 @@ async def process_subscription(scraper, store, engine, notifier, sub):
             price_calendar=price_calendar,
             scraped_at=scraped_at,
             cheapest_airline=cheapest_airline,
+            airline_prices=airline_prices,
         )
 
         cheapest_date, cheapest_price = store.get_cheapest_in_calendar(sub_id)
