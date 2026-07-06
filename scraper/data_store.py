@@ -30,7 +30,8 @@ class DataStore:
     def update_calendar(self, sub_id: str, origin: str, destination: str,
                         date_from: str, date_to: str,
                         price_calendar: dict, scraped_at: str,
-                        cheapest_airline: str = "Unknown"):
+                        cheapest_airline: str = "Unknown",
+                        airline_prices: dict = None):
         """
         Store a full price calendar scan result for a subscription.
 
@@ -53,6 +54,7 @@ class DataStore:
             "cheapest_date": lowest_date,
             "cheapest_price": lowest_price,
             "cheapest_airline": cheapest_airline,
+            "airline_prices": airline_prices or {},
             "scraped_at": scraped_at,
             "dates_found": len(price_calendar),
         }
