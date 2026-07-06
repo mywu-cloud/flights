@@ -10,15 +10,23 @@ class DataStore:
     def __init__(self, data_dir):
         self.data_dir = Path(data_dir)
         self.data_dir.mkdir(parents=True, exist_ok=True)
-        self._prices = self._load("prices.json", {})
-        self._history = self._load("history.json", {})
+        self._prices = self._load("prices.json", "prices", {})
+        self._history = self._load("history.json", "history", {})
 
-    def _load(self, filename, default):
+    def _load(self, filename, key, default):
         path = self.data_dir / filename
         if path.exists():
             try:
                 with open(path, encoding="utf-8") as f:
-                    return json.load(f)
+                    raw = json.load(f)
+                # Repair legacy bug: earlier versions stored the whole
+                # {"updated_at": ..., "<key>": {...}} wrapper as the in-memory
+                # dict directly, causing nested wrappers to pile up on every
+                # save. Unwrap until we reach the actual keyed data.
+                while isinstance(raw, dict) and key in raw and "updated_at" in raw:
+                    raw = raw[key]
+                if isinstance(raw, dict):
+                    return raw
             except Exception as e:
                 logger.error("Load error {}: {}".format(filename, e))
         return default
