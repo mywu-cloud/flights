@@ -171,6 +171,7 @@ class GoogleFlightsScraper:
         page = await context.new_page()
         price_calendar = {}
         cheapest_airline = "Unknown"
+        airline_prices = {}
         try:
             # Use flexible dates URL with view=2 to encourage calendar display
             url = (
@@ -201,9 +202,26 @@ class GoogleFlightsScraper:
                 )
                 await context.close()
                 context = None
-                price_calendar, cheapest_airline = await self._scan_weekly(
+                price_calendar, cheapest_airline, airline_prices = await self._scan_weekly(
                     origin, destination, date_from, date_to
                 )
+            elif price_calendar:
+                # Calendar grid succeeded but has no per-airline breakdown.
+                # Do one supplementary single-date search on the cheapest date
+                # to capture a multi-airline price comparison for that date.
+                cheapest_date = min(price_calendar, key=price_calendar.get)
+                try:
+                    detail = await self.search(
+                        origin=origin, destination=destination, date=cheapest_date
+                    )
+                    if detail:
+                        cheapest_airline = detail.get("airline", "Unknown")
+                        airline_prices[cheapest_date] = detail.get("all_airlines", [])
+                except Exception as e:
+                    logger.warning(
+                        f"Supplementary airline detail scan failed for "
+                        f"{origin}->{destination} {cheapest_date}: {e}"
+                    )
 
         except Exception as e:
             logger.error(
@@ -224,7 +242,7 @@ class GoogleFlightsScraper:
             f"Calendar result: {len(price_calendar)} dates found for "
             f"{origin}->{destination}"
         )
-        return price_calendar, cheapest_airline
+        return price_calendar, cheapest_airline, airline_prices
 
     async def _extract_calendar_prices(
         self,
@@ -323,6 +341,7 @@ class GoogleFlightsScraper:
         """
         price_calendar = {}
         airline_by_date = {}  # track airline for each date
+        airline_prices_by_date = {}
         from_dt = datetime.strptime(date_from, "%Y-%m-%d")
         to_dt = datetime.strptime(date_to, "%Y-%m-%d")
 
@@ -346,6 +365,7 @@ class GoogleFlightsScraper:
             if result and result.get("price"):
                 price_calendar[date_str] = result["price"]
                 airline_by_date[date_str] = result.get("airline", "Unknown")
+                airline_prices_by_date[date_str] = result.get("all_airlines", [])
                 logger.info(
                     f"Weekly scan [{origin}->{destination}] {date_str}: "
                     f"{result['price']} TWD (airline: {result.get('airline', 'Unknown')})"
@@ -362,7 +382,7 @@ class GoogleFlightsScraper:
         if price_calendar:
             cheapest_date = min(price_calendar, key=price_calendar.get)
             cheapest_airline = airline_by_date.get(cheapest_date, "Unknown")
-        return price_calendar, cheapest_airline
+        return price_calendar, cheapest_airline, airline_prices_by_date
 
     async def search(
         self,
@@ -524,6 +544,16 @@ class GoogleFlightsScraper:
                 return None
             valid.sort(key=lambda x: x["price_raw"])
             best = valid[0]
+            by_airline = {}
+            for f in valid:
+                name = f.get("airline", "Unknown")
+                p = f["price_raw"]
+                if name not in by_airline or p < by_airline[name]:
+                    by_airline[name] = p
+            all_airlines = [
+                {"airline": name, "price": p}
+                for name, p in sorted(by_airline.items(), key=lambda kv: kv[1])
+            ][:10]
             logger.info(f"DOM extraction: found {len(valid)} prices, lowest: {best['price_raw']}")
             return {
                 "price": best["price_raw"],
@@ -531,6 +561,7 @@ class GoogleFlightsScraper:
                 "duration": "",
                 "link": page.url,
                 "extraction_method": "dom",
+                "all_airlines": all_airlines,
             }
         except Exception as e:
             logger.error(f"DOM extraction failed: {e}")
@@ -589,6 +620,7 @@ class GoogleFlightsScraper:
                 "duration": "",
                 "link": page.url,
                 "extraction_method": "text",
+                "all_airlines": [{"airline": detected_airline, "price": all_prices[0]}],
             }
         except Exception as e:
             logger.error(f"Text extraction failed: {e}")
