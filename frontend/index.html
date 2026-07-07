@@ -295,29 +295,43 @@ drop.innerHTML=html;
 
 function makeCal(calendar,target){
 var dates=Object.keys(calendar).sort();
-if(!dates.length)return '<p style="color:var(--text-secondary);font-size:13px;padding:16px 0">&#x66AB;&#x7121;&#x65E5;&#x66C6;&#x8CC7;&#x6599;&#xFF0C;&#x7B49;&#x5F85;&#x4E0B;&#x6B21;&#x6293;&#x53D6;</p>';
+if(!dates.length)return '<p style="color:var(--text-secondary);font-size:13px;padding:16px 0">暫無日曆資料，等待下次抓取</p>';
 var prices=dates.map(function(d){return calendar[d];});
 var mn=Math.min.apply(null,prices),mx=Math.max.apply(null,prices),range=mx-mn||1;
 var calMap={};dates.forEach(function(d){calMap[d]=calendar[d];});
 var firstDt=new Date(dates[0]+'T00:00:00'),lastDt=new Date(dates[dates.length-1]+'T00:00:00');
-var startDow=firstDt.getDay();
-var html='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px">';
-['&#x65E5;','&#x4E00;','&#x4E8C;','&#x4E09;','&#x56DB;','&#x4E94;','&#x516D;'].forEach(function(l){html+='<div style="text-align:center;font-size:13px;color:var(--text-secondary)">'+l+'</div>';});
+var dowLabels=['日','一','二','三','四','五','六'];
+var monthKeys=[];
+var mIter=new Date(firstDt.getFullYear(),firstDt.getMonth(),1);
+var mEnd=new Date(lastDt.getFullYear(),lastDt.getMonth(),1);
+while(mIter<=mEnd){monthKeys.push(mIter.getFullYear()+'-'+(mIter.getMonth()+1));mIter.setMonth(mIter.getMonth()+1);}
+var html='';
+monthKeys.forEach(function(mk){
+var parts=mk.split('-'),y=parseInt(parts[0],10),mo=parseInt(parts[1],10)-1;
+var monthStart=new Date(y,mo,1),monthEnd=new Date(y,mo+1,0);
+html+='<div style="font-weight:700;font-size:14px;margin:14px 0 6px">'+y+'年'+(mo+1)+'月</div>';
+html+='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px">';
+dowLabels.forEach(function(l){html+='<div style="text-align:center;font-size:13px;color:var(--text-secondary)">'+l+'</div>';});
 html+='</div><div class="cal-grid">';
+var startDow=monthStart.getDay();
 for(var i=0;i<startDow;i++)html+='<div class="cal-cell cal-empty"></div>';
-var cur=new Date(firstDt);
-while(cur<=lastDt){
-var ds=cur.toISOString().slice(0,10),day=cur.getDate();
+var cur=new Date(monthStart);
+while(cur<=monthEnd){
+var ds=cur.getFullYear()+'-'+String(cur.getMonth()+1).padStart(2,'0')+'-'+String(cur.getDate()).padStart(2,'0'),day=cur.getDate();
 if(calMap[ds]!==undefined){
 var p=calMap[ds],pct=(p-mn)/range;
 var heat=pct<0.2?'1':pct<0.4?'2':pct<0.6?'3':pct<0.8?'4':'5';
 var isHit=target&&p<=target;
-html+='<div class="cal-cell cal-heat-'+heat+'" title="'+ds+' NT$'+p.toLocaleString()+(isHit?' *&#x5DF2;&#x9054;&#x6A19;':'')+'">'+
-'<div class="cal-tip">'+ds+'<br>NT$'+p.toLocaleString()+(isHit?' &#x2713;&#x5DF2;&#x9054;&#x6A19;':'')+'</div>'+day+'</div>';
+html+='<div class="cal-cell cal-heat-'+heat+'" title="'+ds+' NT$'+p.toLocaleString()+(isHit?' *已達標':'')+'">'+
+'<div class="cal-tip">'+ds+'<br>NT$'+p.toLocaleString()+(isHit?' ✓已達標':'')+'</div>'+day+'</div>';
 }else{html+='<div class="cal-cell cal-nodata" title="'+ds+'">'+day+'</div>';}
 cur.setDate(cur.getDate()+1);
 }
-html+='</div><div style="margin-top:12px;font-size:13px;color:var(--text-secondary)">&#x7DA0;&#x6DF1; = &#x4FBF;&#x5B9C; &nbsp;&#x7DA0;&#x6DFA; = &#x8CB4; &nbsp;|&nbsp; &#x6700;&#x4F4E;: <strong style="color:#059669">NT$'+mn.toLocaleString()+'</strong>'+(target?' &nbsp;&#x76EE;&#x6A19;: NT$'+target.toLocaleString():'')+'</div>';
+var endDow=monthEnd.getDay();
+for(var j=endDow+1;j<7;j++)html+='<div class="cal-cell cal-empty"></div>';
+html+='</div>';
+});
+html+='<div style="margin-top:12px;font-size:13px;color:var(--text-secondary)">綠深 = 便宜 &nbsp;綠淺 = 貴 &nbsp;|&nbsp; 最低: <strong style="color:#059669">NT$'+mn.toLocaleString()+'</strong>'+(target?' &nbsp;目標: NT$'+target.toLocaleString():'')+'</div>';
 return html;
 }
 
