@@ -130,7 +130,7 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <div class="nav-avatar" id="avatarBtn" onclick="toggleAvatar(event)"><span id="avatarInitial">&#x9673;</span>
 <div class="avatar-drop" id="avatarDrop">
 <div class="avatar-drop-name" id="avatarDropName">&#x9673; &#x540C;&#x5B78;</div>
-<div class="avatar-drop-item" onclick="showToast('&#x8A2D;&#x5B9A;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg> &#x8A2D;&#x5B9A;</div>
+<div class="avatar-drop-item" onclick="openAirlinePrefModal()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg> 偏好航空公司<span id="airlinePrefBadge" style="color:var(--primary);font-weight:700"></span></div>
 <div class="avatar-drop-item" onclick="showToast('&#x901A;&#x77E5;&#x529F;&#x80FD;&#x958B;&#x767C;&#x4E2D;')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg> &#x901A;&#x77E5;&#x504F;&#x597D;</div>
 <div class="avatar-drop-item" onclick="doLogout()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> &#x767B;&#x51FA;</div>
 </div></div>
@@ -215,12 +215,18 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <div id="calModalBody" style="max-height:420px;overflow-y:auto"></div>
 <div class="modal-footer"><button class="btn-secondary" onclick="closeCalModal()">&#x95DC;&#x9589;</button></div>
 </div></div>
-<footer>&#x6A5F;&#x7968;&#x96F7;&#x9054; FareRadar &mdash; &#x8CC7;&#x6599;&#x4F86;&#x6E90;&#xFF1A;Google Flights &mdash; <a href="https://github.com/mywu-cloud/flights">GitHub</a></footer>
+
+<div class="modal-overlay" id="airlinePrefModal"><div class="modal-box" style="max-width:480px">
+<div class="modal-title">偏好航空公司(全域套用)</div>
+<p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">勾選你想追蹤的航空公司,所有路線的最低價與日曆熱力圖將只採用勾選航空公司的報價,未勾選的航空公司會被排除。不勾選任何項目則顯示全部航空公司的最低價。</p>
+<div id="airlinePrefList" style="max-height:320px;overflow-y:auto;margin-bottom:16px"></div>
+<div class="modal-footer"><button class="btn-secondary" onclick="closeAirlinePrefModal()">取消</button><button class="btn-secondary" onclick="clearAirlinePref()">全部清除</button><button class="btn-primary" onclick="saveAirlinePref()">儲存</button></div>
+</div></div><footer>&#x6A5F;&#x7968;&#x96F7;&#x9054; FareRadar &mdash; &#x8CC7;&#x6599;&#x4F86;&#x6E90;&#xFF1A;Google Flights &mdash; <a href="https://github.com/mywu-cloud/flights">GitHub</a></footer>
 <script>
 var WORKER_URL='https://flights.tw-mywu.workers.dev';
 
 var CITIES={'TPE':'&#x53F0;&#x5317;','KHH':'&#x9AD8;&#x96C4;','NRT':'&#x6771;&#x4EAC;','KIX':'&#x5927;&#x962A;','FUK':'&#x798F;&#x5CA1;','KMQ':'&#x5C0F;&#x677E;','TAK':'&#x9AD8;&#x677E;','HKG':'&#x9999;&#x6E2F;','ICN':'&#x9996;&#x723E;','BKK':'&#x66FC;&#x8C37;','SIN':'&#x65B0;&#x52A0;&#x5761;','PVG':'&#x4E0A;&#x6D77;','PEK':'&#x5317;&#x4EAC;','OKA':'&#x6C96;&#x7E04;','CTS':'&#x672D;&#x5E4C;','NGO':'&#x540D;&#x53E4;&#x5C4B;'};
-function cityName(c){return CITIES[c]||'';} function getToken(){return localStorage.getItem('fareradar_token')||'';}function setToken(t){if(t){localStorage.setItem('fareradar_token',t);}else{localStorage.removeItem('fareradar_token');}}function getUsername(){return localStorage.getItem('fareradar_username')||'';}function setUsername(u){if(u){localStorage.setItem('fareradar_username',u);}else{localStorage.removeItem('fareradar_username');}}function updateAvatarName(){var u=getUsername()||'使用者';var ini=document.getElementById('avatarInitial');if(ini)ini.textContent=u.charAt(0).toUpperCase();var nm=document.getElementById('avatarDropName');if(nm)nm.textContent=u;}function showApp(){var n=document.querySelector('.nav');if(n)n.style.display='flex';var c=document.querySelector('.container');if(c)c.style.display='block';var a=document.getElementById('authOverlay');if(a)a.style.display='none';}function showAuth(){var n=document.querySelector('.nav');if(n)n.style.display='none';var c=document.querySelector('.container');if(c)c.style.display='none';var a=document.getElementById('authOverlay');if(a)a.style.display='flex';}function toggleAuthMode(){var l=document.getElementById('authLoginForm'),r=document.getElementById('authRegisterForm');var showingLogin=l.style.display!=='none';l.style.display=showingLogin?'none':'block';r.style.display=showingLogin?'block':'none';}function startApp(){initTheme();populateAirportList();loadSubs();}function checkAuth(){var token=getToken();if(!token){showAuth();return;}fetch(WORKER_URL+'/api/me',{headers:{'Authorization':'Bearer '+token}}).then(function(r){if(!r.ok)throw new Error('unauthorized');return r.json();}).then(function(d){setUsername(d.username);updateAvatarName();showApp();startApp();}).catch(function(){setToken('');showAuth();});}function doLogin(){var u=(document.getElementById('loginUsername')||{}).value||'';var p=(document.getElementById('loginPassword')||{}).value||'';var errEl=document.getElementById('authError');errEl.style.display='none';if(!u||!p){errEl.textContent='請輸入使用者名稱與密碼';errEl.style.display='block';return;}fetch(WORKER_URL+'/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})}).then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});}).then(function(res){if(!res.ok){errEl.textContent=res.d.error||'登入失敗';errEl.style.display='block';return;}setToken(res.d.token);setUsername(res.d.username);updateAvatarName();showApp();startApp();}).catch(function(e){errEl.textContent='網路錯誤，請稍後再試';errEl.style.display='block';});}function doRegister(){var u=(document.getElementById('regUsername')||{}).value||'';var em=(document.getElementById('regEmail')||{}).value||'';var p=(document.getElementById('regPassword')||{}).value||'';var ic=(document.getElementById('regInviteCode')||{}).value||'';var errEl=document.getElementById('authError2');errEl.style.display='none';if(!u||!em||!p||!ic){errEl.textContent='請完整填寫所有欄位';errEl.style.display='block';return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){errEl.textContent='請輸入有效的 Email 地址';errEl.style.display='block';return;}fetch(WORKER_URL+'/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p,inviteCode:ic,email:em})}).then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});}).then(function(res){if(!res.ok){errEl.textContent=res.d.error||'註冊失敗';errEl.style.display='block';return;}setToken(res.d.token);setUsername(res.d.username);updateAvatarName();showApp();startApp();}).catch(function(e){errEl.textContent='網路錯誤，請稍後再試';errEl.style.display='block';});}function doLogout(){var token=getToken();fetch(WORKER_URL+'/api/logout',{method:'POST',headers:{'Authorization':'Bearer '+token}}).catch(function(){});setToken('');setUsername('');showAuth();} function populateAirportList(){var dl=document.getElementById('airportList');if(!dl)return;var h='';Object.keys(CITIES).sort().forEach(function(c){h+='<option value="'+c+'">'+CITIES[c]+' ('+c+')</option>';});dl.innerHTML=h;}var navSearchKeyword='';function decodeEntity(str){var d=document.createElement('div');d.innerHTML=str;return d.textContent;}function onNavSearch(v){navSearchKeyword=(v||'').trim().toUpperCase();renderTable();}
+function cityName(c){return CITIES[c]||'';} function getToken(){return localStorage.getItem('fareradar_token')||'';}function setToken(t){if(t){localStorage.setItem('fareradar_token',t);}else{localStorage.removeItem('fareradar_token');}}function getUsername(){return localStorage.getItem('fareradar_username')||'';}function setUsername(u){if(u){localStorage.setItem('fareradar_username',u);}else{localStorage.removeItem('fareradar_username');}}function updateAvatarName(){var u=getUsername()||'使用者';var ini=document.getElementById('avatarInitial');if(ini)ini.textContent=u.charAt(0).toUpperCase();var nm=document.getElementById('avatarDropName');if(nm)nm.textContent=u;}function showApp(){var n=document.querySelector('.nav');if(n)n.style.display='flex';var c=document.querySelector('.container');if(c)c.style.display='block';var a=document.getElementById('authOverlay');if(a)a.style.display='none';}function showAuth(){var n=document.querySelector('.nav');if(n)n.style.display='none';var c=document.querySelector('.container');if(c)c.style.display='none';var a=document.getElementById('authOverlay');if(a)a.style.display='flex';}function toggleAuthMode(){var l=document.getElementById('authLoginForm'),r=document.getElementById('authRegisterForm');var showingLogin=l.style.display!=='none';l.style.display=showingLogin?'none':'block';r.style.display=showingLogin?'block':'none';}function startApp(){initTheme();populateAirportList();loadSubs();updateAirlinePrefBadge();}function checkAuth(){var token=getToken();if(!token){showAuth();return;}fetch(WORKER_URL+'/api/me',{headers:{'Authorization':'Bearer '+token}}).then(function(r){if(!r.ok)throw new Error('unauthorized');return r.json();}).then(function(d){setUsername(d.username);updateAvatarName();showApp();startApp();}).catch(function(){setToken('');showAuth();});}function doLogin(){var u=(document.getElementById('loginUsername')||{}).value||'';var p=(document.getElementById('loginPassword')||{}).value||'';var errEl=document.getElementById('authError');errEl.style.display='none';if(!u||!p){errEl.textContent='請輸入使用者名稱與密碼';errEl.style.display='block';return;}fetch(WORKER_URL+'/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})}).then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});}).then(function(res){if(!res.ok){errEl.textContent=res.d.error||'登入失敗';errEl.style.display='block';return;}setToken(res.d.token);setUsername(res.d.username);updateAvatarName();showApp();startApp();}).catch(function(e){errEl.textContent='網路錯誤，請稍後再試';errEl.style.display='block';});}function doRegister(){var u=(document.getElementById('regUsername')||{}).value||'';var em=(document.getElementById('regEmail')||{}).value||'';var p=(document.getElementById('regPassword')||{}).value||'';var ic=(document.getElementById('regInviteCode')||{}).value||'';var errEl=document.getElementById('authError2');errEl.style.display='none';if(!u||!em||!p||!ic){errEl.textContent='請完整填寫所有欄位';errEl.style.display='block';return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){errEl.textContent='請輸入有效的 Email 地址';errEl.style.display='block';return;}fetch(WORKER_URL+'/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p,inviteCode:ic,email:em})}).then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});}).then(function(res){if(!res.ok){errEl.textContent=res.d.error||'註冊失敗';errEl.style.display='block';return;}setToken(res.d.token);setUsername(res.d.username);updateAvatarName();showApp();startApp();}).catch(function(e){errEl.textContent='網路錯誤，請稍後再試';errEl.style.display='block';});}function doLogout(){var token=getToken();fetch(WORKER_URL+'/api/logout',{method:'POST',headers:{'Authorization':'Bearer '+token}}).catch(function(){});setToken('');setUsername('');showAuth();} function populateAirportList(){var dl=document.getElementById('airportList');if(!dl)return;var h='';Object.keys(CITIES).sort().forEach(function(c){h+='<option value="'+c+'">'+CITIES[c]+' ('+c+')</option>';});dl.innerHTML=h;}var navSearchKeyword='';function decodeEntity(str){var d=document.createElement('div');d.innerHTML=str;return d.textContent;}function onNavSearch(v){navSearchKeyword=(v||'').trim().toUpperCase();renderTable();}
 var subsData=[],pricesData={prices:{},history:{}};
 
 function toggleBell(e){e.stopPropagation();var d=document.getElementById('bellDrop');d.classList.toggle('open');document.getElementById('avatarDrop').classList.remove('open');}
@@ -250,9 +256,9 @@ return Promise.all([res[0].ok?res[0].json():Promise.resolve({}),res[1].ok?res[1]
 pricesData.prices=data[0].prices||data[0];pricesData.history=data[1].history||data[1];
 }).catch(function(e){console.log('Prices error:',e.message);});
 }
-function getSubPrice(s){var p=pricesData.prices[s.id];if(!p)return null;return p.cheapest_price||p.price||null;}
-function getSubCheapestDate(s){var p=pricesData.prices[s.id];if(!p)return '';return p.cheapest_date||p.date||'';}
-function getSubCalendar(s){var p=pricesData.prices[s.id];if(!p)return {};return p.price_calendar||{};} function makeSparkline(history){var vals=(history||[]).map(function(h){return h.cheapest_price||h.price||0;}).filter(function(v){return v>0;});if(vals.length<2)return '<span style="color:var(--text-secondary);font-size:11px">--</span>';var w=64,h=22,mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),range=(mx-mn)||1;var pts=vals.map(function(v,i){var x=(i/(vals.length-1))*w;var y=h-((v-mn)/range)*h;return x.toFixed(1)+','+y.toFixed(1);}).join(' ');var up=vals[vals.length-1]>vals[0];var color=up?'#DC2626':'#059669';return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" style="display:block"><polyline points="'+pts+'" fill="none" stroke="'+color+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';}
+function getSubPrice(s){var e=getFilteredEntry(s);return e?e.price:null;}
+function getSubCheapestDate(s){var e=getFilteredEntry(s);return e?e.date:'';}
+function getSubCalendar(s){var e=getFilteredEntry(s);return e?e.calendar:{};} function makeSparkline(history){var vals=(history||[]).map(function(h){return h.cheapest_price||h.price||0;}).filter(function(v){return v>0;});if(vals.length<2)return '<span style="color:var(--text-secondary);font-size:11px">--</span>';var w=64,h=22,mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),range=(mx-mn)||1;var pts=vals.map(function(v,i){var x=(i/(vals.length-1))*w;var y=h-((v-mn)/range)*h;return x.toFixed(1)+','+y.toFixed(1);}).join(' ');var up=vals[vals.length-1]>vals[0];var color=up?'#DC2626':'#059669';return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" style="display:block"><polyline points="'+pts+'" fill="none" stroke="'+color+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';}
 function getSubDateRange(s){
 var f=s.date_from||s.date||'',t=s.date_to||s.date||'';
 if(f===t)return f;return f+' ~ '+t;
@@ -359,8 +365,7 @@ var price=getSubPrice(s),target=s.target_price||0;
 var priceStr=price?'NT$'+price.toLocaleString():'--';
 var targetStr=target?'NT$'+target.toLocaleString():'--';
 var cheapDate=getSubCheapestDate(s)||'--';
-var p=pricesData.prices[s.id],airline='';
-if(p){airline=p.cheapest_airline||p.airline||'';}
+var _fe=getFilteredEntry(s),airline=_fe?_fe.airline:'';
 if(!airline||airline.toLowerCase()==='unknown')airline='';
 var history=pricesData.history[s.id]||[];
 var badge='<span style="color:var(--text-secondary)">--</span>';
@@ -430,7 +435,101 @@ saveSubs().then(function(){updateStats();renderFeatured();renderAlerts();renderT
 function saveSubs(){
 return fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({subscriptions:subsData})}).then(function(r){if(r.status===401){showAuth();}if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).catch(function(e){showToast('Save failed: '+e.message);});
 }
-window.onclick=function(e){var am=document.getElementById('addModal');if(am&&e.target===am)closeModal();var cm=document.getElementById('calModal');if(cm&&e.target===cm)closeCalModal();};
+window.onclick=function(e){var am=document.getElementById('addModal');if(am&&e.target===am)closeModal();var cm=document.getElementById('calModal');if(cm&&e.target===cm)closeCalModal();var apm=document.getElementById('airlinePrefModal');if(apm&&e.target===apm)closeAirlinePrefModal();};
+// ===== AIRLINE PREFERENCE (GLOBAL FILTER) =====
+function getPreferredAirlines(){
+try{var raw=localStorage.getItem('fareradar_preferred_airlines');return raw?JSON.parse(raw):[];}catch(e){return [];}
+}
+function setPreferredAirlines(arr){
+try{localStorage.setItem('fareradar_preferred_airlines',JSON.stringify(arr||[]));}catch(e){}
+}
+function getAllKnownAirlines(){
+var counts={};
+Object.values(pricesData.prices||{}).forEach(function(p){
+var ap=p.airline_prices||{};
+Object.values(ap).forEach(function(list){
+(list||[]).forEach(function(item){
+var a=item&&item.airline;
+if(a)counts[a]=(counts[a]||0)+1;
+});
+});
+});
+return counts;
+}
+function getFilteredEntry(s){
+var p=pricesData.prices[s.id];
+if(!p)return null;
+var prefs=getPreferredAirlines();
+if(!prefs.length){
+return {price:p.cheapest_price||p.price||null,date:p.cheapest_date||p.date||'',calendar:p.price_calendar||{},airline:p.cheapest_airline||p.airline||''};
+}
+var ap=p.airline_prices||{};
+var calendar={},bestPrice=null,bestDate='',bestAirline='';
+Object.keys(ap).forEach(function(date){
+var list=ap[date]||[];
+var minEntry=null;
+list.forEach(function(item){
+if(item&&prefs.indexOf(item.airline)!==-1){
+if(!minEntry||item.price<minEntry.price)minEntry=item;
+}
+});
+if(minEntry){
+calendar[date]=minEntry.price;
+if(bestPrice===null||minEntry.price<bestPrice){bestPrice=minEntry.price;bestDate=date;bestAirline=minEntry.airline;}
+}
+});
+return {price:bestPrice,date:bestDate,calendar:calendar,airline:bestAirline};
+}
+var _tempAirlinePrefs=[];
+function openAirlinePrefModal(){
+var known=getAllKnownAirlines();
+var current=getPreferredAirlines();
+_tempAirlinePrefs=current.slice();
+var list=document.getElementById('airlinePrefList');
+if(list){
+var names=Object.keys(known).sort();
+if(!names.length){
+list.innerHTML='<p style="color:var(--text-secondary);font-size:13px;text-align:center;padding:16px 0">目前沒有航空公司資料,請稍後再試</p>';
+}else{
+list.innerHTML=names.map(function(a){
+var checked=current.indexOf(a)!==-1?'checked':'';
+var safeId='pref-'+a.replace(/[^a-zA-Z0-9]/g,'')+'-'+Math.abs(a.split('').reduce(function(h,c){return h*31+c.charCodeAt(0)|0;},0));
+return '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9">'+
+'<input type="checkbox" id="'+safeId+'" data-airline="'+encodeURIComponent(a)+'" '+checked+' onchange="toggleAirlinePrefTemp(this)">'+
+'<label for="'+safeId+'" style="flex:1;cursor:pointer">'+a+' <span style="color:var(--text-secondary);font-size:12px">('+known[a]+' 筆報價)</span></label>'+
+'</div>';
+}).join('');
+}
+}
+var m=document.getElementById('airlinePrefModal');if(m)m.style.display='flex';
+}
+function toggleAirlinePrefTemp(cb){
+var a=decodeURIComponent(cb.getAttribute('data-airline')||'');
+var idx=_tempAirlinePrefs.indexOf(a);
+if(cb.checked){if(idx===-1)_tempAirlinePrefs.push(a);}
+else{if(idx!==-1)_tempAirlinePrefs.splice(idx,1);}
+}
+function clearAirlinePref(){
+_tempAirlinePrefs=[];
+var list=document.getElementById('airlinePrefList');
+if(list)Array.from(list.querySelectorAll('input[type=checkbox]')).forEach(function(cb){cb.checked=false;});
+}
+function closeAirlinePrefModal(){
+var m=document.getElementById('airlinePrefModal');if(m)m.style.display='none';
+}
+function saveAirlinePref(){
+setPreferredAirlines(_tempAirlinePrefs);
+closeAirlinePrefModal();
+updateAirlinePrefBadge();
+updateStats();renderFeatured();renderAlerts();renderTable();updateBellAlerts();
+showToast(_tempAirlinePrefs.length?('已更新偏好航空公司('+_tempAirlinePrefs.length+' 家)'):'已清除偏好,顯示全部航空公司');
+}
+function updateAirlinePrefBadge(){
+var b=document.getElementById('airlinePrefBadge');
+if(!b)return;
+var prefs=getPreferredAirlines();
+b.textContent=prefs.length?(' ('+prefs.length+')'):'';
+}
 // ===== AIRLINE SEARCH =====
 var _airlineSearchTimer = null;
 var _activeAirlineFilter = '';
