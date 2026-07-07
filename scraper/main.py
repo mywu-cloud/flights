@@ -18,6 +18,7 @@ from scraper.google_flights import GoogleFlightsScraper
 from scraper.notifier import Notifier
 from scraper.price_engine import PriceEngine
 from scraper.data_store import DataStore
+from scraper import tigerair
 
 # Logging setup
 Path("logs").mkdir(exist_ok=True)
@@ -89,6 +90,18 @@ async def process_subscription(scraper, store, engine, notifier, sub):
 
     try:
         price_calendar, cheapest_airline, airline_prices = await scraper.search_calendar(
+            origin=origin,
+            destination=destination,
+            date_from=date_from,
+            date_to=date_to,
+        )
+
+        # Compare against Tigerair Taiwan's own official fares (if any) and
+        # keep whichever price is cheaper for each date.
+        price_calendar, airline_prices, cheapest_airline = await tigerair.merge_into_calendar(
+            price_calendar=price_calendar,
+            airline_prices=airline_prices,
+            cheapest_airline=cheapest_airline,
             origin=origin,
             destination=destination,
             date_from=date_from,
