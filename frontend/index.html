@@ -51,8 +51,6 @@ a{text-decoration:none;color:inherit}
 .card-link{font-size:13px;color:var(--primary)}
 .route-avatar{width:40px;height:40px;background:var(--primary-light);color:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
 .loading-text{text-align:center;color:var(--text-secondary);padding:24px;font-size:13px}.skeleton{background:linear-gradient(90deg,#e2e8f0 25%,#f1f5f9 37%,#e2e8f0 63%);background-size:400% 100%;animation:skeletonLoad 1.4s ease infinite;border-radius:6px;display:inline-block}@keyframes skeletonLoad{0%{background-position:100% 50%}100%{background-position:0 50%}}[data-theme=dark] .skeleton{background:linear-gradient(90deg,#293548 25%,#334155 37%,#293548 63%);background-size:400% 100%}
-.alert-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9}
-.alert-item:last-child{border-bottom:none}
 .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:12px;font-size:13px;font-weight:600;white-space:nowrap}
 .badge-green{background:#ECFDF5;color:#059669}.badge-red{background:#FEF2F2;color:#DC2626}.badge-yellow{background:#FFFBEB;color:#D97706}.badge-gray{background:#F1F5F9;color:#64748b}.badge-blue{background:#EEF2FF;color:#4A6CF7}
 .table-section{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:24px}
@@ -168,7 +166,6 @@ footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px
 <div class="stat-card"><div class="stat-icon green"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><div class="stat-label">&#x6700;&#x4F4E;&#x6700;&#x4F18;&#x60E0;</div><div class="stat-value" id="statSaving">--</div><div class="stat-sub" id="statSavingSub">--</div></div></div>
 <div class="stat-card"><div class="stat-icon purple"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="stat-label">&#x6700;&#x5F8C;&#x66F4;&#x65B0;</div><div class="stat-value" id="statDrop">--</div><div class="stat-sub" id="statDropSub">&#x81EA;&#x52D5;&#x6BCF;&#x65E5; 1 &#x6B21;</div></div></div>
 </div>
-<div class="card"><div class="card-header"><div class="card-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg> &#x50F9;&#x683C;&#x8B66;&#x5831;</div><a href="#" class="card-link">&#x67E5;&#x770B;&#x5168;&#x90E8;</a></div><div id="alertsList"><div class="skeleton" style="height:44px;width:100%;margin-bottom:8px"></div><div class="skeleton" style="height:44px;width:100%;margin-bottom:8px"></div><div class="skeleton" style="height:44px;width:100%"></div></div></div>
 <div class="airline-search-section">
 <div class="airline-search-header">
 <span style="font-size:1.1rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 22 2"/></svg></span>
@@ -241,7 +238,7 @@ var sub=document.getElementById('pageSubtitle');if(sub)sub.innerHTML='&#x8FFD;&#
 var tc=document.getElementById('tableCount');if(tc)tc.textContent=subsData.length;
 return loadPrices();
 }).then(function(){
-updateStats();renderAlerts();renderTable();updateBellAlerts();
+updateStats();renderTable();updateBellAlerts();
 }).catch(function(e){
 var rb=document.getElementById('routeTableBody');
 if(rb)rb.innerHTML='<tr><td colspan="8" style="text-align:center;padding:24px;color:red">Error: '+e.message+'</td></tr>';
@@ -333,18 +330,6 @@ html+='<div style="margin-top:12px;font-size:13px;color:var(--text-secondary)">�
 return html;
 }
 
-function renderAlerts(){
-var el=document.getElementById('alertsList');if(!el)return;
-var items=subsData.filter(function(s){var p=getSubPrice(s);return p!==null&&s.target_price&&p<=s.target_price*1.1;}).slice(0,5);
-if(!items.length){el.innerHTML='<p style="text-align:center;color:var(--text-secondary);padding:16px">&#x66AB;&#x7121;&#x50F9;&#x683C;&#x8B66;&#x5831;</p>';return;}
-el.innerHTML=items.map(function(s){
-var p=getSubPrice(s),isHit=p<=s.target_price,cd=getSubCheapestDate(s);
-return '<div class="alert-item"><div style="flex:1"><div style="font-weight:600">'+s.origin+' &#x2192; '+s.destination+'</div>'+
-'<div style="font-size:13px;color:var(--text-secondary)">NT$'+p.toLocaleString()+' ('+(cd||'--')+')</div></div>'+
-'<span class="badge '+(isHit?'badge-green':'badge-yellow')+'">'+(isHit?'&#x5DF2;&#x9054;&#x6A19;':'&#x63A5;&#x8FD1;')+'</span></div>';
-}).join('');
-}
-
 var _sortKey=null,_sortDir=1;function sortTable(key){if(_sortKey===key){_sortDir=-_sortDir;}else{_sortKey=key;_sortDir=1;}renderTable();updateSortIcons();}function updateSortIcons(){['price','date','target','route'].forEach(function(k){var el=document.getElementById('sortIcon-'+k);if(el)el.textContent=(_sortKey===k)?(_sortDir>0?'▲':'▼'):'';});}function renderTable(){
 var tbody=document.getElementById('routeTableBody');if(!tbody)return;
 if(!subsData.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-secondary)">&#x66AB;&#x7121;&#x8FFD;&#x8E64;&#x8DEF;&#x7DDA;</td></tr>';return;}
@@ -404,7 +389,7 @@ if(df&&!df.value)df.value=fmt(now);if(dt&&!dt.value)dt.value=fmt(future);
 function closeModal(){var m=document.getElementById('addModal');if(m)m.style.display='none';_editingId=null;var oi=document.getElementById('inputOrigin'),di=document.getElementById('inputDest');if(oi)oi.disabled=false;if(di)di.disabled=false;}
 function showToast(msg){var t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:24px;right:24px;background:#1e293b;color:#fff;padding:12px 20px;border-radius:8px;z-index:9999;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:opacity .5s';document.body.appendChild(t);}t.innerHTML=msg;t.style.opacity='1';setTimeout(function(){t.style.opacity='0';},3000);}
 
-function addSub(){if(_editingId){var es=subsData.find(function(s){return s.id===_editingId;});if(es){var edf=(document.getElementById('inputDateFrom')||{}).value||'';var edt=(document.getElementById('inputDateTo')||{}).value||'';var etg=(document.getElementById('inputTarget')||{}).value||'';if(!edf||!edt){showToast('請填寫必填欄位');return;}es.date_from=edf;es.date_to=edt;es.target_price=etg?parseInt(etg):null;saveSubs().then(function(){closeModal();updateStats();renderAlerts();renderTable();showToast('✅ 已更新');});}return;}
+function addSub(){if(_editingId){var es=subsData.find(function(s){return s.id===_editingId;});if(es){var edf=(document.getElementById('inputDateFrom')||{}).value||'';var edt=(document.getElementById('inputDateTo')||{}).value||'';var etg=(document.getElementById('inputTarget')||{}).value||'';if(!edf||!edt){showToast('請填寫必填欄位');return;}es.date_from=edf;es.date_to=edt;es.target_price=etg?parseInt(etg):null;saveSubs().then(function(){closeModal();updateStats();renderTable();showToast('✅ 已更新');});}return;}
 var origin=(document.getElementById('inputOrigin')||{}).value||'';
 var dest=(document.getElementById('inputDest')||{}).value||'';
 var dateFrom=(document.getElementById('inputDateFrom')||{}).value||'';
@@ -414,11 +399,11 @@ if(!origin||!dest||!dateFrom||!dateTo){showToast('&#x8ACB;&#x586B;&#x5BEB;&#x5FC
 var id=origin.toLowerCase()+'-'+dest.toLowerCase();
 if(subsData.some(function(s){return s.id===id;})){showToast('&#x8A72;&#x822A;&#x7DDA;&#x5DF2;&#x5B58;&#x5728;');return;}
 subsData.push({id:id,origin:origin.toUpperCase(),destination:dest.toUpperCase(),date_from:dateFrom,date_to:dateTo,target_price:target?parseInt(target):null,active:true});
-saveSubs().then(function(){closeModal();updateStats();renderAlerts();renderTable();showToast('&#x2705; &#x5DF2;&#x65B0;&#x589E;');});
+saveSubs().then(function(){closeModal();updateStats();renderTable();showToast('&#x2705; &#x5DF2;&#x65B0;&#x589E;');});
 }
 function deleteSub(id){
 subsData=subsData.filter(function(s){return s.id!==id;});
-saveSubs().then(function(){updateStats();renderAlerts();renderTable();showToast('&#x2705; &#x5DF2;&#x522A;&#x9664;');});
+saveSubs().then(function(){updateStats();renderTable();showToast('&#x2705; &#x5DF2;&#x522A;&#x9664;');});
 }
 function saveSubs(){
 return fetch(WORKER_URL+'/subscriptions',{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({subscriptions:subsData})}).then(function(r){if(r.status===401){showAuth();}if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).catch(function(e){showToast('Save failed: '+e.message);});
@@ -509,7 +494,7 @@ function saveAirlinePref(){
 setPreferredAirlines(_tempAirlinePrefs);
 closeAirlinePrefModal();
 updateAirlinePrefBadge();
-updateStats();renderAlerts();renderTable();updateBellAlerts();renderAirlineChips();if(_activeAirlineFilter)renderAirlineResults(_activeAirlineFilter);
+updateStats();renderTable();updateBellAlerts();renderAirlineChips();if(_activeAirlineFilter)renderAirlineResults(_activeAirlineFilter);
 showToast(_tempAirlinePrefs.length?('已更新偏好航空公司('+_tempAirlinePrefs.length+' 家)'):'已清除偏好,顯示全部航空公司');
 }
 function updateAirlinePrefBadge(){
