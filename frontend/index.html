@@ -521,7 +521,7 @@ function saveAirlinePref(){
 setPreferredAirlines(_tempAirlinePrefs);
 closeAirlinePrefModal();
 updateAirlinePrefBadge();
-updateStats();renderFeatured();renderAlerts();renderTable();updateBellAlerts();
+updateStats();renderFeatured();renderAlerts();renderTable();updateBellAlerts();renderAirlineChips();if(_activeAirlineFilter)renderAirlineResults(_activeAirlineFilter);
 showToast(_tempAirlinePrefs.length?('已更新偏好航空公司('+_tempAirlinePrefs.length+' 家)'):'已清除偏好,顯示全部航空公司');
 }
 function updateAirlinePrefBadge(){
@@ -536,8 +536,9 @@ var _activeAirlineFilter = '';
 
 function getAvailableAirlines(){
   var airlines = {};
-  Object.values(pricesData.prices||{}).forEach(function(p){
-    var a = p.cheapest_airline||p.airline||'';
+  subsData.forEach(function(s){
+    var fe = getFilteredEntry(s);
+    var a = (fe && fe.airline) || '';
     if(a && a.toLowerCase()!=='unknown') airlines[a] = (airlines[a]||0)+1;
   });
   return airlines;
@@ -605,7 +606,8 @@ function renderAirlineResults(query){
   var matches = subsData.filter(function(s){
     var p = pricesData.prices[s.id];
     if(!p) return false;
-    var a = (p.cheapest_airline||p.airline||'').toLowerCase();
+    var fe = getFilteredEntry(s);
+    var a = ((fe&&fe.airline)||'').toLowerCase();
     return a && a!=='unknown' && a.includes(q);
   });
   if(!matches.length){
@@ -616,9 +618,10 @@ function renderAirlineResults(query){
   var h='<div style="padding:10px 20px 4px;font-size:13px;font-weight:600;color:var(--text-secondary)">&#x627E;&#x5230; '+matches.length+' &#x689D;&#x8DEF;&#x7DDA;</div>';
   h+=matches.map(function(s){
     var p=pricesData.prices[s.id]||{};
-    var price=p.cheapest_price||p.price;
-    var airline=p.cheapest_airline||p.airline||'';
-    var date=p.cheapest_date||p.date||'--';
+    var fe=getFilteredEntry(s)||{};
+    var price=fe.price;
+    var airline=fe.airline||'';
+    var date=fe.date||'--';
     var target=s.target_price;
     var isHit=price&&target&&price<=target;
     var abbr=airline?airline.substring(0,3):'??';
