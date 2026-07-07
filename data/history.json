@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-06T23:23:41.978341Z",
+  "updated_at": "2026-07-07T06:32:41.683999Z",
   "history": {
     "tpe-nrt": [
       {
@@ -27,6 +27,12 @@
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
         "scraped_at": "2026-07-07T07:00:09.389903+08:00"
+      },
+      {
+        "cheapest_price": 7276,
+        "cheapest_date": "2026-07-01",
+        "dates_found": 7,
+        "scraped_at": "2026-07-07T14:19:02.995464+08:00"
       }
     ],
     "tpe-fuk": [
@@ -55,6 +61,12 @@
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
         "scraped_at": "2026-07-07T07:03:50.640264+08:00"
+      },
+      {
+        "cheapest_price": 10413,
+        "cheapest_date": "2026-07-01",
+        "dates_found": 7,
+        "scraped_at": "2026-07-07T14:20:49.291097+08:00"
       }
     ],
     "tpe-tak": [
@@ -97,6 +109,12 @@
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
         "scraped_at": "2026-07-07T07:09:34.390540+08:00"
+      },
+      {
+        "cheapest_price": 7820,
+        "cheapest_date": "2026-07-01",
+        "dates_found": 7,
+        "scraped_at": "2026-07-07T14:22:38.356354+08:00"
       }
     ],
     "khh-fuk": [
@@ -125,6 +143,12 @@
         "cheapest_date": "2026-07-01",
         "dates_found": 7,
         "scraped_at": "2026-07-07T07:13:10.669749+08:00"
+      },
+      {
+        "cheapest_price": 12574,
+        "cheapest_date": "2026-07-01",
+        "dates_found": 7,
+        "scraped_at": "2026-07-07T14:24:32.409746+08:00"
       }
     ],
     "khh-tak": [
@@ -178,9 +202,9 @@
         "alerted_at": "2026-07-07T07:09:34.390540+08:00"
       },
       "khh-kmq": {
-        "price": 14232,
-        "reason": "New historical low! 2026-07-01 @ 14232 TWD < prev low 16447 TWD",
-        "alerted_at": "2026-07-07T07:13:10.669749+08:00"
+        "price": 12574,
+        "reason": "New historical low! 2026-07-01 @ 12574 TWD < prev low 14232 TWD",
+        "alerted_at": "2026-07-07T14:24:32.409746+08:00"
       },
       "khh-tak": {
         "price": 11916,
@@ -199,6 +223,12 @@
         "cheapest_date": "2026-07-05",
         "dates_found": 13,
         "scraped_at": "2026-07-07T07:17:05.108330+08:00"
+      },
+      {
+        "cheapest_price": 11445,
+        "cheapest_date": "2026-07-05",
+        "dates_found": 13,
+        "scraped_at": "2026-07-07T14:26:18.777714+08:00"
       }
     ],
     "tpe-ngo": [
@@ -207,6 +237,12 @@
         "cheapest_date": "2026-07-06",
         "dates_found": 13,
         "scraped_at": "2026-07-07T07:20:31.557910+08:00"
+      },
+      {
+        "cheapest_price": 9647,
+        "cheapest_date": "2026-07-06",
+        "dates_found": 13,
+        "scraped_at": "2026-07-07T14:29:37.473903+08:00"
       }
     ]
   }
