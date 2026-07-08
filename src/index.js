@@ -11,6 +11,7 @@ const CORS = {
 const IATA_RE = /^[A-Z]{3}$/;
 const MAX_SUBS = 20;
 const SESSION_TTL = 60 * 60 * 24 * 30;
+const RESET_TTL = 60 * 60; // 1 小時
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -110,6 +111,50 @@ function validEmail(e) {
   return typeof e === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
 
+async function getUserByEmail(env, email) {
+  const list = await env.FARERADAR_KV.list({ prefix: 'user:' });
+  for (const k of list.keys) {
+    const raw = await env.FARERADAR_KV.get(k.name);
+    if (raw) {
+      const u = JSON.parse(raw);
+      if (u.email === email) return u;
+    }
+  }
+  return null;
+}
+async function createResetToken(env, username) {
+  const token = genToken();
+  await env.FARERADAR_KV.put('reset:' + token, JSON.stringify({ username }), { expirationTtl: RESET_TTL });
+  return token;
+}
+async function getResetUsername(env, token) {
+  const raw = await env.FARERADAR_KV.get('reset:' + token);
+  if (!raw) return null;
+  return JSON.parse(raw).username;
+}
+async function deleteResetToken(env, token) {
+  await env.FARERADAR_KV.delete('reset:' + token);
+}
+async function sendResetEmail(env, toEmail, resetLink) {
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + env.RESEND_API,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: env.RESET_EMAIL_FROM || 'FareRadar <onboarding@resend.dev>',
+      to: [toEmail],
+      subject: '重設您的 FareRadar 密碼',
+      html: '<p>您好，</p><p>請點擊以下連結重設密碼（1 小時內有效）：</p><p><a href="' + resetLink + '">' + resetLink + '</a></p><p>如果您沒有要求重設密碼，請忽略此信件。</p>',
+    }),
+  });
+  if (!r.ok) {
+    const e = await r.text();
+    throw new Error('Resend API error: ' + r.status + ' ' + e);
+  }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -170,6 +215,55 @@ export default {
         if (!ok) return json({ error: '帳號或密碼錯誤' }, 401);
         const sessionToken = await createSession(env, username);
         return json({ ok: true, token: sessionToken, username });
+      } catch (e) {
+        return json({ error: e.message }, 500);
+      }
+    }
+
+    if (url.pathname === '/api/forgot-password' && request.method === 'POST') {
+      try {
+        const body = await request.json();
+        const { email } = body;
+        if (!validEmail(email)) {
+          return json({ error: '請輸入有效的 Email 地址' }, 400);
+        }
+        const user = await getUserByEmail(env, email);
+        if (user) {
+          const token = await createResetToken(env, user.username);
+          const resetLink = (env.FRONTEND_URL || 'https://mywu-cloud.github.io/flights/') + '?resetToken=' + token;
+          try {
+            await sendResetEmail(env, email, resetLink);
+          } catch (e) {
+            // 寄信失敗不對外洩漏細節，避免探測帳號是否存在
+          }
+        }
+        return json({ ok: true, message: '如果該 Email 已註冊，重設密碼連結已寄出' });
+      } catch (e) {
+        return json({ error: e.message }, 500);
+      }
+    }
+
+    if (url.pathname === '/api/reset-password' && request.method === 'POST') {
+      try {
+        const body = await request.json();
+        const { token, password } = body;
+        if (typeof password !== 'string' || password.length < 6) {
+          return json({ error: '密碼至少需要 6 個字元' }, 400);
+        }
+        const username = await getResetUsername(env, token);
+        if (!username) {
+          return json({ error: '重設連結無效或已過期' }, 400);
+        }
+        const user = await getUser(env, username);
+        if (!user) {
+          return json({ error: '使用者不存在' }, 404);
+        }
+        const { salt, hash } = await hashPassword(password);
+        user.salt = salt;
+        user.hash = hash;
+        await saveUser(env, username, user);
+        await deleteResetToken(env, token);
+        return json({ ok: true });
       } catch (e) {
         return json({ error: e.message }, 500);
       }
