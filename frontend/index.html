@@ -210,9 +210,8 @@ th,td{font-size:12px;padding:8px 10px;white-space:nowrap}
 </div>
 <div class="container" style="display:none">
 <div class="page-header">
-<div class="page-label">&#x5100;&#x8868;&#x677F; &middot; DASHBOARD</div>
-<h1 class="page-title">&#x6211;&#x7684;&#x7968;&#x50F9;&#x8FFD;&#x8E64;</h1>
-<p class="page-subtitle" id="pageSubtitle">Loading...</p>
+<h1 class="page-title">&#x6211;&#x7684;&#x6A5F;&#x7968;&#x8FFD;&#x8E64;</h1>
+<p class="page-subtitle" id="pageSubtitle"></p>
 <button class="btn-primary" onclick="openModal()">&#xFF0B; &#x65B0;&#x589E;&#x8FFD;&#x8E64;</button>
 </div>
 <div class="stats-grid">
@@ -309,7 +308,7 @@ if(r.status===401){showAuth();throw new Error('unauthorized');}
 if(!r.ok)throw new Error('HTTP '+r.status);return r.json();
 }).then(function(json){
 subsData=Array.isArray(json)?json:(json.subscriptions||[]);
-var sub=document.getElementById('pageSubtitle');if(sub)sub.innerHTML='&#x8FFD;&#x8E64; '+subsData.length+' &#x689D;&#x822A;&#x7DDA;';
+var sub=document.getElementById('pageSubtitle');if(sub)sub.innerHTML='';
 var tc=document.getElementById('tableCount');if(tc)tc.textContent=subsData.length;
 return loadPrices();
 }).then(function(){
