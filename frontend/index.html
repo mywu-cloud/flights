@@ -94,6 +94,7 @@ tr:hover td{background:#fafbfc}
 .cal-heat-3{background:#4ADE80;color:#14532D}
 .cal-heat-4{background:#16A34A;color:#fff}
 .cal-heat-5{background:#15803D;color:#fff}
+.cal-min{background:#DC2626!important;color:#fff!important;font-weight:700;box-shadow:0 0 0 2px #991B1B inset}
 .cal-nodata{background:#F1F5F9;color:#94a3b8}
 footer{text-align:center;color:var(--text-secondary);font-size:13px;padding:20px}
 .airline-filter-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#f8fafc;border-bottom:1px solid #f1f5f9;flex-wrap:wrap}
@@ -304,6 +305,7 @@ var html='';
 monthKeys.forEach(function(mk){
 var parts=mk.split('-'),y=parseInt(parts[0],10),mo=parseInt(parts[1],10)-1;
 var monthStart=new Date(y,mo,1),monthEnd=new Date(y,mo+1,0);
+var monthMin=null;var mIterD=new Date(monthStart);while(mIterD<=monthEnd){var mds=mIterD.getFullYear()+'-'+String(mIterD.getMonth()+1).padStart(2,'0')+'-'+String(mIterD.getDate()).padStart(2,'0');if(calMap[mds]!==undefined){if(monthMin===null||calMap[mds]<monthMin)monthMin=calMap[mds];}mIterD.setDate(mIterD.getDate()+1);}
 html+='<div style="font-weight:700;font-size:14px;margin:14px 0 6px">'+y+'年'+(mo+1)+'月</div>';
 html+='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px">';
 dowLabels.forEach(function(l){html+='<div style="text-align:center;font-size:13px;color:var(--text-secondary)">'+l+'</div>';});
@@ -317,8 +319,9 @@ if(calMap[ds]!==undefined){
 var p=calMap[ds],pct=(p-mn)/range;
 var heat=pct<0.2?'1':pct<0.4?'2':pct<0.6?'3':pct<0.8?'4':'5';
 var isHit=target&&p<=target;
-html+='<div class="cal-cell cal-heat-'+heat+'" title="'+ds+' NT$'+p.toLocaleString()+(isHit?' *已達標':'')+'">'+
-'<div class="cal-tip">'+ds+'<br>NT$'+p.toLocaleString()+(isHit?' ✓已達標':'')+'</div>'+day+'<div class="cal-price">'+p.toLocaleString()+'</div></div>';
+var isMonthMin=(monthMin!==null&&p===monthMin);
+html+='<div class="cal-cell cal-heat-'+heat+(isMonthMin?' cal-min':'')+'" title="'+ds+' NT$'+p.toLocaleString()+(isMonthMin?' (本月最低)':'')+(isHit?' *已達標':'')+'">'+
+'<div class="cal-tip">'+ds+'<br>NT$'+p.toLocaleString()+(isMonthMin?' 本月最低':'')+(isHit?' ✓已達標':'')+'</div>'+day+'<div class="cal-price">'+p.toLocaleString()+'</div></div>';
 }else{html+='<div class="cal-cell cal-nodata" title="'+ds+'">'+day+'</div>';}
 cur.setDate(cur.getDate()+1);
 }
@@ -326,7 +329,7 @@ var endDow=monthEnd.getDay();
 for(var j=endDow+1;j<7;j++)html+='<div class="cal-cell cal-empty"></div>';
 html+='</div>';
 });
-html+='<div style="margin-top:12px;font-size:13px;color:var(--text-secondary)">綠深 = 便宜 &nbsp;綠淺 = 貴 &nbsp;|&nbsp; 最低: <strong style="color:#059669">NT$'+mn.toLocaleString()+'</strong>'+(target?' &nbsp;目標: NT$'+target.toLocaleString():'')+'</div>';
+html+='<div style="margin-top:12px;font-size:13px;color:var(--text-secondary)">綠深 = 便宜 &nbsp;綠淺 = 貴 &nbsp;紅色=本月最低 &nbsp;|&nbsp; 最低: <strong style="color:#059669">NT$'+mn.toLocaleString()+'</strong>'+(target?' &nbsp;目標: NT$'+target.toLocaleString():'')+'</div>';
 return html;
 }
 
