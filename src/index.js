@@ -166,10 +166,7 @@ export default {
     if (url.pathname === '/api/register' && request.method === 'POST') {
       try {
         const body = await request.json();
-        const { username, password, inviteCode, email } = body;
-        if (!env.INVITE_CODE || inviteCode !== env.INVITE_CODE) {
-          return json({ error: '邀請碼錯誤' }, 403);
-        }
+        const { username, password, email } = body;
         if (!validUsername(username)) {
           return json({ error: '使用者名稱格式錯誤（3-20 位英數字或底線）' }, 400);
         }
