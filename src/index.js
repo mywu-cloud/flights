@@ -166,19 +166,17 @@ export default {
     if (url.pathname === '/api/register' && request.method === 'POST') {
       try {
         const body = await request.json();
-        const { username, password, email } = body;
-        if (!validUsername(username)) {
-          return json({ error: '使用者名稱格式錯誤（3-20 位英數字或底線）' }, 400);
-        }
-        if (typeof password !== 'string' || password.length < 6) {
-          return json({ error: '密碼至少需要 6 個字元' }, 400);
-        }
+        const { password, email } = body;
         if (!validEmail(email)) {
           return json({ error: '請輸入有效的 Email 地址' }, 400);
         }
+        const username = String(email).trim();
+        if (typeof password !== 'string' || password.length < 6) {
+          return json({ error: '密碼至少需要 6 個字元' }, 400);
+        }
         const existing = await getUser(env, username);
         if (existing) {
-          return json({ error: '使用者名稱已被使用' }, 409);
+          return json({ error: '此 Email 已被註冊' }, 409);
         }
         const { salt, hash } = await hashPassword(password);
         await saveUser(env, username, { username, salt, hash, email, createdAt: Date.now() });
