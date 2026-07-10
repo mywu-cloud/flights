@@ -12,6 +12,7 @@ class DataStore:
         self.data_dir.mkdir(parents=True, exist_ok=True)
         self._prices = self._load("prices.json", "prices", {})
         self._history = self._load("history.json", "history", {})
+        self._period_fares = self._load("period_fares.json", "period_fares", {})
 
     def _load(self, filename, key, default):
         path = self.data_dir / filename
@@ -85,6 +86,15 @@ class DataStore:
         if len(self._history[sub_id]) > 180:
             self._history[sub_id] = self._history[sub_id][-180:]
 
+        def update_period_fares(self, sub_id, origin, destination, periods):
+            """Store per-dekad (旬) top-3 airline fare list for a subscription."""
+            self._period_fares[sub_id] = {
+                "subscription_id": sub_id,
+                "origin": origin,
+                "destination": destination,
+                "periods": periods,
+            }
+
     # ------------------------------------------------------------------
     # Legacy single-date API (kept for backward compat / fallback)
     # ------------------------------------------------------------------
@@ -139,6 +149,7 @@ class DataStore:
         for fn, data in [
             ("prices.json", {"updated_at": ts, "prices": self._prices}),
             ("history.json", {"updated_at": ts, "history": self._history}),
+            ("period_fares.json", {"updated_at": ts, "period_fares": self._period_fares}),
         ]:
             path = self.data_dir / fn
             with open(path, "w", encoding="utf-8") as f:
