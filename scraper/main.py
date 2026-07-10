@@ -53,52 +53,54 @@ def load_subscriptions() -> list:
 
 
 def bucket_by_dekad(price_calendar):
-        """Group {date: price} into 上/中/下旬 buckets, keep cheapest date per bucket."""
-        buckets = {}
-        for date_str, price in price_calendar.items():
-                    d = datetime.strptime(date_str, "%Y-%m-%d")
-                    if d.day <= 10:
-                                    dekad_label, start_day, end_day = "上旬", 1, 10
-                    elif d.day <= 20:
-                                    dekad_label, start_day, end_day = "中旬", 11, 20
-                    else:
-                                    last_day = calendar.monthrange(d.year, d.month)[1]
-                                    dekad_label, start_day, end_day = "下旬", 21, last_day
-                                period_key = f"{d.year}-{d.month:02d}-{dekad_label}"
-                    if period_key not in buckets or price < buckets[period_key]["best_price"]:
-                                    buckets[period_key] = {
-                                                        "period_key": period_key,
-                                                        "label": f"{d.month}月{dekad_label}",
-                                                        "range_start": f"{d.year}-{d.month:02d}-{start_day:02d}",
-                                                        "range_end": f"{d.year}-{d.month:02d}-{end_day:02d}",
-                                                        "best_date": date_str,
-                                                        "best_price": price,
-                                    }
-                            return buckets
-            
+    """Group {date: price} into 上/中/下旬 buckets, keep cheapest date per bucket."""
+    buckets = {}
+    for date_str, price in price_calendar.items():
+        d = datetime.strptime(date_str, "%Y-%m-%d")
+        if d.day <= 10:
+            dekad_label, start_day, end_day = "上旬", 1, 10
+        elif d.day <= 20:
+            dekad_label, start_day, end_day = "中旬", 11, 20
+        else:
+            last_day = calendar.monthrange(d.year, d.month)[1]
+            dekad_label, start_day, end_day = "下旬", 21, last_day
+        period_key = f"{d.year}-{d.month:02d}-{dekad_label}"
+        if period_key not in buckets or price < buckets[period_key]["best_price"]:
+            buckets[period_key] = {
+                "period_key": period_key,
+                "label": f"{d.month}月{dekad_label}",
+                "range_start": f"{d.year}-{d.month:02d}-{start_day:02d}",
+                "range_end": f"{d.year}-{d.month:02d}-{end_day:02d}",
+                "best_date": date_str,
+                "best_price": price,
+            }
+    return buckets
+
+
 async def process_period_fares(scraper, store, sub, origin, destination, currency, price_calendar):
-        """Build per-dekad (旬) top-3 airline fare comparison for a subscription."""
-        sub_id = sub["id"]
-        dekad_buckets = bucket_by_dekad(price_calendar)
-        periods = []
-        for key in sorted(dekad_buckets.keys()):
-                    bucket = dekad_buckets[key]
-                    detail = None
-                    try:
-                                    detail = await scraper.search(origin=origin, destination=destination, date=bucket["best_date"])
-                    except Exception as e:
-                                    logger.warning(f"[{sub_id}] Period scan failed {key}: {e}")
-                                airlines = []
-                    if detail:
-                                    airlines = detail.get("all_airlines", [])[:3]
-                            bucket["currency"] = currency
-                    bucket["airlines"] = airlines
-                    periods.append(bucket)
-        await asyncio.sleep(2)
-        store.update_period_fares(sub_id, origin, destination, periods)
-        logger.info(f"[{sub_id}] Updated {len(periods)} period fare buckets")
+    """Build per-dekad (旬) top-3 airline fare comparison for a subscription."""
+    sub_id = sub["id"]
+    dekad_buckets = bucket_by_dekad(price_calendar)
+    periods = []
+    for key in sorted(dekad_buckets.keys()):
+        bucket = dekad_buckets[key]
+        detail = None
+        try:
+            detail = await scraper.search(origin=origin, destination=destination, date=bucket["best_date"])
+        except Exception as e:
+            logger.warning(f"[{sub_id}] Period scan failed {key}: {e}")
+        airlines = []
+        if detail:
+            airlines = detail.get("all_airlines", [])[:3]
+        bucket["currency"] = currency
+        bucket["airlines"] = airlines
+        periods.append(bucket)
+    await asyncio.sleep(2)
+    store.update_period_fares(sub_id, origin, destination, periods)
+    logger.info(f"[{sub_id}] Updated {len(periods)} period fare buckets")
+
     
-async def process_subscription(scraper, store, engine, notifier, sub):
+    async def process_subscription(scraper, store, engine, notifier, sub):
     """
     Process a single subscription using the new calendar scan model.
     Reads date_from/date_to from subscription, scans price calendar,
@@ -172,9 +174,9 @@ async def process_subscription(scraper, store, engine, notifier, sub):
             airline_prices=airline_prices,
         )
         try:
-                        await process_period_fares(scraper, store, sub, origin, destination, currency, price_calendar)
+            await process_period_fares(scraper, store, sub, origin, destination, currency, price_calendar)
         except Exception as e:
-                        logger.error(f"[{sub_id}] Period fare error: {e}", exc_info=True)
+            logger.error(f"[{sub_id}] Period fare error: {e}", exc_info=True)
 
         cheapest_date, cheapest_price = store.get_cheapest_in_calendar(sub_id)
         logger.info(
