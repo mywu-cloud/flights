@@ -36,6 +36,9 @@ jobs:
           curl -sf \
             "https://raw.githubusercontent.com/mywu-cloud/flights/gh-pages/data/history.json" \
             -o data/history.json || echo "No existing history.json"
+            curl -sf \
+              "https://raw.githubusercontent.com/mywu-cloud/flights/gh-pages/data/period_fares.json" \
+              -o data/period_fares.json || echo "No existing period_fares.json"
 
       - name: Fetch subscriptions from Worker
         env:
@@ -71,6 +74,7 @@ jobs:
           mkdir -p gh-pages-data/data
           cp data/prices.json gh-pages-data/data/prices.json 2>/dev/null || true
           cp data/history.json gh-pages-data/data/history.json 2>/dev/null || true
+          cp data/period_fares.json gh-pages-data/data/period_fares.json 2>/dev/null || true
 
       - name: Commit and push price data
         if: always()
