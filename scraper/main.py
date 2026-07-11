@@ -99,8 +99,8 @@ async def process_period_fares(scraper, store, sub, origin, destination, currenc
     store.update_period_fares(sub_id, origin, destination, periods)
     logger.info(f"[{sub_id}] Updated {len(periods)} period fare buckets")
 
-    
-    async def process_subscription(scraper, store, engine, notifier, sub):
+
+async def process_subscription(scraper, store, engine, notifier, sub):
     """
     Process a single subscription using the new calendar scan model.
     Reads date_from/date_to from subscription, scans price calendar,
