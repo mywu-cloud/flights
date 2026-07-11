@@ -247,8 +247,7 @@ th,td{font-size:12px;padding:8px 10px;white-space:nowrap}
 </tr></thead>
 <tbody id="routeTableBody"><tr><td colspan="8" style="padding:16px"><div class="skeleton" style="height:20px;width:100%"></div></td></tr><tr><td colspan="8" style="padding:16px"><div class="skeleton" style="height:20px;width:100%"></div></td></tr><tr><td colspan="8" style="padding:16px"><div class="skeleton" style="height:20px;width:100%"></div></td></tr></tbody></table>
 </div>
-</div>
-  <div class="table-section">
+<div class="table-section">
     <div class="table-section-header"><div class="table-section-title">依日期區間比價 <span class="badge badge-blue" id="periodTableCount">0</span></div><button class="btn-primary" style="padding:6px 14px;font-size:13px" onclick="openPeriodModal()">＋ 新增比價</button></div>
     <div style="display:flex;gap:4px;padding:0 16px;border-bottom:1px solid #f1f5f9">
     <button type="button" class="route-tab-btn route-tab-active" id="periodTabBtn-go" onclick="switchPeriodTab('go')">去程<span class="route-tab-count" id="periodTabCount-go"></span></button>
@@ -257,6 +256,7 @@ th,td{font-size:12px;padding:8px 10px;white-space:nowrap}
     <table><thead><tr>
       <th>航線</th><th>期間</th><th>第一選擇</th><th>第二選擇</th><th>操作</th>
     </tr></thead><tbody id="periodFaresBody"></tbody></table>
+  </div>
   </div>
     <div class="modal-overlay" id="addModal"><div class="modal-box">
 <div class="modal-title" id="modalTitleText">&#xFF0B; &#x65B0;&#x589E;&#x8FFD;&#x8E64;&#x822A;&#x7DDA;</div>
@@ -275,7 +275,7 @@ th,td{font-size:12px;padding:8px 10px;white-space:nowrap}
 <div class="modal-title">＋ 新增比價項目</div>
 <div class="form-group"><label class="form-label">航線</label><select id="periodInputRoute" class="form-input"></select></div>
 <div class="form-row">
-<div class="form-group"><label class="form-label">年月</label><input type="month" id="periodInputMonth" class="form-input"></div>
+<div class="form-group"><label class="form-label">年月</label><select id="periodInputMonth" class="form-input"></select></div>
 <div class="form-group"><label class="form-label">旬別</label><select id="periodInputDekad" class="form-input"><option value="上旬">上旬</option><option value="中旬">中旬</option><option value="下旬">下旬</option></select></div>
 </div>
 <div class="modal-footer"><button class="btn-secondary" onclick="closePeriodModal()">Cancel</button><button class="btn-primary" onclick="addPeriodSub()">確認新增</button></div>
@@ -300,7 +300,7 @@ th,td{font-size:12px;padding:8px 10px;white-space:nowrap}
 <li>系統每日自動比價，低於目標價會標示「已達標」並發送 Email／Telegram 通知。</li>
 <li>可點擊右上角頭像選單中的「偏好航空公司」，設定只顯示指定航空公司的報價；若該航線沒有偏好航空公司的資料，會顯示偏好清單中最低價，未設定則顯示所有航空公司的最低價。</li>
 <li>「追蹤中的航線」可切換「去程」「回程」頁籤，點擊表頭欄位可個別排序。</li>
-<li>點擊任一航線列，可查看「日曆熱力圖」或「折線圖」掌握價格走勢。</li>
+<li>點擊任一航線列，可查看「日曆熱力圖」或「折線圖」掌握價格走勢。</li><li>「依日期區間比價」可遵照已追蹤的航線，自行新增想比較的日期區間（例如「11月上旬」），系統會從已掃描的日曆資料中找出該區間內最便宜的日期，並列出第一、第二選擇航空公司與價格，方便比較。</li>
 <li>忘記密碼可在登入頁點選「忘記密碼？」，透過 Email 重設。</li>
 </ol>
 <div class="modal-footer"><button class="btn-primary" onclick="closeHelpModal()">知道了</button></div>
