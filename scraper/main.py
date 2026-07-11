@@ -272,8 +272,8 @@ async def main():
         logger.info("No active subscriptions. Exiting.")
         return
 
-        calendars_by_route = {}
-        scraper = GoogleFlightsScraper()
+    calendars_by_route = {}
+    scraper = GoogleFlightsScraper()
     try:
         await scraper.start()
         for sub in subscriptions:
