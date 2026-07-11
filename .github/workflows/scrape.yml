@@ -51,6 +51,17 @@ jobs:
           echo "Fetched subscriptions:"
           cat config/subscriptions.json
 
+      - name: Fetch period subscriptions from Worker
+        env:
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+        run: |
+          mkdir -p config
+          curl -sf "https://flights.tw-mywu.workers.dev/api/admin/all-period-subscriptions" \
+            -H "X-Admin-Token: ${ADMIN_TOKEN}" \
+            -o config/period_subscriptions.json
+          echo "Fetched period subscriptions:"
+          cat config/period_subscriptions.json
+
       - name: Run flight price scraper
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
