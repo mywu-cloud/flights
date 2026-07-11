@@ -10,6 +10,7 @@ const CORS = {
 
 const IATA_RE = /^[A-Z]{3}$/;
 const MAX_SUBS = 20;
+const MAX_PERIOD_SUBS = 30;
 const SESSION_TTL = 60 * 60 * 24 * 30;
 const RESET_TTL = 60 * 60; // 1 小時
 
@@ -107,6 +108,13 @@ function validUsername(u) {
   return typeof u === 'string' && /^[a-zA-Z0-9_]{3,20}$/.test(u);
 }
 
+async function getUserPeriodSubs(env, username) {
+  const raw = await env.FARERADAR_KV.get('periodsubs:' + username);
+  return raw ? JSON.parse(raw) : [];
+}
+async function saveUserPeriodSubs(env, username, periodSubs) {
+  await env.FARERADAR_KV.put('periodsubs:' + username, JSON.stringify(periodSubs));
+}
 function validEmail(e) {
   return typeof e === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
@@ -297,6 +305,27 @@ export default {
       }
     }
 
+      if (url.pathname === '/api/admin/all-period-subscriptions' && request.method === 'GET') {
+        const adminToken = request.headers.get('X-Admin-Token');
+        if (!env.ADMIN_TOKEN || adminToken !== env.ADMIN_TOKEN) {
+          return json({ error: 'Unauthorized' }, 401);
+        }
+        try {
+          const list = await env.FARERADAR_KV.list({ prefix: 'periodsubs:' });
+          let all = [];
+          for (const k of list.keys) {
+            const raw = await env.FARERADAR_KV.get(k.name);
+            if (raw) {
+              const arr = JSON.parse(raw);
+              if (Array.isArray(arr)) all = all.concat(arr);
+            }
+          }
+          return json({ period_subscriptions: all });
+        } catch (e) {
+          return json({ error: e.message }, 500);
+        }
+      }
+
     if (url.pathname === '/subscriptions' && request.method === 'GET') {
       const username = await getSessionUser(request, env);
       if (!username) return json({ error: 'Unauthorized' }, 401);
@@ -336,6 +365,50 @@ export default {
         return json({ error: e.message }, 502);
       }
     }
+
+      if (url.pathname === '/period-subscriptions' && request.method === 'GET') {
+        const username = await getSessionUser(request, env);
+        if (!username) return json({ error: 'Unauthorized' }, 401);
+        try {
+          const period_subscriptions = await getUserPeriodSubs(env, username);
+          return json({ period_subscriptions });
+        } catch (e) {
+          return json({ error: e.message }, 502);
+        }
+      }
+
+      if (url.pathname === '/period-subscriptions' && request.method === 'PUT') {
+        const username = await getSessionUser(request, env);
+        if (!username) return json({ error: 'Unauthorized' }, 401);
+        try {
+          const body = await request.json();
+          const { period_subscriptions } = body;
+          if (!Array.isArray(period_subscriptions)) {
+            return json({ error: 'period_subscriptions must be array' }, 400);
+          }
+          if (period_subscriptions.length > MAX_PERIOD_SUBS) {
+            return json({ error: 'Too many period subscriptions (max ' + MAX_PERIOD_SUBS + ')' }, 400);
+          }
+          for (const p of period_subscriptions) {
+            if (!IATA_RE.test(p.origin) || !IATA_RE.test(p.destination)) {
+              return json({ error: 'Invalid IATA code: ' + p.origin + '/' + p.destination }, 400);
+            }
+            if (!Number.isInteger(p.year) || p.year < 2024 || p.year > 2100) {
+              return json({ error: 'Invalid year for ' + p.id }, 400);
+            }
+            if (!Number.isInteger(p.month) || p.month < 1 || p.month > 12) {
+              return json({ error: 'Invalid month for ' + p.id }, 400);
+            }
+            if (['上旬','中旬','下旬'].indexOf(p.dekad) === -1) {
+              return json({ error: 'Invalid dekad for ' + p.id }, 400);
+            }
+          }
+          await saveUserPeriodSubs(env, username, period_subscriptions);
+          return json({ ok: true });
+        } catch (e) {
+          return json({ error: e.message }, 502);
+        }
+      }
 
     return json({ error: 'Not found' }, 404);
   },
