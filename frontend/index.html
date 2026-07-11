@@ -330,7 +330,7 @@ if(!r.ok)throw new Error('HTTP '+r.status);return r.json();
 subsData=Array.isArray(json)?json:(json.subscriptions||[]);
 var sub=document.getElementById('pageSubtitle');if(sub)sub.innerHTML='';
 var tc=document.getElementById('tableCount');if(tc)tc.textContent=subsData.length;
-return Promise.all([loadPrices(), loadPeriodFares()]);
+return Promise.all([loadPrices(), loadPeriodFares(), loadPeriodSubs()]);
 }).then(function(){
 updateStats();renderTable();updateBellAlerts();renderPeriodFaresTable();
 }).catch(function(e){
@@ -354,23 +354,15 @@ pricesData.prices=data[0].prices||data[0];pricesData.history=data[1].history||da
     }).catch(function(e){console.log('Period fares error:',e.message);});
 }
 
-  function renderPeriodFaresTable(){
-    var tbody=document.getElementById('periodFaresBody');if(!tbody)return;
-    var rows=[];
-    Object.keys(periodFaresData).forEach(function(sid){
-        var entry=periodFaresData[sid];
-      var route=(CITIES[entry.origin]||entry.origin)+' → '+(CITIES[entry.destination]||entry.destination);
-      (entry.periods||[]).forEach(function(p){
-          var airlines=(p.airlines||[]).slice(0,3);
-        var cells=[0,1,2].map(function(i){
-            var a=airlines[i];
-          return a?(AIRLINE_ABBR[a.airline]||a.airline)+' NT$'+a.price:'--';
-        });
-      rows.push('<tr><td>'+p.label+'</td><td>'+route+'</td><td>'+cells[0]+'</td><td>'+cells[1]+'</td><td>'+cells[2]+'</td></tr>');
-      });
-    });
-    tbody.innerHTML=rows.join('')||'<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-secondary)">尚無資料</td></tr>';
-  }
+var periodSubsData=[];var _periodRouteTab='go';
+function switchPeriodTab(tab){_periodRouteTab=tab;var bg=document.getElementById('periodTabBtn-go'),bb=document.getElementById('periodTabBtn-back');if(bg)bg.classList.toggle('route-tab-active',tab==='go');if(bb)bb.classList.toggle('route-tab-active',tab==='back');renderPeriodFaresTable();}
+function loadPeriodSubs(){return fetch(WORKER_URL+'/period-subscriptions',{headers:{'Authorization':'Bearer '+getToken()}}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(json){periodSubsData=json.period_subscriptions||[];}).catch(function(e){console.log('Period subs error:',e.message);});}
+function savePeriodSubs(){return fetch(WORKER_URL+'/period-subscriptions',{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({period_subscriptions:periodSubsData})}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).catch(function(e){showToast('Save failed: '+e.message);});}
+function openPeriodModal(){var sel=document.getElementById('periodInputRoute');if(sel){sel.innerHTML=subsData.map(function(s){return '<option value="'+s.id+'">'+s.origin+' \u2192 '+s.destination+'</option>';}).join('');}var mi=document.getElementById('periodInputMonth');if(mi&&!mi.value){var d=new Date();mi.value=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');}var m=document.getElementById('periodModal');if(m)m.style.display='flex';}
+function closePeriodModal(){var m=document.getElementById('periodModal');if(m)m.style.display='none';}
+function addPeriodSub(){var routeId=(document.getElementById('periodInputRoute')||{}).value||'';var monthVal=(document.getElementById('periodInputMonth')||{}).value||'';var dekad=(document.getElementById('periodInputDekad')||{}).value||'';if(!routeId||!monthVal||!dekad){showToast('請填寫必填欄位');return;}var sub=subsData.find(function(s){return s.id===routeId;});if(!sub){showToast('找不到航線');return;}var parts=monthVal.split('-');var year=parseInt(parts[0],10);var month=parseInt(parts[1],10);var id=routeId+'-'+year+'-'+month+'-'+dekad;if(periodSubsData.some(function(p){return p.id===id;})){showToast('該比價項目已存在');return;}periodSubsData.push({id:id,origin:sub.origin,destination:sub.destination,year:year,month:month,dekad:dekad,active:true});savePeriodSubs().then(function(){closePeriodModal();renderPeriodFaresTable();showToast('已新增');});}
+function deletePeriodSub(id){periodSubsData=periodSubsData.filter(function(p){return p.id!==id;});savePeriodSubs().then(function(){renderPeriodFaresTable();showToast('已刪除');});}
+function renderPeriodFaresTable(){var tbody=document.getElementById('periodFaresBody');if(!tbody)return;var isGo=function(p){return TW_AIRPORTS.indexOf(p.origin)>-1;};var goRows=periodSubsData.filter(isGo);var backRows=periodSubsData.filter(function(p){return !isGo(p);});var tcGo=document.getElementById('periodTabCount-go');if(tcGo)tcGo.textContent='('+goRows.length+')';var tcBack=document.getElementById('periodTabCount-back');if(tcBack)tcBack.textContent='('+backRows.length+')';var tc=document.getElementById('periodTableCount');if(tc)tc.textContent=periodSubsData.length;var rows=_periodRouteTab==='back'?backRows:goRows;if(!rows.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-secondary)">尚無比價項目</td></tr>';return;}tbody.innerHTML=rows.map(function(p){var result=periodFaresData[p.id];var choices=(result&&result.choices)||[];var d=(result&&result.best_date)||'';var cells=[0,1].map(function(i){var c=choices[i];if(!c)return '--';return (AIRLINE_ABBR[c.airline]||c.airline)+' '+d+' NT$'+c.price;});return '<tr><td>'+p.origin+' \u2192 '+p.destination+'</td><td>'+p.year+'\u5e74'+p.month+'\u6708'+p.dekad+'</td><td>'+cells[0]+'</td><td>'+cells[1]+'</td><td><button class="btn-icon" onclick="deletePeriodSub(\'+p.id+'\')" title="\u522a\u9664">\ud83d\uddd1\ufe0f</button></td></tr>';}).join('');}
 function getSubPrice(s){var e=getFilteredEntry(s);return e?e.price:null;}
 function getSubCheapestDate(s){var e=getFilteredEntry(s);return e?e.date:'';}
 function getSubCalendar(s){var e=getFilteredEntry(s);return e?e.calendar:{};} function makeSparkline(history){var vals=(history||[]).map(function(h){return h.cheapest_price||h.price||0;}).filter(function(v){return v>0;});if(vals.length<2)return '<span style="color:var(--text-secondary);font-size:11px">--</span>';var w=64,h=22,mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),range=(mx-mn)||1;var pts=vals.map(function(v,i){var x=(i/(vals.length-1))*w;var y=h-((v-mn)/range)*h;return x.toFixed(1)+','+y.toFixed(1);}).join(' ');var up=vals[vals.length-1]>vals[0];var color=up?'#DC2626':'#059669';return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" style="display:block"><polyline points="'+pts+'" fill="none" stroke="'+color+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';}
