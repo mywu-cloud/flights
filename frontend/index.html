@@ -249,12 +249,16 @@ th,td{font-size:12px;padding:8px 10px;white-space:nowrap}
 </div>
 </div>
   <div class="table-section">
-    <div class="table-section-header"><div class="table-section-title">依日期區間比價</div></div>
+    <div class="table-section-header"><div class="table-section-title">依日期區間比價 <span class="badge badge-blue" id="periodTableCount">0</span></div><button class="btn-primary" style="padding:6px 14px;font-size:13px" onclick="openPeriodModal()">＋ 新增比價</button></div>
+    <div style="display:flex;gap:4px;padding:0 16px;border-bottom:1px solid #f1f5f9">
+    <button type="button" class="route-tab-btn route-tab-active" id="periodTabBtn-go" onclick="switchPeriodTab('go')">去程<span class="route-tab-count" id="periodTabCount-go"></span></button>
+    <button type="button" class="route-tab-btn" id="periodTabBtn-back" onclick="switchPeriodTab('back')">回程<span class="route-tab-count" id="periodTabCount-back"></span></button>
+    </div>
     <table><thead><tr>
-      <th>期間</th><th>航線</th><th>第1選擇</th><th>第2選擇</th><th>第3選擇</th>
+      <th>航線</th><th>期間</th><th>第一選擇</th><th>第二選擇</th><th>操作</th>
     </tr></thead><tbody id="periodFaresBody"></tbody></table>
   </div>
-<div class="modal-overlay" id="addModal"><div class="modal-box">
+    <div class="modal-overlay" id="addModal"><div class="modal-box">
 <div class="modal-title" id="modalTitleText">&#xFF0B; &#x65B0;&#x589E;&#x8FFD;&#x8E64;&#x822A;&#x7DDA;</div>
 <div class="form-row">
 <div class="form-group"><label class="form-label">&#x51FA;&#x767C;&#x5730; (IATA)</label><input type="text" id="inputOrigin" class="form-input" placeholder="TPE" maxlength="3" list="airportList"></div>
@@ -266,6 +270,15 @@ th,td{font-size:12px;padding:8px 10px;white-space:nowrap}
 </div>
 <div class="form-group"><label class="form-label">&#x76EE;&#x6A19;&#x50F9;&#x683C; (TWD)</label><input type="number" id="inputTarget" class="form-input" placeholder="8000"></div>
 <div class="modal-footer"><button class="btn-secondary" onclick="closeModal()">Cancel</button><button class="btn-primary" id="modalConfirmBtn" onclick="addSub()">&#x78BA;&#x8A8D;&#x65B0;&#x589E;</button></div>
+</div></div>
+      <div class="modal-overlay" id="periodModal"><div class="modal-box">
+<div class="modal-title">＋ 新增比價項目</div>
+<div class="form-group"><label class="form-label">航線</label><select id="periodInputRoute" class="form-input"></select></div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">年月</label><input type="month" id="periodInputMonth" class="form-input"></div>
+<div class="form-group"><label class="form-label">旬別</label><select id="periodInputDekad" class="form-input"><option value="上旬">上旬</option><option value="中旬">中旬</option><option value="下旬">下旬</option></select></div>
+</div>
+<div class="modal-footer"><button class="btn-secondary" onclick="closePeriodModal()">Cancel</button><button class="btn-primary" onclick="addPeriodSub()">確認新增</button></div>
 </div></div>
 <div class="modal-overlay" id="calModal"><div class="modal-box" style="max-width:700px">
 <div class="modal-title" id="calModalTitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> &#x65E5;&#x66C6;&#x71B1;&#x529B;&#x5716;</div>
