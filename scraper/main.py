@@ -86,7 +86,16 @@ def cheapest_date_in_dekad(price_calendar, year, month, dekad):
 
 
 async def process_period_subscriptions(scraper, store, period_subs, calendars_by_route):
-    """Fetch top-2 airline choices for each user-defined period comparison entry."""
+    """Fetch top-2 airline choices for each user-defined period comparison entry.
+
+    Prefers the per-airline breakdown already captured during the calendar scan
+    (stored in airline_prices) instead of firing a brand new, independent live
+    query for the same date. This avoids the inconsistency where a fresh
+    one-off scrape returns a different price than what is already shown in the
+    date-calendar heatmap. A fresh scrape is still used as a fallback when no
+    cached breakdown exists for that date, but the result is discarded if it
+    disagrees with (is higher than) the already-verified calendar price.
+    """
     for ps in period_subs:
         period_id = ps["id"]
         origin = ps["origin"]
@@ -95,7 +104,8 @@ async def process_period_subscriptions(scraper, store, period_subs, calendars_by
         month = ps["month"]
         dekad = ps["dekad"]
         label = f"{month}月{dekad}"
-        calendar_data = calendars_by_route.get((origin, destination))
+        calendar_result = calendars_by_route.get((origin, destination))
+        calendar_data = (calendar_result or {}).get("price_calendar")
         if not calendar_data:
             logger.warning(f"[{period_id}] No calendar data for {origin}->{destination}, skipping")
             continue
@@ -103,13 +113,23 @@ async def process_period_subscriptions(scraper, store, period_subs, calendars_by
         if not best_date:
             logger.warning(f"[{period_id}] No dates found in {label} for {origin}->{destination}")
             continue
-        choices = []
-        try:
-            detail = await scraper.search(origin=origin, destination=destination, date=best_date)
-            if detail:
-                choices = detail.get("all_airlines", [])[:2]
-        except Exception as e:
-            logger.warning(f"[{period_id}] Period detail scan failed: {e}")
+        cached_airline_prices = (calendar_result or {}).get("airline_prices") or {}
+        choices = cached_airline_prices.get(best_date) or []
+        if choices:
+            logger.info(f"[{period_id}] Reusing cached airline breakdown for {best_date}")
+        else:
+            try:
+                detail = await scraper.search(origin=origin, destination=destination, date=best_date)
+                if detail:
+                    choices = detail.get("all_airlines", [])[:2]
+            except Exception as e:
+                logger.warning(f"[{period_id}] Period detail scan failed: {e}")
+            if choices and choices[0].get("price", 0) > best_price:
+                logger.warning(
+                    f"[{period_id}] Fresh scrape price {choices[0].get('price')} for {best_date} "
+                    f"is higher than the verified calendar price {best_price}; discarding"
+                )
+                choices = []
         if not choices:
             choices = [{"airline": "Unknown", "price": best_price}]
         store.update_period_fare(
@@ -240,7 +260,7 @@ async def process_subscription(scraper, store, engine, notifier, sub):
             )
         else:
             logger.info(f"[{sub_id}] No alert (reason: {reason})")
-        return price_calendar
+        return {"price_calendar": price_calendar, "airline_prices": airline_prices}
 
     except Exception as e:
         logger.error(f"[{sub_id}] Error: {e}", exc_info=True)
@@ -277,9 +297,9 @@ async def main():
     try:
         await scraper.start()
         for sub in subscriptions:
-            price_calendar = await process_subscription(scraper, store, engine, notifier, sub)
-            if price_calendar:
-                calendars_by_route[(sub["origin"], sub["destination"])] = price_calendar
+            calendar_result = await process_subscription(scraper, store, engine, notifier, sub)
+            if calendar_result:
+                calendars_by_route[(sub["origin"], sub["destination"])] = calendar_result
             # Save after each subscription so data is persisted even if later ones fail
             store.save()
             # Polite delay between subscriptions
