@@ -86,14 +86,16 @@ class DataStore:
         if len(self._history[sub_id]) > 180:
             self._history[sub_id] = self._history[sub_id][-180:]
 
-        def update_period_fares(self, sub_id, origin, destination, periods):
-            """Store per-dekad (旬) top-3 airline fare list for a subscription."""
-            self._period_fares[sub_id] = {
-                "subscription_id": sub_id,
-                "origin": origin,
-                "destination": destination,
-                "periods": periods,
-            }
+    def update_period_fare(self, period_id, origin, destination, label, best_date, choices):
+        """Store the top airline choices for a single user-defined period comparison."""
+        self._period_fares[period_id] = {
+            "period_id": period_id,
+            "origin": origin,
+            "destination": destination,
+            "label": label,
+            "best_date": best_date,
+            "choices": choices,
+        }
 
     # ------------------------------------------------------------------
     # Legacy single-date API (kept for backward compat / fallback)
