@@ -36,6 +36,7 @@ logging.basicConfig(
 logger = logging.getLogger("main")
 
 SUBSCRIPTIONS_FILE = Path("config/subscriptions.json")
+PERIOD_SUBS_FILE = Path("config/period_subscriptions.json")
 DATA_DIR = Path("data")
 TZ_TAIPEI = pytz.timezone("Asia/Taipei")
 
@@ -52,52 +53,75 @@ def load_subscriptions() -> list:
     return subscriptions
 
 
-def bucket_by_dekad(price_calendar):
-    """Group {date: price} into 上/中/下旬 buckets, keep cheapest date per bucket."""
-    buckets = {}
+def load_period_subscriptions() -> list:
+    """Load user-defined period comparison entries from config file."""
+    if not PERIOD_SUBS_FILE.exists():
+        logger.warning(f"Period subscriptions file not found: {PERIOD_SUBS_FILE}")
+        return []
+    with open(PERIOD_SUBS_FILE, encoding="utf-8") as f:
+        data = json.load(f)
+    period_subs = [p for p in data.get("period_subscriptions", []) if p.get("active", True)]
+    logger.info(f"Loaded {len(period_subs)} active period subscription(s)")
+    return period_subs
+
+
+def cheapest_date_in_dekad(price_calendar, year, month, dekad):
+    """Find the cheapest (date, price) within a given year/month/dekad."""
+    if dekad == "上旬":
+        start_day, end_day = 1, 10
+    elif dekad == "中旬":
+        start_day, end_day = 11, 20
+    else:
+        end_day = calendar.monthrange(year, month)[1]
+        start_day = 21
+    candidates = {}
     for date_str, price in price_calendar.items():
         d = datetime.strptime(date_str, "%Y-%m-%d")
-        if d.day <= 10:
-            dekad_label, start_day, end_day = "上旬", 1, 10
-        elif d.day <= 20:
-            dekad_label, start_day, end_day = "中旬", 11, 20
-        else:
-            last_day = calendar.monthrange(d.year, d.month)[1]
-            dekad_label, start_day, end_day = "下旬", 21, last_day
-        period_key = f"{d.year}-{d.month:02d}-{dekad_label}"
-        if period_key not in buckets or price < buckets[period_key]["best_price"]:
-            buckets[period_key] = {
-                "period_key": period_key,
-                "label": f"{d.month}月{dekad_label}",
-                "range_start": f"{d.year}-{d.month:02d}-{start_day:02d}",
-                "range_end": f"{d.year}-{d.month:02d}-{end_day:02d}",
-                "best_date": date_str,
-                "best_price": price,
-            }
-    return buckets
+        if d.year == year and d.month == month and start_day <= d.day <= end_day:
+            candidates[date_str] = price
+    if not candidates:
+        return None, None
+    best_date = min(candidates, key=candidates.get)
+    return best_date, candidates[best_date]
 
 
-async def process_period_fares(scraper, store, sub, origin, destination, currency, price_calendar):
-    """Build per-dekad (旬) top-3 airline fare comparison for a subscription."""
-    sub_id = sub["id"]
-    dekad_buckets = bucket_by_dekad(price_calendar)
-    periods = []
-    for key in sorted(dekad_buckets.keys()):
-        bucket = dekad_buckets[key]
-        detail = None
+async def process_period_subscriptions(scraper, store, period_subs, calendars_by_route):
+    """Fetch top-2 airline choices for each user-defined period comparison entry."""
+    for ps in period_subs:
+        period_id = ps["id"]
+        origin = ps["origin"]
+        destination = ps["destination"]
+        year = ps["year"]
+        month = ps["month"]
+        dekad = ps["dekad"]
+        label = f"{month}月{dekad}"
+        calendar_data = calendars_by_route.get((origin, destination))
+        if not calendar_data:
+            logger.warning(f"[{period_id}] No calendar data for {origin}->{destination}, skipping")
+            continue
+        best_date, best_price = cheapest_date_in_dekad(calendar_data, year, month, dekad)
+        if not best_date:
+            logger.warning(f"[{period_id}] No dates found in {label} for {origin}->{destination}")
+            continue
+        choices = []
         try:
-            detail = await scraper.search(origin=origin, destination=destination, date=bucket["best_date"])
+            detail = await scraper.search(origin=origin, destination=destination, date=best_date)
+            if detail:
+                choices = detail.get("all_airlines", [])[:2]
         except Exception as e:
-            logger.warning(f"[{sub_id}] Period scan failed {key}: {e}")
-        airlines = []
-        if detail:
-            airlines = detail.get("all_airlines", [])[:3]
-        bucket["currency"] = currency
-        bucket["airlines"] = airlines
-        periods.append(bucket)
-    await asyncio.sleep(2)
-    store.update_period_fares(sub_id, origin, destination, periods)
-    logger.info(f"[{sub_id}] Updated {len(periods)} period fare buckets")
+            logger.warning(f"[{period_id}] Period detail scan failed: {e}")
+        if not choices:
+            choices = [{"airline": "Unknown", "price": best_price}]
+        store.update_period_fare(
+            period_id=period_id,
+            origin=origin,
+            destination=destination,
+            label=label,
+            best_date=best_date,
+            choices=choices,
+        )
+        await asyncio.sleep(2)
+    logger.info(f"Updated {len(period_subs)} period comparison result(s)")
 
 
 async def process_subscription(scraper, store, engine, notifier, sub):
@@ -173,10 +197,6 @@ async def process_subscription(scraper, store, engine, notifier, sub):
             cheapest_airline=cheapest_airline,
             airline_prices=airline_prices,
         )
-        try:
-            await process_period_fares(scraper, store, sub, origin, destination, currency, price_calendar)
-        except Exception as e:
-            logger.error(f"[{sub_id}] Period fare error: {e}", exc_info=True)
 
         cheapest_date, cheapest_price = store.get_cheapest_in_calendar(sub_id)
         logger.info(
@@ -220,9 +240,11 @@ async def process_subscription(scraper, store, engine, notifier, sub):
             )
         else:
             logger.info(f"[{sub_id}] No alert (reason: {reason})")
+        return price_calendar
 
     except Exception as e:
         logger.error(f"[{sub_id}] Error: {e}", exc_info=True)
+        return None
 
 
 async def main():
@@ -245,19 +267,28 @@ async def main():
     )
 
     subscriptions = load_subscriptions()
+    period_subs = load_period_subscriptions()
     if not subscriptions:
         logger.info("No active subscriptions. Exiting.")
         return
 
-    scraper = GoogleFlightsScraper()
+        calendars_by_route = {}
+        scraper = GoogleFlightsScraper()
     try:
         await scraper.start()
         for sub in subscriptions:
-            await process_subscription(scraper, store, engine, notifier, sub)
+            price_calendar = await process_subscription(scraper, store, engine, notifier, sub)
+            if price_calendar:
+                calendars_by_route[(sub["origin"], sub["destination"])] = price_calendar
             # Save after each subscription so data is persisted even if later ones fail
             store.save()
             # Polite delay between subscriptions
             await asyncio.sleep(3)
+        if period_subs:
+            try:
+                await process_period_subscriptions(scraper, store, period_subs, calendars_by_route)
+            except Exception as e:
+                logger.error(f"Period subscriptions processing error: {e}", exc_info=True)
     finally:
         await scraper.stop()
 
