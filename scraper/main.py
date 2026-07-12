@@ -96,7 +96,9 @@ async def process_period_subscriptions(scraper, store, period_subs, calendars_by
     cached breakdown exists for that date, but the result is discarded if it
     disagrees with (is higher than) the already-verified calendar price.
     """
-    for ps in period_subs:
+            PERIOD_BATCH_SIZE = int(os.getenv("SCRAPE_BATCH_SIZE", "3"))
+
+    async def _process_one_period(ps):
         period_id = ps["id"]
         origin = ps["origin"]
         destination = ps["destination"]
@@ -108,11 +110,11 @@ async def process_period_subscriptions(scraper, store, period_subs, calendars_by
         calendar_data = (calendar_result or {}).get("price_calendar")
         if not calendar_data:
             logger.warning(f"[{period_id}] No calendar data for {origin}->{destination}, skipping")
-            continue
+            return
         best_date, best_price = cheapest_date_in_dekad(calendar_data, year, month, dekad)
         if not best_date:
             logger.warning(f"[{period_id}] No dates found in {label} for {origin}->{destination}")
-            continue
+            return
         cached_airline_prices = (calendar_result or {}).get("airline_prices") or {}
         choices = cached_airline_prices.get(best_date) or []
         if choices:
@@ -124,12 +126,12 @@ async def process_period_subscriptions(scraper, store, period_subs, calendars_by
                     choices = detail.get("all_airlines", [])[:2]
             except Exception as e:
                 logger.warning(f"[{period_id}] Period detail scan failed: {e}")
-            if choices and choices[0].get("price", 0) > best_price:
-                logger.warning(
-                    f"[{period_id}] Fresh scrape price {choices[0].get('price')} for {best_date} "
-                    f"is higher than the verified calendar price {best_price}; discarding"
-                )
-                choices = []
+        if choices and choices[0].get("price", 0) > best_price:
+            logger.warning(
+                f"[{period_id}] Fresh scrape price {choices[0].get('price')} for {best_date} "
+                f"is higher than the verified calendar price {best_price}; discarding"
+            )
+            choices = []
         if not choices:
             choices = [{"airline": "Unknown", "price": best_price}]
         store.update_period_fare(
@@ -140,6 +142,16 @@ async def process_period_subscriptions(scraper, store, period_subs, calendars_by
             best_date=best_date,
             choices=choices,
         )
+
+    for i in range(0, len(period_subs), PERIOD_BATCH_SIZE):
+        batch = period_subs[i:i + PERIOD_BATCH_SIZE]
+        batch_results = await asyncio.gather(
+            *[_process_one_period(ps) for ps in batch],
+            return_exceptions=True,
+        )
+        for ps, result in zip(batch, batch_results):
+            if isinstance(result, Exception):
+                logger.error(f"[{ps['id']}] Period batch task raised: {result}", exc_info=result)
         await asyncio.sleep(2)
     logger.info(f"Updated {len(period_subs)} period comparison result(s)")
 
@@ -296,13 +308,23 @@ async def main():
     scraper = GoogleFlightsScraper()
     try:
         await scraper.start()
-        for sub in subscriptions:
-            calendar_result = await process_subscription(scraper, store, engine, notifier, sub)
-            if calendar_result:
-                calendars_by_route[(sub["origin"], sub["destination"])] = calendar_result
-            # Save after each subscription so data is persisted even if later ones fail
+        BATCH_SIZE = int(os.getenv("SCRAPE_BATCH_SIZE", "3"))
+        for i in range(0, len(subscriptions), BATCH_SIZE):
+            batch = subscriptions[i:i + BATCH_SIZE]
+            logger.info(f"Processing batch {i // BATCH_SIZE + 1} ({len(batch)} subscription(s))")
+            batch_results = await asyncio.gather(
+                *[process_subscription(scraper, store, engine, notifier, sub) for sub in batch],
+                return_exceptions=True,
+            )
+            for sub, calendar_result in zip(batch, batch_results):
+                if isinstance(calendar_result, Exception):
+                    logger.error(f"[{sub['id']}] Batch task raised: {calendar_result}", exc_info=calendar_result)
+                    continue
+                if calendar_result:
+                    calendars_by_route[(sub["origin"], sub["destination"])] = calendar_result
+            # Save after each batch so data is persisted even if later ones fail
             store.save()
-            # Polite delay between subscriptions
+            # Polite delay between batches
             await asyncio.sleep(3)
         if period_subs:
             try:
