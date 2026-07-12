@@ -96,7 +96,7 @@ async def process_period_subscriptions(scraper, store, period_subs, calendars_by
     cached breakdown exists for that date, but the result is discarded if it
     disagrees with (is higher than) the already-verified calendar price.
     """
-            PERIOD_BATCH_SIZE = int(os.getenv("SCRAPE_BATCH_SIZE", "3"))
+    PERIOD_BATCH_SIZE = int(os.getenv("SCRAPE_BATCH_SIZE", "3"))
 
     async def _process_one_period(ps):
         period_id = ps["id"]
