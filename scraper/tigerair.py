@@ -8,6 +8,7 @@ whichever price is cheaper for each date.
 """
 import asyncio
 import logging
+from datetime import datetime
 
 import requests
 
@@ -73,6 +74,20 @@ async def merge_into_calendar(
     tiger_prices = await asyncio.to_thread(
         fetch_daily_prices, origin, destination, date_from, date_to
     )
+    if not tiger_prices:
+        return price_calendar, airline_prices, cheapest_airline
+
+    if tiger_prices:
+        try:
+            _from_dt = datetime.strptime(date_from, "%Y-%m-%d")
+            _to_dt = datetime.strptime(date_to, "%Y-%m-%d")
+            tiger_prices = {
+                d: p
+                for d, p in tiger_prices.items()
+                if _from_dt <= datetime.strptime(d, "%Y-%m-%d") <= _to_dt
+            }
+        except ValueError:
+            pass
     if not tiger_prices:
         return price_calendar, airline_prices, cheapest_airline
 
