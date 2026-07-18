@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-17T05:51:52.329945Z",
+  "updated_at": "2026-07-18T05:32:13.796955Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -188,7 +188,7 @@
       "origin": "TPE",
       "destination": "NRT",
       "label": "10月下旬",
-      "best_date": "2026-10-26",
+      "best_date": "2026-10-27",
       "choices": [
         {
           "airline": "台灣虎航",
