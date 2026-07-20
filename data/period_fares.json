@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-19T05:59:57.890758Z",
+  "updated_at": "2026-07-20T06:16:53.822202Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -205,7 +205,7 @@
       "choices": [
         {
           "airline": "Unknown",
-          "price": 5399
+          "price": 5899
         }
       ]
     },
@@ -257,7 +257,85 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 8199
+          "price": 9299
+        }
+      ]
+    },
+    "ngo-tpe-2026-11-上旬": {
+      "period_id": "ngo-tpe-2026-11-上旬",
+      "origin": "NGO",
+      "destination": "TPE",
+      "label": "11月上旬",
+      "best_date": "2026-11-06",
+      "choices": [
+        {
+          "airline": "台灣虎航",
+          "price": 4799
+        }
+      ]
+    },
+    "ngo-khh-2026-11-上旬": {
+      "period_id": "ngo-khh-2026-11-上旬",
+      "origin": "NGO",
+      "destination": "KHH",
+      "label": "11月上旬",
+      "best_date": "2026-11-09",
+      "choices": [
+        {
+          "airline": "台灣虎航",
+          "price": 8299
+        }
+      ]
+    },
+    "nrt-tpe-2026-11-上旬": {
+      "period_id": "nrt-tpe-2026-11-上旬",
+      "origin": "NRT",
+      "destination": "TPE",
+      "label": "11月上旬",
+      "best_date": "2026-11-04",
+      "choices": [
+        {
+          "airline": "台灣虎航",
+          "price": 3899
+        }
+      ]
+    },
+    "nrt-khh-2026-11-上旬": {
+      "period_id": "nrt-khh-2026-11-上旬",
+      "origin": "NRT",
+      "destination": "KHH",
+      "label": "11月上旬",
+      "best_date": "2026-11-06",
+      "choices": [
+        {
+          "airline": "台灣虎航",
+          "price": 4399
+        }
+      ]
+    },
+    "tpe-sdj-2026-10-下旬": {
+      "period_id": "tpe-sdj-2026-10-下旬",
+      "origin": "TPE",
+      "destination": "SDJ",
+      "label": "10月下旬",
+      "best_date": "2026-10-27",
+      "choices": [
+        {
+          "airline": "台灣虎航",
+          "price": 6399
+        }
+      ]
+    },
+    "khh-sdj-2026-10-下旬": {
+      "period_id": "khh-sdj-2026-10-下旬",
+      "origin": "KHH",
+      "destination": "SDJ",
+      "label": "10月下旬",
+      "best_date": "2026-10-28",
+      "choices": [
+        {
+          "airline": "台灣虎航",
+          "price": 7299
         }
       ]
     }
