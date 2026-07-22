@@ -20,6 +20,7 @@ from scraper.notifier import Notifier
 from scraper.price_engine import PriceEngine
 from scraper.data_store import DataStore
 from scraper import tigerair
+from scraper import rapidapi_flights
 
 # Logging setup
 Path("logs").mkdir(exist_ok=True)
@@ -212,6 +213,29 @@ async def process_subscription(scraper, store, engine, notifier, sub):
             date_from=date_from,
             date_to=date_to,
         )
+
+        # Last-resort fallback: if the Google Flights scraper (and Tigerair)
+        # found no prices at all for this route, try RapidAPI instead. This
+        # only kicks in when price_calendar is completely empty, so it never
+        # overrides data we already successfully scraped.
+        if not price_calendar:
+            logger.warning(
+                f"[{sub_id}] No prices from scraper/Tigerair for "
+                f"{origin}->{destination}; trying RapidAPI fallback"
+            )
+            price_calendar, cheapest_airline, airline_prices = (
+                await rapidapi_flights.get_calendar_fallback(
+                    origin=origin,
+                    destination=destination,
+                    date_from=date_from,
+                    date_to=date_to,
+                )
+            )
+            if price_calendar:
+                logger.info(
+                    f"[{sub_id}] RapidAPI fallback found "
+                    f"{len(price_calendar)} priced date(s)"
+                )
 
         if not price_calendar:
             logger.warning(f"[{sub_id}] No prices found in calendar scan")
