@@ -22,31 +22,36 @@
 
 ```
 [GitHub Actions - 每日 2 次]
-    └── scraper/main.py
-          ├── 讀取 config/subscriptions.json（航線 + 日期範圍 + 目標價）
-          ├── google_flights.py → search_calendar()
-          │     ├── 主要：抓取 Google Flights 日曆視圖（aria-label 解析）
-          │     └── Fallback：每 7 天取樣一次（週掃描模式）
-          ├── data_store.py → update_calendar()
-          │     └── 儲存 price_calendar: {"2026-07-15": 8500, ...}
-          ├── price_engine.py → should_notify_calendar()
-          │     └── 任一日期 ≤ 目標價 → 觸發通知
-          └── notifier.py → Telegram / Email
+└── scraper/main.py
+├── 讀取 config/subscriptions.json（航線 + 日期範圍 + 目標價）
+├── google_flights.py → search_calendar()
+│ ├── 主要：抓取 Google Flights 日曆視圖（aria-label 解析）
+│ └── Fallback：每 7 天取樣一次（週掃描模式）
+├── tigerair.py → merge_into_calendar()
+│ └── 合併台灣虎航官方每日票價（若有更便宜則取代）
+├── rapidapi_flights.py → get_calendar_fallback()
+│ └── 最終備援：若 Google Flights + Tigerair 都完全抓不到資料，
+│ 改用 RapidAPI 上訂閱的機票查詢 API 補資料
+├── data_store.py → update_calendar()
+│ └── 儲存 price_calendar: {"2026-07-15": 8500, ...}
+├── price_engine.py → should_notify_calendar()
+│ └── 任一日期 ≤ 目標價 → 觸發通知
+└── notifier.py → Telegram / Email
 
 [資料存放]
-    gh-pages branch → mywu-cloud.github.io/flights/data/
-        ├── prices.json   ← 各航線最新日曆快照
-        └── history.json  ← 歷次最低價紀錄
+gh-pages branch → mywu-cloud.github.io/flights/data/
+├── prices.json ← 各航線最新日曆快照
+└── history.json ← 歷次最低價紀錄
 
 [Cloudflare Worker] flights.tw-mywu.workers.dev
-    ├── GET /subscriptions → 讀取 config/subscriptions.json + sha
-    └── PUT /subscriptions → 寫回 GitHub（需 sha 防衝突）
+├── GET /subscriptions → 讀取 config/subscriptions.json + sha
+└── PUT /subscriptions → 寫回 GitHub（需 sha 防衝突）
 
 [Cloudflare Pages] flights-276.pages.dev
-    └── frontend/index.html
-          ├── 讀取 Worker API → 訂閱清單
-          ├── 讀取 prices.json → 日曆資料
-          └── 日曆熱力圖 / 最低價日期 / 新增刪除訂閱
+└── frontend/index.html
+├── 讀取 Worker API → 訂閱清單
+├── 讀取 prices.json → 日曆資料
+└── 日曆熱力圖 / 最低價日期 / 新增刪除訂閱
 ```
 
 ---
@@ -57,19 +62,19 @@
 
 ```json
 {
-  "subscriptions": [
-    {
-      "id": "tpe-nrt",
-      "origin": "TPE",
-      "destination": "NRT",
-      "date_from": "2026-07-01",
-      "date_to": "2026-09-30",
-      "target_price": 12000,
-      "currency": "TWD",
-      "active": true,
-      "note": "東京行，暑假前後"
-    }
-  ]
+"subscriptions": [
+{
+"id": "tpe-nrt",
+"origin": "TPE",
+"destination": "NRT",
+"date_from": "2026-07-01",
+"date_to": "2026-09-30",
+"target_price": 12000,
+"currency": "TWD",
+"active": true,
+"note": "東京行，暑假前後"
+}
+]
 }
 ```
 
@@ -89,24 +94,24 @@
 
 ```json
 {
-  "updated_at": "2026-06-30T02:00:00Z",
-  "prices": {
-    "tpe-nrt": {
-      "subscription_id": "tpe-nrt",
-      "origin": "TPE",
-      "destination": "NRT",
-      "date_from": "2026-07-01",
-      "date_to": "2026-09-30",
-      "price_calendar": {
-        "2026-07-15": 8500,
-        "2026-07-22": 9200,
-        "2026-08-05": 7800
-      },
-      "cheapest_date": "2026-08-05",
-      "cheapest_price": 7800,
-      "scraped_at": "2026-06-30T02:05:00+08:00"
-    }
-  }
+"updated_at": "2026-06-30T02:00:00Z",
+"prices": {
+"tpe-nrt": {
+"subscription_id": "tpe-nrt",
+"origin": "TPE",
+"destination": "NRT",
+"date_from": "2026-07-01",
+"date_to": "2026-09-30",
+"price_calendar": {
+"2026-07-15": 8500,
+"2026-07-22": 9200,
+"2026-08-05": 7800
+},
+"cheapest_date": "2026-08-05",
+"cheapest_price": 7800,
+"scraped_at": "2026-06-30T02:05:00+08:00"
+}
+}
 }
 ```
 
@@ -114,16 +119,16 @@
 
 ```json
 {
-  "history": {
-    "tpe-nrt": [
-      {
-        "cheapest_price": 7800,
-        "cheapest_date": "2026-08-05",
-        "dates_found": 45,
-        "scraped_at": "2026-06-30T02:05:00+08:00"
-      }
-    ]
-  }
+"history": {
+"tpe-nrt": [
+{
+"cheapest_price": 7800,
+"cheapest_date": "2026-08-05",
+"dates_found": 45,
+"scraped_at": "2026-06-30T02:05:00+08:00"
+}
+]
+}
 }
 ```
 
@@ -145,6 +150,14 @@
 | `EMAIL_SENDER` | 發送通知的 Gmail 帳號（選填）|
 | `EMAIL_PASSWORD` | Gmail 應用程式密碼（選填）|
 | `EMAIL_RECEIVER` | 接收通知的 Email（選填）|
+| `RAPIDAPI_KEY` | RapidAPI 應用程式金鑰（選填，供最終備援使用）|
+| `RAPIDAPI_HOST` | 你訂閱的 RapidAPI 機票查詢服務的 `x-rapidapi-host` 值（選填）|
+| `RAPIDAPI_URL` | 該 RapidAPI 服務的日曆/票價查詢端點完整網址（選填）|
+
+> RapidAPI 相關三個 Secret 皆為選填。若未設定，備援機制會直接略過，
+> 不影響原有的 Google Flights + Tigerair 抓取流程。由於 RapidAPI 市集上
+> 機票查詢類 API 的請求參數與回傳格式各不相同，啟用前請先確認你訂閱的
+> 服務的實際規格，必要時調整 `scraper/rapidapi_flights.py` 的解析邏輯。
 
 ### 3. 設定 Cloudflare Worker
 
@@ -181,6 +194,7 @@ python -m scraper.main --test
 | 後端 API | Cloudflare Workers（讀寫 subscriptions.json）|
 | 前台 | Vanilla JS，純靜態 HTML（Cloudflare Pages）|
 | 通知 | Telegram Bot API + Gmail SMTP |
+| 備援資料源 | RapidAPI（僅在 Google Flights + Tigerair 皆抓不到資料時啟用）|
 
 ---
 
@@ -188,5 +202,6 @@ python -m scraper.main --test
 
 - Google Flights 有反爬機制，已加入 stealth 模式與人類行為模擬（隨機 UA、滾動、延遲）
 - 日曆掃描若無法抓取完整日曆視圖，會自動切換為每 7 天取樣的 fallback 模式
+- 若 Google Flights 與 Tigerair 皆完全抓不到資料，會再嘗試以 RapidAPI 作為最終備援（需設定對應 Secrets，詳見上方）
 - GitHub Actions 免費方案每月 2,000 分鐘，本系統每次約 5~15 分鐘，每日 1 次約 450 分鐘/月
 - 訂閱的 `id` 欄位會成為 `prices.json` 的 key，修改 id 等同重置該航線的歷史資料
