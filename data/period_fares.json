@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-22T05:55:51.190320Z",
+  "updated_at": "2026-07-23T06:02:08.523290Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -336,6 +336,58 @@
         {
           "airline": "台灣虎航",
           "price": 7299
+        }
+      ]
+    },
+    "tpe-kix-2026-10-下旬": {
+      "period_id": "tpe-kix-2026-10-下旬",
+      "origin": "TPE",
+      "destination": "KIX",
+      "label": "10月下旬",
+      "best_date": "2026-10-27",
+      "choices": [
+        {
+          "airline": "台灣虎航",
+          "price": 4299
+        }
+      ]
+    },
+    "khh-kix-2026-10-下旬": {
+      "period_id": "khh-kix-2026-10-下旬",
+      "origin": "KHH",
+      "destination": "KIX",
+      "label": "10月下旬",
+      "best_date": "2026-10-27",
+      "choices": [
+        {
+          "airline": "台灣虎航",
+          "price": 5799
+        }
+      ]
+    },
+    "kix-tpe-2026-11-上旬": {
+      "period_id": "kix-tpe-2026-11-上旬",
+      "origin": "KIX",
+      "destination": "TPE",
+      "label": "11月上旬",
+      "best_date": "2026-11-05",
+      "choices": [
+        {
+          "airline": "台灣虎航",
+          "price": 2499
+        }
+      ]
+    },
+    "kix-khh-2026-11-上旬": {
+      "period_id": "kix-khh-2026-11-上旬",
+      "origin": "KIX",
+      "destination": "KHH",
+      "label": "11月上旬",
+      "best_date": "2026-11-06",
+      "choices": [
+        {
+          "airline": "台灣虎航",
+          "price": 2899
         }
       ]
     }
