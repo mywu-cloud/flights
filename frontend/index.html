@@ -258,7 +258,7 @@ th,td{font-size:12px;padding:8px 10px;white-space:nowrap}
           </tr></thead><tbody id="periodFaresBody"></tbody></table>
   </div>
   </div>
-    <div class="container" id="airlinePrefPageContainer" style="display:none"><div class="page-header"><div class="modal-box">
+    <div class="container" id="airlinePrefPageContainer" style="display:none"><div class="page-header"><h1 class="page-title">偏好航空公司</h1><p class="page-subtitle">先勾選感興趣的國家/地區，再從中勾選具體航空公司；設定將套用於所有路線的最低價與日曆熱力圖。</p></div><div class="card" style="margin-bottom:16px"><div class="card-title" style="margin-bottom:12px">Step 1：選擇國家/地區</div><div id="prefCountryList" style="display:flex;flex-wrap:wrap;gap:8px"></div></div><div class="card"><div class="card-title" style="margin-bottom:12px">Step 2：選擇航空公司</div><div id="prefAirlineList"></div></div><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px"><button class="btn-secondary" onclick="clearAirlinePrefPage()">全部清除</button><button class="btn-secondary" onclick="closeAirlinePrefPage()">返回</button><button class="btn-primary" onclick="saveAirlinePrefPage()">儲存</button></div></div><div class="modal-overlay" id="addModal"><div class="modal-box">
 <div class="modal-title" id="modalTitleText">&#xFF0B; &#x65B0;&#x589E;&#x8FFD;&#x8E64;&#x822A;&#x7DDA;</div>
 <div class="form-row">
 <div class="form-group" style="position:relative"><label class="form-label">&#x51FA;&#x767C;&#x5730; (IATA)</label><input type="text" id="inputOrigin" class="form-input" placeholder="TPE" maxlength="3" autocomplete="off" oninput="onAirportInput('inputOrigin','originSuggest')" onfocus="onAirportInput('inputOrigin','originSuggest')"><div class="airport-suggest" id="originSuggest"></div></div>
