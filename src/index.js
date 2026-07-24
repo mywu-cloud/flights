@@ -9,7 +9,7 @@ const CORS = {
 };
 
 const IATA_RE = /^[A-Z]{3}$/;
-const MAX_SUBS = 20;
+const MAX_SUBS = 50;
 const MAX_PERIOD_SUBS = 30;
 const SESSION_TTL = 60 * 60 * 24 * 30;
 const RESET_TTL = 60 * 60; // 1 小時
