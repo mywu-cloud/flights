@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-26T06:05:00.766353Z",
+  "updated_at": "2026-07-27T06:23:21.636820Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -218,7 +218,7 @@
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4299
+          "price": 4799
         }
       ]
     },
@@ -240,11 +240,11 @@
       "origin": "SDJ",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-05",
+      "best_date": "2026-11-03",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 6399
+          "price": 7299
         }
       ]
     },
