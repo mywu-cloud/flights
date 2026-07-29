@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-28T05:48:46.749187Z",
+  "updated_at": "2026-07-29T05:54:56.535856Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -334,11 +334,11 @@
         },
         {
           "airline": "國泰航空",
-          "price": 22086
+          "price": 22085
         },
         {
           "airline": "長榮航空",
-          "price": 27116
+          "price": 26867
         }
       ]
     },
@@ -347,11 +347,11 @@
       "origin": "KHH",
       "destination": "SDJ",
       "label": "10月下旬",
-      "best_date": "2026-10-28",
+      "best_date": "2026-10-31",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 8199
+          "price": 7299
         }
       ]
     },
@@ -386,7 +386,7 @@
       "origin": "KIX",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-05",
+      "best_date": "2026-11-07",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -420,15 +420,15 @@
         },
         {
           "airline": "香港快運航空",
-          "price": 8586
-        },
-        {
-          "airline": "聯合航空",
-          "price": 23661
+          "price": 8296
         },
         {
           "airline": "中華航空",
-          "price": 24368
+          "price": 23389
+        },
+        {
+          "airline": "聯合航空",
+          "price": 24112
         },
         {
           "airline": "長榮航空",
@@ -436,7 +436,7 @@
         },
         {
           "airline": "國泰航空",
-          "price": 25215
+          "price": 25213
         }
       ]
     },
