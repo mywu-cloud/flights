@@ -390,6 +390,7 @@ class GoogleFlightsScraper:
         destination: str,
         date: str,
         trip_type: str = "one_way",
+        max_stops: Optional[int] = None,
     ) -> Optional[dict]:
         """
         Search for flights on Google Flights for a single specific date.
@@ -413,7 +414,7 @@ class GoogleFlightsScraper:
             await self._human_delay(2000, 4000)
             await self._dismiss_overlays(page)
             await self._human_delay(1000, 2000)
-            result = await self._wait_and_extract(page, origin, destination, date)
+            result = await self._wait_and_extract(page, origin, destination, date, max_stops=max_stops)
             return result
         except Exception as e:
             logger.error(f"Search failed for {origin}->{destination}: {e}", exc_info=True)
@@ -439,7 +440,7 @@ class GoogleFlightsScraper:
         )
 
     async def _wait_and_extract(
-        self, page: Page, origin: str, destination: str, date: str
+        self, page: Page, origin: str, destination: str, date: str, max_stops: Optional[int] = None
     ) -> Optional[dict]:
         """Wait for results and extract the best price."""
         # Wait for page to settle with known-safe selectors only
@@ -458,13 +459,13 @@ class GoogleFlightsScraper:
             logger.info("Results loaded (fixed wait)")
         await self._human_scroll(page, times=2)
         result = (
-            await self._extract_from_dom(page, origin, destination, date)
-            or await self._extract_from_text(page, origin, destination, date)
+            await self._extract_from_dom(page, origin, destination, date, max_stops=max_stops)
+            or await self._extract_from_text(page, origin, destination, date, max_stops=max_stops)
         )
         return result
 
     async def _extract_from_dom(
-        self, page: Page, origin: str, destination: str, date: str
+        self, page: Page, origin: str, destination: str, date: str, max_stops: Optional[int] = None
     ) -> Optional[dict]:
         """Extract price from DOM elements using known Google Flights selectors."""
         try:
@@ -483,6 +484,13 @@ class GoogleFlightsScraper:
                         '德威航空', '亞洲航空 X', '亞洲航空', '濟州航空', '真航空',
                         '大韓航空', '韓亞航空', '聯合航空',
                     ];
+                    function findStops(card) {
+                        const txt = card.textContent || '';
+                        if (/直飛|Nonstop|Non-stop/i.test(txt)) return 0;
+                        let m = txt.match(/轉機\s*(\d+)\s*次/) || txt.match(/(\d+)\s*次轉機/) || txt.match(/(\d+)\s*stops?/i);
+                        if (m) return parseInt(m[1], 10);
+                        return null;
+                    }
                     function findAirlineName(card) {
                         const airlineEl = card.querySelector('.sSHqwe');
                         let txt = airlineEl ? airlineEl.textContent.trim() : '';
@@ -543,7 +551,8 @@ class GoogleFlightsScraper:
                         }
                         if (bestPrice === null) continue;
                         const airline = findAirlineName(card);
-                        results.push({ price_raw: bestPrice, element_text: bestText, airline: airline });
+                        const stops = findStops(card);
+                        results.push({ price_raw: bestPrice, element_text: bestText, airline: airline, stops: stops });
                     }
                     if (results.length === 0) {
                         const ariaEls = document.querySelectorAll('[aria-label*="$"]');
@@ -554,7 +563,7 @@ class GoogleFlightsScraper:
                                 const raw = (match[1] || match[2] || '').replace(/,/g, '');
                                 const price = parseInt(raw, 10);
                                 if (price >= 3000 && price <= 200000) {
-                                    results.push({ price_raw: price, element_text: lbl.substring(0, 100), airline: 'Unknown' });
+                                    results.push({ price_raw: price, element_text: lbl.substring(0, 100), airline: 'Unknown', stops: findStops({ textContent: lbl }) });
                                 }
                             }
                         }
@@ -568,6 +577,8 @@ class GoogleFlightsScraper:
             if not flight_data:
                 return None
             valid = [f for f in flight_data if f.get("price_raw") and 3000 <= f["price_raw"] <= 200000]
+            if max_stops is not None:
+                valid = [f for f in valid if f.get("stops") is not None and f["stops"] <= max_stops]
             if not valid:
                 return None
             valid.sort(key=lambda x: x["price_raw"])
@@ -576,11 +587,11 @@ class GoogleFlightsScraper:
             for f in valid:
                 name = f.get("airline", "Unknown")
                 p = f["price_raw"]
-                if name not in by_airline or p < by_airline[name]:
-                    by_airline[name] = p
+                if name not in by_airline or p < by_airline[name]["price"]:
+                    by_airline[name] = {"price": p, "stops": f.get("stops")}
             all_airlines = [
-                {"airline": name, "price": p}
-                for name, p in sorted(by_airline.items(), key=lambda kv: kv[1])
+                {"airline": name, "price": info["price"], "stops": info["stops"]}
+                for name, info in sorted(by_airline.items(), key=lambda kv: kv[1]["price"])
             ][:10]
             logger.info(f"DOM extraction: found {len(valid)} prices, lowest: {best['price_raw']}")
             return {
@@ -590,15 +601,19 @@ class GoogleFlightsScraper:
                 "link": page.url,
                 "extraction_method": "dom",
                 "all_airlines": all_airlines,
+                "stops": best.get("stops"),
             }
         except Exception as e:
             logger.error(f"DOM extraction failed: {e}")
             return None
     async def _extract_from_text(
-        self, page: Page, origin: str, destination: str, date: str
+        self, page: Page, origin: str, destination: str, date: str, max_stops: Optional[int] = None
     ) -> Optional[dict]:
         """Fallback: extract price from page text content."""
         try:
+            if max_stops is not None:
+                logger.info("Text extraction fallback skipped because max_stops filter is set")
+                return None
             text = await page.inner_text("body")
             patterns = [
                 r'NT\$\s*([\d,]+)',
