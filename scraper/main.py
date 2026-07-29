@@ -106,6 +106,7 @@ async def process_period_subscriptions(scraper, store, period_subs, calendars_by
         month = ps["month"]
         dekad = ps["dekad"]
         label = f"{month}月{dekad}"
+        max_stops = ps.get("max_stops")
         calendar_result = calendars_by_route.get((origin, destination))
         calendar_data = (calendar_result or {}).get("price_calendar")
         if not calendar_data:
@@ -115,23 +116,34 @@ async def process_period_subscriptions(scraper, store, period_subs, calendars_by
         if not best_date:
             logger.warning(f"[{period_id}] No dates found in {label} for {origin}->{destination}")
             return
-        cached_airline_prices = (calendar_result or {}).get("airline_prices") or {}
-        choices = cached_airline_prices.get(best_date) or []
+        choices = []
+        if max_stops is None:
+            cached_airline_prices = (calendar_result or {}).get("airline_prices") or {}
+            choices = cached_airline_prices.get(best_date) or []
         if choices:
             logger.info(f"[{period_id}] Reusing cached airline breakdown for {best_date}")
         else:
-            try:
-                detail = await scraper.search(origin=origin, destination=destination, date=best_date)
-                if detail:
-                    choices = detail.get("all_airlines", [])[:2]
-            except Exception as e:
-                logger.warning(f"[{period_id}] Period detail scan failed: {e}")
-        if choices and choices[0].get("price", 0) > best_price:
+            detail = None
+            for attempt in range(2):
+                try:
+                    detail = await scraper.search(
+                        origin=origin, destination=destination, date=best_date, max_stops=max_stops
+                    )
+                    if detail:
+                        break
+                except Exception as e:
+                    logger.warning(f"[{period_id}] Period detail scan attempt {attempt + 1} failed: {e}")
+                if attempt == 0:
+                    await asyncio.sleep(3)
+            if detail:
+                choices = detail.get("all_airlines", [])[:2]
+        if max_stops is None and choices and choices[0].get("price", 0) > best_price:
+            fallback_airline = choices[0].get("airline", "Unknown")
             logger.warning(
                 f"[{period_id}] Fresh scrape price {choices[0].get('price')} for {best_date} "
-                f"is higher than the verified calendar price {best_price}; discarding"
+                f"is higher than the verified calendar price {best_price}; using verified price with airline {fallback_airline}"
             )
-            choices = []
+            choices = [{"airline": fallback_airline, "price": best_price}]
         if not choices:
             choices = [{"airline": "Unknown", "price": best_price}]
         store.update_period_fare(
