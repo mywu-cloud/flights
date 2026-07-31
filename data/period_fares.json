@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-30T05:46:21.582557Z",
+  "updated_at": "2026-07-31T06:23:04.424683Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -188,11 +188,11 @@
       "origin": "TPE",
       "destination": "NRT",
       "label": "10月下旬",
-      "best_date": "2026-10-22",
+      "best_date": "2026-10-29",
       "choices": [
         {
-          "airline": "台灣虎航",
-          "price": 1999
+          "airline": "酷航",
+          "price": 3899
         }
       ]
     },
@@ -204,7 +204,7 @@
       "best_date": "2026-10-29",
       "choices": [
         {
-          "airline": "捷星日本航空",
+          "airline": "Unknown",
           "price": 5399
         }
       ]
@@ -214,11 +214,11 @@
       "origin": "TPE",
       "destination": "NGO",
       "label": "10月下旬",
-      "best_date": "2026-10-29",
+      "best_date": "2026-10-22",
       "choices": [
         {
-          "airline": "香港快運航空",
-          "price": 4799
+          "airline": "Unknown",
+          "price": 4499
         }
       ]
     },
@@ -240,11 +240,11 @@
       "origin": "SDJ",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-03",
+      "best_date": "2026-11-05",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 7299
+          "price": 6399
         }
       ]
     },
@@ -253,7 +253,7 @@
       "origin": "SDJ",
       "destination": "KHH",
       "label": "11月上旬",
-      "best_date": "2026-11-07",
+      "best_date": "2026-11-04",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -292,11 +292,11 @@
       "origin": "NRT",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-03",
+      "best_date": "2026-11-05",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3399
+          "price": 2899
         }
       ]
     },
@@ -305,7 +305,7 @@
       "origin": "NRT",
       "destination": "KHH",
       "label": "11月上旬",
-      "best_date": "2026-11-07",
+      "best_date": "2026-11-04",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -425,33 +425,8 @@
       "best_date": "2026-10-29",
       "choices": [
         {
-          "airline": "台灣虎航",
+          "airline": "Unknown",
           "price": 8299
-        },
-        {
-          "airline": "香港快運航空",
-          "price": 8988,
-          "stops": 1
-        },
-        {
-          "airline": "長榮航空",
-          "price": 13690,
-          "stops": null
-        },
-        {
-          "airline": "大韓航空",
-          "price": 18882,
-          "stops": 1
-        },
-        {
-          "airline": "真航空",
-          "price": 19366,
-          "stops": 1
-        },
-        {
-          "airline": "日本航空",
-          "price": 23710,
-          "stops": 1
         }
       ]
     }
