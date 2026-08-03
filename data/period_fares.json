@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-02T06:11:34.869808Z",
+  "updated_at": "2026-08-03T06:27:16.345812Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -191,8 +191,8 @@
       "best_date": "2026-10-29",
       "choices": [
         {
-          "airline": "台灣虎航",
-          "price": 3399
+          "airline": "酷航",
+          "price": 3899
         }
       ]
     },
