@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-06T06:01:43.023592Z",
+  "updated_at": "2026-08-07T05:07:02.433722Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -175,11 +175,11 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "10月上旬",
-      "best_date": "2026-10-06",
+      "best_date": "2026-10-02",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 4899
+          "price": 5399
         }
       ]
     },
@@ -227,7 +227,7 @@
       "origin": "KHH",
       "destination": "NGO",
       "label": "10月下旬",
-      "best_date": "2026-10-31",
+      "best_date": "2026-10-28",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -266,11 +266,11 @@
       "origin": "NGO",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-02",
+      "best_date": "2026-11-06",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 4299
+          "price": 3799
         }
       ]
     },
@@ -279,11 +279,11 @@
       "origin": "NGO",
       "destination": "KHH",
       "label": "11月上旬",
-      "best_date": "2026-11-09",
+      "best_date": "2026-11-02",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 9299
+          "price": 8299
         }
       ]
     },
@@ -305,11 +305,11 @@
       "origin": "NRT",
       "destination": "KHH",
       "label": "11月上旬",
-      "best_date": "2026-11-07",
+      "best_date": "2026-11-04",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 4399
+          "price": 4899
         }
       ]
     },
@@ -318,7 +318,7 @@
       "origin": "TPE",
       "destination": "SDJ",
       "label": "10月下旬",
-      "best_date": "2026-10-29",
+      "best_date": "2026-10-27",
       "choices": [
         {
           "airline": "Unknown",
@@ -344,11 +344,11 @@
       "origin": "TPE",
       "destination": "KIX",
       "label": "10月下旬",
-      "best_date": "2026-10-28",
+      "best_date": "2026-10-27",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3799
+          "price": 2899
         }
       ]
     },
@@ -361,7 +361,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 5799
+          "price": 4799
         }
       ]
     },
