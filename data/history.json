@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-07T05:07:02.433722Z",
+  "updated_at": "2026-08-08T04:17:48.873422Z",
   "history": {
     "tpe-nrt": [
       {
@@ -289,6 +289,18 @@
         "cheapest_date": "2026-10-29",
         "dates_found": 31,
         "scraped_at": "2026-08-07T12:47:02.833326+08:00"
+      },
+      {
+        "cheapest_price": 3899,
+        "cheapest_date": "2026-10-27",
+        "dates_found": 13,
+        "scraped_at": "2026-08-08T11:47:19.107593+08:00"
+      },
+      {
+        "cheapest_price": 3899,
+        "cheapest_date": "2026-10-29",
+        "dates_found": 31,
+        "scraped_at": "2026-08-08T11:57:26.385955+08:00"
       }
     ],
     "tpe-kix": [
@@ -729,6 +741,18 @@
         "cheapest_date": "2026-10-27",
         "dates_found": 31,
         "scraped_at": "2026-08-07T12:39:49.035068+08:00"
+      },
+      {
+        "cheapest_price": 2899,
+        "cheapest_date": "2026-10-27",
+        "dates_found": 31,
+        "scraped_at": "2026-08-08T11:43:34.873606+08:00"
+      },
+      {
+        "cheapest_price": 2899,
+        "cheapest_date": "2026-10-27",
+        "dates_found": 31,
+        "scraped_at": "2026-08-08T11:50:08.603029+08:00"
       }
     ],
     "tpe-fuk": [
@@ -1183,6 +1207,18 @@
         "cheapest_date": "2026-10-01",
         "dates_found": 9,
         "scraped_at": "2026-08-07T12:43:08.061624+08:00"
+      },
+      {
+        "cheapest_price": 4999,
+        "cheapest_date": "2026-10-01",
+        "dates_found": 9,
+        "scraped_at": "2026-08-08T11:44:29.295663+08:00"
+      },
+      {
+        "cheapest_price": 4999,
+        "cheapest_date": "2026-10-01",
+        "dates_found": 9,
+        "scraped_at": "2026-08-08T11:53:29.351042+08:00"
       }
     ],
     "tpe-tak": [
@@ -1661,6 +1697,24 @@
         "cheapest_date": "2026-10-29",
         "dates_found": 31,
         "scraped_at": "2026-08-07T12:47:02.834850+08:00"
+      },
+      {
+        "cheapest_price": 5399,
+        "cheapest_date": "2026-10-29",
+        "dates_found": 13,
+        "scraped_at": "2026-08-08T11:48:15.480237+08:00"
+      },
+      {
+        "cheapest_price": 4899,
+        "cheapest_date": "2026-10-06",
+        "dates_found": 31,
+        "scraped_at": "2026-08-08T11:50:08.601320+08:00"
+      },
+      {
+        "cheapest_price": 4899,
+        "cheapest_date": "2026-10-06",
+        "dates_found": 31,
+        "scraped_at": "2026-08-08T11:57:26.386996+08:00"
       }
     ],
     "khh-kix": [
@@ -2287,6 +2341,24 @@
         "cheapest_date": "2026-10-05",
         "dates_found": 31,
         "scraped_at": "2026-08-07T12:43:08.063139+08:00"
+      },
+      {
+        "cheapest_price": 3999,
+        "cheapest_date": "2026-10-05",
+        "dates_found": 31,
+        "scraped_at": "2026-08-08T11:44:29.296858+08:00"
+      },
+      {
+        "cheapest_price": 4799,
+        "cheapest_date": "2026-10-27",
+        "dates_found": 14,
+        "scraped_at": "2026-08-08T11:49:40.898990+08:00"
+      },
+      {
+        "cheapest_price": 3999,
+        "cheapest_date": "2026-10-05",
+        "dates_found": 31,
+        "scraped_at": "2026-08-08T11:53:29.352230+08:00"
       }
     ],
     "khh-fuk": [
@@ -2957,6 +3029,24 @@
         "cheapest_date": "2026-10-18",
         "dates_found": 9,
         "scraped_at": "2026-08-07T12:44:09.256606+08:00"
+      },
+      {
+        "cheapest_price": 4499,
+        "cheapest_date": "2026-10-18",
+        "dates_found": 9,
+        "scraped_at": "2026-08-08T11:44:29.297987+08:00"
+      },
+      {
+        "cheapest_price": 3299,
+        "cheapest_date": "2026-09-13",
+        "dates_found": 48,
+        "scraped_at": "2026-08-08T11:50:08.600255+08:00"
+      },
+      {
+        "cheapest_price": 4499,
+        "cheapest_date": "2026-10-18",
+        "dates_found": 9,
+        "scraped_at": "2026-08-08T11:54:27.102747+08:00"
       }
     ],
     "khh-tak": [
@@ -3562,6 +3652,18 @@
         "cheapest_date": "2026-10-19",
         "dates_found": 16,
         "scraped_at": "2026-08-07T12:44:09.255223+08:00"
+      },
+      {
+        "cheapest_price": 4999,
+        "cheapest_date": "2026-10-19",
+        "dates_found": 16,
+        "scraped_at": "2026-08-08T11:45:25.904446+08:00"
+      },
+      {
+        "cheapest_price": 4999,
+        "cheapest_date": "2026-10-19",
+        "dates_found": 16,
+        "scraped_at": "2026-08-08T11:54:27.101614+08:00"
       }
     ],
     "tpe-ngo": [
@@ -3996,6 +4098,18 @@
         "cheapest_date": "2026-10-13",
         "dates_found": 31,
         "scraped_at": "2026-08-07T12:43:08.060366+08:00"
+      },
+      {
+        "cheapest_price": 3899,
+        "cheapest_date": "2026-10-13",
+        "dates_found": 31,
+        "scraped_at": "2026-08-08T11:45:25.905628+08:00"
+      },
+      {
+        "cheapest_price": 3899,
+        "cheapest_date": "2026-10-13",
+        "dates_found": 31,
+        "scraped_at": "2026-08-08T11:53:29.349878+08:00"
       }
     ],
     "tpe-toy": [
@@ -4420,6 +4534,18 @@
         "cheapest_date": "2026-11-06",
         "dates_found": 30,
         "scraped_at": "2026-08-07T12:44:09.258220+08:00"
+      },
+      {
+        "cheapest_price": 3799,
+        "cheapest_date": "2026-11-06",
+        "dates_found": 30,
+        "scraped_at": "2026-08-08T11:45:25.906842+08:00"
+      },
+      {
+        "cheapest_price": 3799,
+        "cheapest_date": "2026-11-06",
+        "dates_found": 30,
+        "scraped_at": "2026-08-08T11:54:27.103892+08:00"
       }
     ],
     "ngo-khh": [
@@ -4830,6 +4956,18 @@
         "cheapest_date": "2026-11-28",
         "dates_found": 16,
         "scraped_at": "2026-08-07T12:45:07.215405+08:00"
+      },
+      {
+        "cheapest_price": 6499,
+        "cheapest_date": "2026-11-28",
+        "dates_found": 16,
+        "scraped_at": "2026-08-08T11:46:24.457795+08:00"
+      },
+      {
+        "cheapest_price": 6499,
+        "cheapest_date": "2026-11-28",
+        "dates_found": 16,
+        "scraped_at": "2026-08-08T11:55:27.604639+08:00"
       }
     ],
     "kmq-tpe": [
@@ -5240,6 +5378,18 @@
         "cheapest_date": "2026-11-26",
         "dates_found": 9,
         "scraped_at": "2026-08-07T12:45:07.216771+08:00"
+      },
+      {
+        "cheapest_price": 4299,
+        "cheapest_date": "2026-11-26",
+        "dates_found": 9,
+        "scraped_at": "2026-08-08T11:46:24.458806+08:00"
+      },
+      {
+        "cheapest_price": 4299,
+        "cheapest_date": "2026-11-26",
+        "dates_found": 9,
+        "scraped_at": "2026-08-08T11:55:27.605766+08:00"
       }
     ],
     "kmq-khh": [
@@ -5644,6 +5794,18 @@
         "cheapest_date": "2026-11-29",
         "dates_found": 9,
         "scraped_at": "2026-08-07T12:45:07.218421+08:00"
+      },
+      {
+        "cheapest_price": 5299,
+        "cheapest_date": "2026-11-29",
+        "dates_found": 9,
+        "scraped_at": "2026-08-08T11:46:24.459912+08:00"
+      },
+      {
+        "cheapest_price": 5299,
+        "cheapest_date": "2026-11-29",
+        "dates_found": 9,
+        "scraped_at": "2026-08-08T11:55:27.606937+08:00"
       }
     ],
     "kix-tpe": [
@@ -6024,6 +6186,18 @@
         "cheapest_date": "2026-11-07",
         "dates_found": 30,
         "scraped_at": "2026-08-07T12:46:03.584809+08:00"
+      },
+      {
+        "cheapest_price": 2499,
+        "cheapest_date": "2026-11-07",
+        "dates_found": 30,
+        "scraped_at": "2026-08-08T11:47:19.105406+08:00"
+      },
+      {
+        "cheapest_price": 2499,
+        "cheapest_date": "2026-11-07",
+        "dates_found": 30,
+        "scraped_at": "2026-08-08T11:56:23.181502+08:00"
       }
     ],
     "kix-khh": [
@@ -6590,6 +6764,24 @@
         "cheapest_date": "2026-11-06",
         "dates_found": 30,
         "scraped_at": "2026-08-07T12:46:03.586063+08:00"
+      },
+      {
+        "cheapest_price": 2899,
+        "cheapest_date": "2026-11-06",
+        "dates_found": 30,
+        "scraped_at": "2026-08-08T11:47:19.106477+08:00"
+      },
+      {
+        "cheapest_price": 2499,
+        "cheapest_date": "2026-10-16",
+        "dates_found": 14,
+        "scraped_at": "2026-08-08T11:49:40.900099+08:00"
+      },
+      {
+        "cheapest_price": 2899,
+        "cheapest_date": "2026-11-06",
+        "dates_found": 30,
+        "scraped_at": "2026-08-08T11:56:23.182617+08:00"
       }
     ],
     "nrt-khh": [
@@ -6856,6 +7048,18 @@
         "cheapest_date": "2026-11-04",
         "dates_found": 30,
         "scraped_at": "2026-08-07T12:48:05.793612+08:00"
+      },
+      {
+        "cheapest_price": 4899,
+        "cheapest_date": "2026-11-04",
+        "dates_found": 30,
+        "scraped_at": "2026-08-08T11:48:15.482311+08:00"
+      },
+      {
+        "cheapest_price": 4899,
+        "cheapest_date": "2026-11-04",
+        "dates_found": 30,
+        "scraped_at": "2026-08-08T11:58:27.041268+08:00"
       }
     ],
     "nrt-tpe": [
@@ -7122,6 +7326,18 @@
         "cheapest_date": "2026-11-05",
         "dates_found": 30,
         "scraped_at": "2026-08-07T12:48:05.792368+08:00"
+      },
+      {
+        "cheapest_price": 2899,
+        "cheapest_date": "2026-11-05",
+        "dates_found": 30,
+        "scraped_at": "2026-08-08T11:48:15.481333+08:00"
+      },
+      {
+        "cheapest_price": 2899,
+        "cheapest_date": "2026-11-05",
+        "dates_found": 30,
+        "scraped_at": "2026-08-08T11:58:27.040228+08:00"
       }
     ],
     "tpe-sdj": [
@@ -7388,6 +7604,18 @@
         "cheapest_date": "2026-10-01",
         "dates_found": 12,
         "scraped_at": "2026-08-07T12:46:03.587823+08:00"
+      },
+      {
+        "cheapest_price": 7299,
+        "cheapest_date": "2026-10-27",
+        "dates_found": 5,
+        "scraped_at": "2026-08-08T11:49:13.672715+08:00"
+      },
+      {
+        "cheapest_price": 5199,
+        "cheapest_date": "2026-10-01",
+        "dates_found": 12,
+        "scraped_at": "2026-08-08T11:56:23.183771+08:00"
       }
     ],
     "khh-sdj": [
@@ -7648,6 +7876,18 @@
         "cheapest_date": "2026-10-12",
         "dates_found": 15,
         "scraped_at": "2026-08-07T12:47:02.831857+08:00"
+      },
+      {
+        "cheapest_price": 7299,
+        "cheapest_date": "2026-10-31",
+        "dates_found": 5,
+        "scraped_at": "2026-08-08T11:49:13.673778+08:00"
+      },
+      {
+        "cheapest_price": 6699,
+        "cheapest_date": "2026-10-12",
+        "dates_found": 15,
+        "scraped_at": "2026-08-08T11:57:26.384833+08:00"
       }
     ],
     "sdj-khh": [
@@ -7872,6 +8112,18 @@
         "cheapest_date": "2026-11-30",
         "dates_found": 15,
         "scraped_at": "2026-08-07T12:49:05.633748+08:00"
+      },
+      {
+        "cheapest_price": 9299,
+        "cheapest_date": "2026-11-04",
+        "dates_found": 4,
+        "scraped_at": "2026-08-08T11:49:13.674899+08:00"
+      },
+      {
+        "cheapest_price": 4999,
+        "cheapest_date": "2026-11-30",
+        "dates_found": 15,
+        "scraped_at": "2026-08-08T11:59:26.085529+08:00"
       }
     ],
     "sdj-tpe": [
@@ -8096,6 +8348,18 @@
         "cheapest_date": "2026-11-29",
         "dates_found": 13,
         "scraped_at": "2026-08-07T12:48:05.795230+08:00"
+      },
+      {
+        "cheapest_price": 7299,
+        "cheapest_date": "2026-11-05",
+        "dates_found": 4,
+        "scraped_at": "2026-08-08T11:49:40.897882+08:00"
+      },
+      {
+        "cheapest_price": 6399,
+        "cheapest_date": "2026-11-29",
+        "dates_found": 13,
+        "scraped_at": "2026-08-08T11:58:27.042379+08:00"
       }
     ],
     "khh-okj": [
@@ -8182,6 +8446,12 @@
         "cheapest_date": "2026-08-24",
         "dates_found": 122,
         "scraped_at": "2026-08-07T12:49:05.634966+08:00"
+      },
+      {
+        "cheapest_price": 3999,
+        "cheapest_date": "2026-08-24",
+        "dates_found": 122,
+        "scraped_at": "2026-08-08T11:59:26.086696+08:00"
       }
     ],
     "khh-kmj": [
@@ -8306,6 +8576,12 @@
         "cheapest_date": "2026-09-29",
         "dates_found": 20,
         "scraped_at": "2026-08-07T12:49:05.636628+08:00"
+      },
+      {
+        "cheapest_price": 30254,
+        "cheapest_date": "2026-09-29",
+        "dates_found": 20,
+        "scraped_at": "2026-08-08T11:59:26.087775+08:00"
       }
     ],
     "prg-tpe": [
@@ -8406,6 +8682,12 @@
         "cheapest_date": "2026-09-01",
         "dates_found": 22,
         "scraped_at": "2026-08-07T12:54:47.121771+08:00"
+      },
+      {
+        "cheapest_price": 26217,
+        "cheapest_date": "2026-09-01",
+        "dates_found": 22,
+        "scraped_at": "2026-08-08T12:05:18.048891+08:00"
       }
     ],
     "tpe-fco": [
@@ -8456,6 +8738,12 @@
         "cheapest_date": "2026-09-01",
         "dates_found": 22,
         "scraped_at": "2026-08-07T12:54:47.124432+08:00"
+      },
+      {
+        "cheapest_price": 25512,
+        "cheapest_date": "2026-09-01",
+        "dates_found": 22,
+        "scraped_at": "2026-08-08T12:05:18.049994+08:00"
       }
     ],
     "tpe-fra": [
@@ -8506,6 +8794,12 @@
         "cheapest_date": "2026-09-01",
         "dates_found": 22,
         "scraped_at": "2026-08-07T12:54:47.125936+08:00"
+      },
+      {
+        "cheapest_price": 28715,
+        "cheapest_date": "2026-09-01",
+        "dates_found": 22,
+        "scraped_at": "2026-08-08T12:05:18.051806+08:00"
       }
     ],
     "tpe-bkk": [
@@ -8544,6 +8838,12 @@
         "cheapest_date": "2026-11-21",
         "dates_found": 1,
         "scraped_at": "2026-08-07T12:32:51.245052+08:00"
+      },
+      {
+        "cheapest_price": 8103,
+        "cheapest_date": "2026-11-21",
+        "dates_found": 1,
+        "scraped_at": "2026-08-08T11:43:34.869954+08:00"
       }
     ],
     "tpe-vie": [
@@ -8576,6 +8876,12 @@
         "cheapest_date": "2027-03-16",
         "dates_found": 22,
         "scraped_at": "2026-08-07T13:00:14.193469+08:00"
+      },
+      {
+        "cheapest_price": 25388,
+        "cheapest_date": "2026-09-01",
+        "dates_found": 22,
+        "scraped_at": "2026-08-08T12:10:56.738997+08:00"
       }
     ]
   }
