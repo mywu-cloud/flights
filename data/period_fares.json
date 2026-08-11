@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-10T04:46:18.792914Z",
+  "updated_at": "2026-08-11T04:35:12.098118Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -175,11 +175,11 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "10月上旬",
-      "best_date": "2026-10-10",
+      "best_date": "2026-10-01",
       "choices": [
         {
-          "airline": "台灣虎航",
-          "price": 4299
+          "airline": "捷星日本航空",
+          "price": 4899
         }
       ]
     },
@@ -191,7 +191,7 @@
       "best_date": "2026-10-29",
       "choices": [
         {
-          "airline": "酷航",
+          "airline": "樂桃航空",
           "price": 3899
         }
       ]
@@ -218,7 +218,7 @@
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4299
+          "price": 4799
         }
       ]
     },
@@ -231,7 +231,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 5299
+          "price": 5899
         }
       ]
     },
@@ -309,7 +309,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 4899
+          "price": 4399
         }
       ]
     },
@@ -331,7 +331,7 @@
       "origin": "KHH",
       "destination": "SDJ",
       "label": "10月下旬",
-      "best_date": "2026-10-28",
+      "best_date": "2026-10-31",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -357,7 +357,7 @@
       "origin": "KHH",
       "destination": "KIX",
       "label": "10月下旬",
-      "best_date": "2026-10-27",
+      "best_date": "2026-10-26",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -374,7 +374,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2499
+          "price": 2099
         }
       ]
     },
@@ -387,7 +387,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2899
+          "price": 2099
         }
       ]
     },
@@ -400,7 +400,7 @@
       "choices": [
         {
           "airline": "Unknown",
-          "price": 6499
+          "price": 5299
         }
       ]
     },
