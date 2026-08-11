@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>航線公告 - 機票雷達 FareRadar</title>
+<style>
+  :root {
+    --bg: #0b0f16;
+    --card: #121826;
+    --border: #232b3a;
+    --text: #e6e9ef;
+    --muted: #8b93a7;
+    --primary: #4f8cff;
+    --new: #ffb020;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 {
+    font-size: 18px;
+    margin: 0;
+  }
+  header a {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  select {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+  }
+  .updated {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .badge {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(79, 140, 255, 0.15);
+    color: var(--primary);
+  }
+  .badge.new {
+    background: rgba(255, 176, 32, 0.18);
+    color: var(--new);
+  }
+  .date {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .title a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .title a:hover {
+    color: var(--primary);
+    text-decoration: underline;
+  }
+  .empty {
+    color: var(--muted);
+    text-align: center;
+    padding: 48px 0;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>✈️ 航線公告</h1>
+  <a href="./index.html">← 回到機票雷達</a>
+</header>
+<main>
+  <div class="toolbar">
+    <select id="airlineFilter">
+      <option value="">所有航空公司</option>
+    </select>
+    <span class="updated" id="updatedAt"></span>
+  </div>
+  <div id="list"></div>
+</main>
+<script>
+  // Published by .github/workflows/scrape-news.yml -> scraper/news_scraper.py
+  const DATA_URL = "https://mywu-cloud.github.io/flights/data/announcements.json";
+
+  const listEl = document.getElementById("list");
+  const filterEl = document.getElementById("airlineFilter");
+  const updatedEl = document.getElementById("updatedAt");
+
+  let allItems = [];
+
+  function render() {
+    const selected = filterEl.value;
+    const items = selected
+      ? allItems.filter((it) => it.airline === selected)
+      : allItems;
+
+    if (items.length === 0) {
+      listEl.innerHTML = '<div class="empty">尚無航線公告資料，請等待爪蟲執行後再回來查看。</div>';
+      return;
+    }
+
+    listEl.innerHTML = items
+      .map((it) => {
+        const newBadge = it.is_new ? '<span class="badge new">NEW</span>' : "";
+        const date = it.date || "日期未知";
+        return (
+          '<div class="card">' +
+            '<div class="card-top">' +
+              '<span class="badge">' + escapeHtml(it.airline || "") + '</span>' +
+              newBadge +
+              '<span class="date">' + escapeHtml(date) + '</span>' +
+            '</div>' +
+            '<div class="title"><a href="' + escapeHtml(it.url || "#") + '" target="_blank" rel="noopener">' +
+              escapeHtml(it.title || "") +
+            '</a></div>' +
+          '</div>'
+        );
+      })
+      .join("");
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  fetch(DATA_URL)
+    .then((res) => {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    })
+    .then((data) => {
+      allItems = (data.announcements || []).slice();
+      allItems.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
+      const airlines = Array.from(new Set(allItems.map((it) => it.airline).filter(Boolean)));
+      airlines.forEach((name) => {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        filterEl.appendChild(opt);
+      });
+
+      if (data.updated_at) {
+        updatedEl.textContent = "最後更新：" + data.updated_at;
+      }
+
+      render();
+    })
+    .catch((err) => {
+      listEl.innerHTML = '<div class="empty">尚未取得航線公告資料（' + escapeHtml(err.message) + '），爪蟲執行後將自動顯示。</div>';
+    });
+
+  filterEl.addEventListener("change", render);
+</script>
+</body>
+</html>
