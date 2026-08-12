@@ -1,0 +1,35 @@
+{
+  "updated_at": "2026-08-12T07:18:06.584955Z",
+  "announcements": [
+    {
+      "id": "jx-d146ec5cd0",
+      "airline": "星宇航空",
+      "airline_code": "JX",
+      "title": "台中直飛札幌！北海道夢幻旅程2026年10月02日啟航",
+      "url": "https://www.starlux-airlines.com/zh-TW/about-us/travel-advisories/advisories/latest-news/from-taichung-to-sapporo",
+      "date": "2026-07-01",
+      "scraped_at": "2026-08-12T07:17:58.409702Z",
+      "is_new": true
+    },
+    {
+      "id": "jx-b4b3c47698",
+      "airline": "星宇航空",
+      "airline_code": "JX",
+      "title": "東南亞新航點，2026年10月01日直飛峇里島！",
+      "url": "https://www.starlux-airlines.com/zh-TW/about-us/travel-advisories/advisories/latest-news/fly_to_DPS",
+      "date": "2026-04-08",
+      "scraped_at": "2026-08-12T07:17:59.064946Z",
+      "is_new": true
+    },
+    {
+      "id": "jx-dcf04a6d53",
+      "airline": "星宇航空",
+      "airline_code": "JX",
+      "title": "飛向歐洲新篇章，2026年08月01日起直飛布拉格",
+      "url": "https://www.starlux-airlines.com/zh-TW/about-us/travel-advisories/advisories/latest-news/fly_to_PRG",
+      "date": "2026-02-25",
+      "scraped_at": "2026-08-12T07:17:59.468987Z",
+      "is_new": true
+    }
+  ]
+}
