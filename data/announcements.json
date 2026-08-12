@@ -1,6 +1,26 @@
 {
-  "updated_at": "2026-08-12T07:18:06.584955Z",
+  "updated_at": "2026-08-12T10:57:17.694618Z",
   "announcements": [
+    {
+      "id": "it-f0f2cb03b4",
+      "airline": "台灣虎航",
+      "airline_code": "IT",
+      "title": "台日情誼深耕十載！台灣虎航喜迎岡山航線10週年 「日本桃太郎×虎將紀念彩繪機」今首航岡山",
+      "url": "https://www.tigerairtw.com/zh-TW/news/260714",
+      "date": "2026-07-14",
+      "scraped_at": "2026-08-12T10:57:17.493903Z",
+      "is_new": true
+    },
+    {
+      "id": "it-0f9fa312ce",
+      "airline": "台灣虎航",
+      "airline_code": "IT",
+      "title": "喜迎開航12週年 台灣虎航攜手小魏魏嘉瑩推出全新主題曲",
+      "url": "https://www.tigerairtw.com/zh-TW/news/260702",
+      "date": "2026-07-02",
+      "scraped_at": "2026-08-12T10:57:17.516609Z",
+      "is_new": true
+    },
     {
       "id": "jx-d146ec5cd0",
       "airline": "星宇航空",
@@ -8,7 +28,17 @@
       "title": "台中直飛札幌！北海道夢幻旅程2026年10月02日啟航",
       "url": "https://www.starlux-airlines.com/zh-TW/about-us/travel-advisories/advisories/latest-news/from-taichung-to-sapporo",
       "date": "2026-07-01",
-      "scraped_at": "2026-08-12T07:17:58.409702Z",
+      "scraped_at": "2026-08-12T10:57:05.831614Z",
+      "is_new": false
+    },
+    {
+      "id": "it-1b0d087b72",
+      "airline": "台灣虎航",
+      "airline_code": "IT",
+      "title": "雙喜臨門！台灣虎航宣布開賣高雄-石垣島、高雄-小松航線",
+      "url": "https://www.tigerairtw.com/zh-TW/news/260602",
+      "date": "2026-06-02",
+      "scraped_at": "2026-08-12T10:57:17.548900Z",
       "is_new": true
     },
     {
@@ -18,8 +48,8 @@
       "title": "東南亞新航點，2026年10月01日直飛峇里島！",
       "url": "https://www.starlux-airlines.com/zh-TW/about-us/travel-advisories/advisories/latest-news/fly_to_DPS",
       "date": "2026-04-08",
-      "scraped_at": "2026-08-12T07:17:59.064946Z",
-      "is_new": true
+      "scraped_at": "2026-08-12T10:57:06.312050Z",
+      "is_new": false
     },
     {
       "id": "jx-dcf04a6d53",
@@ -28,8 +58,8 @@
       "title": "飛向歐洲新篇章，2026年08月01日起直飛布拉格",
       "url": "https://www.starlux-airlines.com/zh-TW/about-us/travel-advisories/advisories/latest-news/fly_to_PRG",
       "date": "2026-02-25",
-      "scraped_at": "2026-08-12T07:17:59.468987Z",
-      "is_new": true
+      "scraped_at": "2026-08-12T10:57:06.649739Z",
+      "is_new": false
     }
   ]
 }
