@@ -15,11 +15,11 @@
           {
                   "airline": "長榮航空",
                   "code": "BR",
-                  "page_url": "https://www.evaair.com/zh-tw/index.html",
+                  "page_url": "https://www.evaair.com/zh-tw/about-eva-air/news/news-releases/",
                   "base_url": "https://www.evaair.com",
-                  "item_selector": "li.news-item a.news-link",
-                  "title_selector": "p.news-title",
-                  "date_selector": "p.text-9.color-gray",
+                  "item_selector": "div.listE",
+                  "title_selector": "p.text-4",
+                  "date_selector": "p.text-light",
                   "date_format": "%m月 %d日, %Y"
           },
           {
