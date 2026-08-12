@@ -85,13 +85,13 @@ def scrape_source(page, source, keywords):
 
     if source.get("click_tab_text"):
         try:
-            page.get_by_text(source["click_tab_text"], exact=True).first.click(timeout=5000)
-            page.wait_for_timeout(1500)
+            page.get_by_text(source["click_tab_text"], exact=True).first.click(timeout=15000)
+            page.wait_for_timeout(2500)
         except Exception as e:
             print(f"  [warn] could not click tab '{source['click_tab_text']}': {e}")
 
     try:
-        page.wait_for_selector(source["item_selector"], timeout=10000)
+        page.wait_for_selector(source["item_selector"], timeout=20000)
     except Exception as e:
         print(f"  [warn] no items found for {source['airline']}: {e}")
         return results
