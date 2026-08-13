@@ -6,13 +6,13 @@
 <title>航線公告 - 機票雷達 FareRadar</title>
 <style>
   :root {
-    --bg: #0b0f16;
-    --card: #121826;
-    --border: #232b3a;
-    --text: #e6e9ef;
-    --muted: #8b93a7;
-    --primary: #4f8cff;
-    --new: #ffb020;
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #1a202c;
+    --muted: #64748b;
+    --primary: #4A6CF7;
+    --new: #D97706;
   }
   * { box-sizing: border-box; }
   body {
@@ -26,6 +26,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 24px;
+    background: var(--card);
     border-bottom: 1px solid var(--border);
   }
   header h1 {
@@ -66,6 +67,7 @@
     border-radius: 12px;
     padding: 16px 18px;
     margin-bottom: 12px;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
   }
   .card-top {
     display: flex;
@@ -77,11 +79,11 @@
     font-size: 12px;
     padding: 2px 8px;
     border-radius: 999px;
-    background: rgba(79, 140, 255, 0.15);
+    background: rgba(74, 108, 247, 0.12);
     color: var(--primary);
   }
   .badge.new {
-    background: rgba(255, 176, 32, 0.18);
+    background: rgba(217, 119, 6, 0.14);
     color: var(--new);
   }
   .date {
@@ -160,6 +162,13 @@
       .join("");
   }
 
+  function formatUpdatedAt(iso) {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    const pad = (n) => String(n).padStart(2, "0");
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+  }
+
   function escapeHtml(str) {
     return String(str)
       .replace(/&/g, "&amp;")
@@ -186,7 +195,7 @@
       });
 
       if (data.updated_at) {
-        updatedEl.textContent = "最後更新：" + data.updated_at;
+        updatedEl.textContent = "最後更新：" + formatUpdatedAt(data.updated_at);
       }
 
       render();
