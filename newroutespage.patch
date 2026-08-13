@@ -1,0 +1,686 @@
+diff --git a/config/news_sources.json b/config/news_sources.json
+index 9116843..c8d7df3 100644
+--- a/config/news_sources.json
++++ b/config/news_sources.json
+@@ -1,6 +1,7 @@
+ {
+     "description": "Airline official news/press-release pages to scan for new-route announcements. Selectors were captured manually on 2026-08-11 and may need updating if the airline redesigns its site.",
+     "keywords": ["開航", "直飛", "首航", "新航線", "新航點", "啟航", "開賣"],
++    "exclude_keywords": ["週年", "主題曲", "彩繪機", "紀念機", "聯名", "代言", "簽署", "得獎", "獲獎", "頒獎", "慈善", "公益", "捐贈", "招募", "徵才", "股東會", "法說會", "財報", "尾牙", "春酒", "餐點", "菜單", "制服", "貴賓室", "會員", "點數", "認養"],
+     "sources": [
+           {
+                   "airline": "中華航空",
+diff --git a/config/routes_manual.json b/config/routes_manual.json
+new file mode 100644
+index 0000000..4c46cb1
+--- /dev/null
++++ b/config/routes_manual.json
+@@ -0,0 +1,234 @@
++{
++  "_readme": "台灣國籍航空（中華航空、長榮航空、星宇航空、台灣虎航）國際新航線清單。台灣虎航／星宇航空可由官網新聞稿抓取；中華航空／長榮航空目前無穩定可抓取的結構化資料來源，改以人工上網查證後整理存入。若某筆資料有誤，可在「新航線公告」頁面點選刪除（僅隱藏於目前瀏覽器，不會影響此檔案，如需永久修正請直接編輯本檔）。",
++  "updated_at": "2026-08-13T00:00:00Z",
++  "routes": [
++    {
++      "id": "it-khh-isg-20260902",
++      "airline": "台灣虎航",
++      "airline_code": "IT",
++      "route": "高雄 → 石垣島",
++      "origin": "高雄",
++      "destination": "石垣島",
++      "launch_date": "2026-09-02",
++      "frequency": "每週 2 班（週三、週日）",
++      "source_type": "official",
++      "source_url": "https://www.ttnmedia.com/?p=139845"
++    },
++    {
++      "id": "it-khh-kmq-20260903",
++      "airline": "台灣虎航",
++      "airline_code": "IT",
++      "route": "高雄 → 小松",
++      "origin": "高雄",
++      "destination": "小松",
++      "launch_date": "2026-09-03",
++      "frequency": "每週 2 班（週四、週日）",
++      "source_type": "official",
++      "source_url": "https://www.ttnmedia.com/?p=139845"
++    },
++    {
++      "id": "jx-tpe-phx-20260115",
++      "airline": "星宇航空",
++      "airline_code": "JX",
++      "route": "台北(桃園) → 鳳凰城",
++      "origin": "台北(桃園)",
++      "destination": "鳳凰城",
++      "launch_date": "2026-01-15",
++      "frequency": "每週 3 班",
++      "source_type": "official",
++      "source_url": "https://www.cna.com.tw/news/afe/202507290237.aspx"
++    },
++    {
++      "id": "jx-tpe-txg-mmy-20260212",
++      "airline": "星宇航空",
++      "airline_code": "JX",
++      "route": "台北(桃園)／台中 → 宮古島(下地島)",
++      "origin": "台北(桃園)／台中",
++      "destination": "宮古島(下地島)",
++      "launch_date": "2026-02-12",
++      "frequency": "每週 2 班",
++      "source_type": "official",
++      "source_url": "https://www.marieclaire.com.tw/lifestyle/travel/92877"
++    },
++    {
++      "id": "jx-txg-nrt-20260330",
++      "airline": "星宇航空",
++      "airline_code": "JX",
++      "route": "台中 → 東京",
++      "origin": "台中",
++      "destination": "東京",
++      "launch_date": "2026-03-30",
++      "frequency": "初期每週 4 班",
++      "source_type": "official",
++      "source_url": "https://www.marieclaire.com.tw/lifestyle/travel/92877"
++    },
++    {
++      "id": "jx-txg-kmj-20260331",
++      "airline": "星宇航空",
++      "airline_code": "JX",
++      "route": "台中 → 熊本",
++      "origin": "台中",
++      "destination": "熊本",
++      "launch_date": "2026-03-31",
++      "frequency": "初期每週 3 班",
++      "source_type": "official",
++      "source_url": "https://www.marieclaire.com.tw/lifestyle/travel/92877"
++    },
++    {
++      "id": "jx-tpe-txg-pus-20260601",
++      "airline": "星宇航空",
++      "airline_code": "JX",
++      "route": "台北(桃園)／台中 → 釜山",
++      "origin": "台北(桃園)／台中",
++      "destination": "釜山",
++      "launch_date": "2026-06-01",
++      "frequency": "台中每週 3 班（台北多班）",
++      "source_type": "official",
++      "source_url": "https://www.marieclaire.com.tw/lifestyle/travel/92877"
++    },
++    {
++      "id": "jx-tpe-prg-20260801",
++      "airline": "星宇航空",
++      "airline_code": "JX",
++      "route": "台北(桃園) → 布拉格",
++      "origin": "台北(桃園)",
++      "destination": "布拉格",
++      "launch_date": "2026-08-01",
++      "frequency": "每週 3 班",
++      "source_type": "official",
++      "source_url": "https://www.marieclaire.com.tw/lifestyle/travel/92877"
++    },
++    {
++      "id": "jx-tpe-dps-20261001",
++      "airline": "星宇航空",
++      "airline_code": "JX",
++      "route": "台北(桃園) → 峇里島",
++      "origin": "台北(桃園)",
++      "destination": "峇里島",
++      "launch_date": "2026-10-01",
++      "frequency": "初期每週 5 班",
++      "source_type": "official",
++      "source_url": "https://www.marieclaire.com.tw/lifestyle/travel/92877"
++    },
++    {
++      "id": "jx-tpe-ont-20250602",
++      "airline": "星宇航空",
++      "airline_code": "JX",
++      "route": "台北(桃園) → 安大略",
++      "origin": "台北(桃園)",
++      "destination": "安大略",
++      "launch_date": "2025-06-02",
++      "frequency": "每週 4 班",
++      "source_type": "official",
++      "source_url": "https://flightandlife.com/starlux-ontario-california-flights-launch-june/"
++    },
++    {
++      "id": "jx-tpe-txg-ukb-20250418",
++      "airline": "星宇航空",
++      "airline_code": "JX",
++      "route": "台北(桃園)／台中 → 神戶",
++      "origin": "台北(桃園)／台中",
++      "destination": "神戶",
++      "launch_date": "2025-04-18",
++      "frequency": "台北每週 3 班、台中每天飛",
++      "source_type": "official",
++      "source_url": "https://www.cna.com.tw/news/ahel/202502050141.aspx"
++    },
++    {
++      "id": "ci-tpe-phx-20251203",
++      "airline": "中華航空",
++      "airline_code": "CI",
++      "route": "台北(桃園) → 鳳凰城",
++      "origin": "台北(桃園)",
++      "destination": "鳳凰城",
++      "launch_date": "2025-12-03",
++      "frequency": "每週 3 班",
++      "source_type": "research",
++      "source_url": "https://www.setn.com/News.aspx?NewsID=1692994"
++    },
++    {
++      "id": "ci-khh-fuk-20250415",
++      "airline": "中華航空",
++      "airline_code": "CI",
++      "route": "高雄 → 福岡",
++      "origin": "高雄",
++      "destination": "福岡",
++      "launch_date": "2025-04-15",
++      "frequency": "每週 4 班（二、四、五、日）",
++      "source_type": "research",
++      "source_url": "https://travel.udn.com/travel/story/9650/8645968"
++    },
++    {
++      "id": "ci-khh-kmj-20250803",
++      "airline": "中華航空",
++      "airline_code": "CI",
++      "route": "高雄 → 熊本",
++      "origin": "高雄",
++      "destination": "熊本",
++      "launch_date": "2025-08-03",
++      "frequency": "每週 4 班（8/3 起自 3 班增班）",
++      "source_type": "research",
++      "source_url": "https://focusnews.com.tw/2025/07/654774/"
++    },
++    {
++      "id": "ci-txg-oka-20260721",
++      "airline": "中華航空",
++      "airline_code": "CI",
++      "route": "台中 → 沖繩(那霸)",
++      "origin": "台中",
++      "destination": "沖繩(那霸)",
++      "launch_date": "2026-07-21",
++      "frequency": "每日 1 班",
++      "source_type": "research",
++      "source_url": "https://roundtripjp.com/2026/04/24/japan-route-guide/"
++    },
++    {
++      "id": "br-tpe-was-20260626",
++      "airline": "長榮航空",
++      "airline_code": "BR",
++      "route": "台北(桃園) → 華盛頓特區",
++      "origin": "台北(桃園)",
++      "destination": "華盛頓特區",
++      "launch_date": "2026-06-26",
++      "frequency": "每週 4 班",
++      "source_type": "research",
++      "source_url": "https://jazztalk.tw/eva-air-taipei-washington-dc-flights-june-2026/"
++    },
++    {
++      "id": "br-tpe-pus-20251021",
++      "airline": "長榮航空",
++      "airline_code": "BR",
++      "route": "台北(桃園) → 釜山",
++      "origin": "台北(桃園)",
++      "destination": "釜山",
++      "launch_date": "2025-10-21",
++      "frequency": "每日 1 班",
++      "source_type": "research",
++      "source_url": "https://www.evaair.com/zh-tw/about-eva-air/news/news-releases/2025-08-05-evaair-new-route-taipei-to-busan.html"
++    },
++    {
++      "id": "br-tpe-dal-20251003",
++      "airline": "長榮航空",
++      "airline_code": "BR",
++      "route": "台北(桃園) → 達拉斯",
++      "origin": "台北(桃園)",
++      "destination": "達拉斯",
++      "launch_date": "2025-10-03",
++      "frequency": "每週 3 班（後增為每日）",
++      "source_type": "research",
++      "source_url": "https://flightandlife.com/evaair-dallas-oct-2025/"
++    },
++    {
++      "id": "br-tpe-ukb-20250418",
++      "airline": "長榮航空",
++      "airline_code": "BR",
++      "route": "台北(桃園) → 神戶",
++      "origin": "台北(桃園)",
++      "destination": "神戶",
++      "launch_date": "2025-04-18",
++      "frequency": "詳官網公告",
++      "source_type": "research",
++      "source_url": "https://travel.udn.com/travel/story/7934/8683465"
++    }
++  ]
++}
+diff --git a/frontend/index.html b/frontend/index.html
+index 619004c..20bfdaa 100644
+--- a/frontend/index.html
++++ b/frontend/index.html
+@@ -158,7 +158,7 @@ th,td{font-size:12px;padding:8px 10px;white-space:nowrap}
+ <button class="theme-btn theme-mint" onclick="setTheme('mint',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg> &#x8584;&#x8377;</button>
+ <button class="theme-btn theme-warm" onclick="setTheme('warm',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg> &#x6696;&#x967D;</button><button class="theme-btn theme-dark" onclick="setTheme('dark',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg> 夜間</button>
+ </div>
+-<div class="nav-help-btn" id="helpBtn" onclick="openHelpModal()">操作說明</div><a class="nav-help-btn" href="news.html">航線公告</a><div class="nav-help-btn" id="airlinePrefNavBtn" onclick="openAirlinePrefPage()">偏好航空公司<span id="airlinePrefNavBadge" style="color:var(--primary);font-weight:700"></span></div>
++<div class="nav-help-btn" id="helpBtn" onclick="openHelpModal()">操作說明</div><a class="nav-help-btn" href="news.html">新航線公告</a><div class="nav-help-btn" id="airlinePrefNavBtn" onclick="openAirlinePrefPage()">偏好航空公司<span id="airlinePrefNavBadge" style="color:var(--primary);font-weight:700"></span></div>
+ <a class="nav-help-btn" href="mailto:tw.mywu@gmail.com?subject=%E6%A9%9F%E7%A5%A8%E9%9B%B7%E9%81%94%20App%20%E6%84%8F%E8%A6%8B%E5%9B%9E%E9%A5%8B&body=%E8%AB%8B%E6%8F%8F%E8%BF%B0%E6%82%A8%E9%81%87%E5%88%B0%E7%9A%84%E5%95%8F%E9%A1%8C%E6%88%96%E5%BB%BA%E8%AD%B0%EF%BC%9A%0A" style="text-decoration:none">意見回饋</a>
+ <div class="nav-bell" id="bellBtn" onclick="toggleBell(event)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="bell-badge" id="bellBadge">0</span>
+ <div class="bell-drop" id="bellDrop">
+diff --git a/frontend/news.html b/frontend/news.html
+index e59589b..950c08a 100644
+--- a/frontend/news.html
++++ b/frontend/news.html
+@@ -3,16 +3,16 @@
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-<title>航線公告 - 機票雷達 FareRadar</title>
++<title>新航線公告 - 機票雷達 FareRadar</title>
+ <style>
+   :root {
+-    --bg: #0b0f16;
+-    --card: #121826;
+-    --border: #232b3a;
+-    --text: #e6e9ef;
+-    --muted: #8b93a7;
+-    --primary: #4f8cff;
+-    --new: #ffb020;
++    --bg: #f0f4f8;
++    --card: #ffffff;
++    --border: #e2e8f0;
++    --text: #1a202c;
++    --muted: #64748b;
++    --primary: #4A6CF7;
++    --new: #D97706;
+   }
+   * { box-sizing: border-box; }
+   body {
+@@ -20,12 +20,14 @@
+     font-family: -apple-system, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+     background: var(--bg);
+     color: var(--text);
++    font-size: 13px;
+   }
+   header {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 16px 24px;
++    background: var(--card);
+     border-bottom: 1px solid var(--border);
+   }
+   header h1 {
+@@ -35,10 +37,11 @@
+   header a {
+     color: var(--primary);
+     text-decoration: none;
+-    font-size: 14px;
++    font-size: 13px;
++    font-weight: 600;
+   }
+   main {
+-    max-width: 760px;
++    max-width: 820px;
+     margin: 0 auto;
+     padding: 24px;
+   }
+@@ -55,59 +58,124 @@
+     border: 1px solid var(--border);
+     border-radius: 8px;
+     padding: 6px 10px;
++    font-size: 13px;
+   }
+   .updated {
+     color: var(--muted);
+     font-size: 13px;
+   }
++  .note {
++    color: var(--muted);
++    font-size: 13px;
++    margin: -8px 0 16px;
++    line-height: 1.6;
++  }
++  .group {
++    margin-bottom: 20px;
++  }
++  .group-title {
++    font-size: 14px;
++    font-weight: 700;
++    color: var(--text);
++    margin-bottom: 8px;
++    display: flex;
++    align-items: center;
++    gap: 8px;
++  }
++  .group-title .count {
++    font-size: 13px;
++    font-weight: 600;
++    color: var(--primary);
++    background: rgba(74, 108, 247, 0.1);
++    border-radius: 999px;
++    padding: 1px 9px;
++  }
+   .card {
+     background: var(--card);
+     border: 1px solid var(--border);
+     border-radius: 12px;
+-    padding: 16px 18px;
++    overflow: hidden;
+     margin-bottom: 12px;
+   }
+-  .card-top {
++  .row {
++    display: flex;
++    flex-direction: column;
++    gap: 6px;
++    padding: 12px 16px;
++    border-bottom: 1px solid #f1f5f9;
++  }
++  .row:last-child {
++    border-bottom: none;
++  }
++  .row-main {
+     display: flex;
+     align-items: center;
+-    gap: 8px;
+-    margin-bottom: 6px;
++    gap: 10px;
++    flex-wrap: wrap;
++  }
++  .row-bottom {
++    display: flex;
++    align-items: center;
++    justify-content: space-between;
++    gap: 12px;
++    flex-wrap: wrap;
++  }
++  .route {
++    font-size: 14px;
++    font-weight: 700;
++    color: var(--text);
+   }
+-  .badge {
+-    font-size: 12px;
+-    padding: 2px 8px;
++  .badge-src {
++    font-size: 13px;
++    padding: 1px 8px;
+     border-radius: 999px;
+-    background: rgba(79, 140, 255, 0.15);
+-    color: var(--primary);
++    background: #ECFDF5;
++    color: #059669;
+   }
+-  .badge.new {
+-    background: rgba(255, 176, 32, 0.18);
+-    color: var(--new);
++  .badge-src.research {
++    background: #FFFBEB;
++    color: #D97706;
+   }
+-  .date {
++  .meta {
++    display: flex;
++    gap: 16px;
++    flex-wrap: wrap;
+     color: var(--muted);
+     font-size: 13px;
+   }
+-  .title a {
+-    color: var(--text);
++  .meta a {
++    color: var(--primary);
+     text-decoration: none;
+-    font-size: 15px;
+-    line-height: 1.5;
+   }
+-  .title a:hover {
+-    color: var(--primary);
++  .meta a:hover {
+     text-decoration: underline;
+   }
++  .btn-delete {
++    background: #fff;
++    border: 1px solid var(--border);
++    color: var(--muted);
++    border-radius: 8px;
++    padding: 5px 12px;
++    font-size: 13px;
++    cursor: pointer;
++    white-space: nowrap;
++  }
++  .btn-delete:hover {
++    border-color: #DC2626;
++    color: #DC2626;
++    background: #FEF2F2;
++  }
+   .empty {
+     color: var(--muted);
+     text-align: center;
+     padding: 48px 0;
++    font-size: 13px;
+   }
+ </style>
+ </head>
+ <body>
+ <header>
+-  <h1>✈️ 航線公告</h1>
++  <h1>✈️ 新航線公告</h1>
+   <a href="./index.html">← 回到機票雷達</a>
+ </header>
+ <main>
+@@ -117,47 +185,32 @@
+     </select>
+     <span class="updated" id="updatedAt"></span>
+   </div>
++  <p class="note">台灣國籍航空（中華航空、長榮航空、星宇航空、台灣虎航）目前公告的國際新航線，含航點、開航日期、每週班次。台灣虎航、星宇航空取自官網公告；中華航空、長榮航空為人工整理彙整。若資料有誤，可點選「刪除」隱藏該筆（僅隱藏於目前瀏覽器）。</p>
+   <div id="list"></div>
+ </main>
+ <script>
+-  // Published by .github/workflows/scrape-news.yml -> scraper/news_scraper.py
+-  const DATA_URL = "https://mywu-cloud.github.io/flights/data/announcements.json";
++  const DATA_URL = "https://mywu-cloud.github.io/flights/data/routes.json";
++  const HIDDEN_KEY = "fareradar_hidden_route_ids";
+ 
+   const listEl = document.getElementById("list");
+   const filterEl = document.getElementById("airlineFilter");
+   const updatedEl = document.getElementById("updatedAt");
+ 
+-  let allItems = [];
++  let allRoutes = [];
+ 
+-  function render() {
+-    const selected = filterEl.value;
+-    const items = selected
+-      ? allItems.filter((it) => it.airline === selected)
+-      : allItems;
+-
+-    if (items.length === 0) {
+-      listEl.innerHTML = '<div class="empty">尚無航線公告資料，請等待爪蟲執行後再回來查看。</div>';
+-      return;
++  function getHiddenIds() {
++    try {
++      return new Set(JSON.parse(localStorage.getItem(HIDDEN_KEY) || "[]"));
++    } catch (e) {
++      return new Set();
+     }
++  }
+ 
+-    listEl.innerHTML = items
+-      .map((it) => {
+-        const newBadge = it.is_new ? '<span class="badge new">NEW</span>' : "";
+-        const date = it.date || "日期未知";
+-        return (
+-          '<div class="card">' +
+-            '<div class="card-top">' +
+-              '<span class="badge">' + escapeHtml(it.airline || "") + '</span>' +
+-              newBadge +
+-              '<span class="date">' + escapeHtml(date) + '</span>' +
+-            '</div>' +
+-            '<div class="title"><a href="' + escapeHtml(it.url || "#") + '" target="_blank" rel="noopener">' +
+-              escapeHtml(it.title || "") +
+-            '</a></div>' +
+-          '</div>'
+-        );
+-      })
+-      .join("");
++  function hideRoute(id) {
++    const hidden = getHiddenIds();
++    hidden.add(id);
++    localStorage.setItem(HIDDEN_KEY, JSON.stringify(Array.from(hidden)));
++    render();
+   }
+ 
+   function escapeHtml(str) {
+@@ -168,16 +221,74 @@
+       .replace(/"/g, "&quot;");
+   }
+ 
++  function formatDateOnly(raw) {
++    if (!raw) return "";
++    return String(raw).slice(0, 10);
++  }
++
++  function render() {
++    const selected = filterEl.value;
++    const hidden = getHiddenIds();
++    const items = allRoutes.filter((it) => !hidden.has(it.id) && (!selected || it.airline === selected));
++
++    if (items.length === 0) {
++      listEl.innerHTML = '<div class="empty">尚無符合條件的新航線公告。</div>';
++      return;
++    }
++
++    const groups = new Map();
++    items.forEach((it) => {
++      if (!groups.has(it.airline)) groups.set(it.airline, []);
++      groups.get(it.airline).push(it);
++    });
++
++    let html = "";
++    groups.forEach((groupItems, airline) => {
++      html += '<div class="group">';
++      html += '<div class="group-title">' + escapeHtml(airline) + ' <span class="count">' + groupItems.length + '</span></div>';
++      html += '<div class="card">';
++      groupItems.forEach((it) => {
++        const srcClass = it.source_type === "official" ? "badge-src" : "badge-src research";
++        const srcLabel = it.source_type === "official" ? "官網資料" : "網路彙整";
++        const sourceLink = it.source_url
++          ? '<a href="' + escapeHtml(it.source_url) + '" target="_blank" rel="noopener">資料來源</a>'
++          : "";
++        html +=
++          '<div class="row" data-id="' + escapeHtml(it.id) + '">' +
++            '<div class="row-main">' +
++              '<span class="route">' + escapeHtml(it.route || "") + '</span>' +
++              '<span class="' + srcClass + '">' + srcLabel + '</span>' +
++            '</div>' +
++            '<div class="row-bottom">' +
++              '<div class="meta">' +
++                '<span>開航日期：' + escapeHtml(formatDateOnly(it.launch_date) || "未知") + '</span>' +
++                '<span>每週班次：' + escapeHtml(it.frequency || "未知") + '</span>' +
++                sourceLink +
++              '</div>' +
++              '<button class="btn-delete" data-delete-id="' + escapeHtml(it.id) + '">刪除</button>' +
++            '</div>' +
++          '</div>';
++      });
++      html += '</div></div>';
++    });
++
++    listEl.innerHTML = html;
++
++    listEl.querySelectorAll("[data-delete-id]").forEach((btn) => {
++      btn.addEventListener("click", () => hideRoute(btn.getAttribute("data-delete-id")));
++    });
++  }
++
+   fetch(DATA_URL)
+     .then((res) => {
+       if (!res.ok) throw new Error("HTTP " + res.status);
+       return res.json();
+     })
+     .then((data) => {
+-      allItems = (data.announcements || []).slice();
+-      allItems.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
++      allRoutes = (data.routes || []).slice();
++      allRoutes.sort((a, b) => (b.launch_date || "").localeCompare(a.launch_date || ""));
+ 
+-      const airlines = Array.from(new Set(allItems.map((it) => it.airline).filter(Boolean)));
++      const airlines = Array.from(new Set(allRoutes.map((it) => it.airline).filter(Boolean)));
+       airlines.forEach((name) => {
+         const opt = document.createElement("option");
+         opt.value = name;
+@@ -186,13 +297,13 @@
+       });
+ 
+       if (data.updated_at) {
+-        updatedEl.textContent = "最後更新：" + data.updated_at;
++        updatedEl.textContent = "最後更新：" + formatDateOnly(data.updated_at);
+       }
+ 
+       render();
+     })
+     .catch((err) => {
+-      listEl.innerHTML = '<div class="empty">尚未取得航線公告資料（' + escapeHtml(err.message) + '），爪蟲執行後將自動顯示。</div>';
++      listEl.innerHTML = '<div class="empty">尚未取得新航線公告資料（' + escapeHtml(err.message) + '）。</div>';
+     });
+ 
+   filterEl.addEventListener("change", render);
+diff --git a/scraper/news_scraper.py b/scraper/news_scraper.py
+index 17857fc..77d452b 100644
+--- a/scraper/news_scraper.py
++++ b/scraper/news_scraper.py
+@@ -75,11 +75,13 @@ def parse_date(raw, date_format):
+         return None
+ 
+ 
+-def matches_keywords(title, keywords):
++def matches_keywords(title, keywords, exclude_keywords=None):
++    if exclude_keywords and any(kw in title for kw in exclude_keywords):
++        return False
+     return any(kw in title for kw in keywords)
+ 
+ 
+-def scrape_source(page, source, keywords):
++def scrape_source(page, source, keywords, exclude_keywords=None):
+     results = []
+     page.goto(source["page_url"], wait_until="domcontentloaded", timeout=30000)
+ 
+@@ -101,7 +103,7 @@ def scrape_source(page, source, keywords):
+         try:
+             title_el = item.query_selector(source["title_selector"]) if source.get("title_selector") else None
+             title = (title_el.inner_text() if title_el else item.inner_text()).strip()
+-            if not title or not matches_keywords(title, keywords):
++            if not title or not matches_keywords(title, keywords, exclude_keywords):
+                 continue
+ 
+             href = item.get_attribute("href")
+@@ -146,6 +148,7 @@ def scrape_source(page, source, keywords):
+ def run(output_path):
+     config = load_config()
+     keywords = config.get("keywords", [])
++    exclude_keywords = config.get("exclude_keywords", [])
+     existing = load_existing_announcements()
+ 
+     all_results = []
+@@ -155,13 +158,22 @@ def run(output_path):
+         for source in config.get("sources", []):
+             print(f"Scanning {source['airline']} ...")
+             try:
+-                found = scrape_source(page, source, keywords)
++                found = scrape_source(page, source, keywords, exclude_keywords)
+                 print(f"  -> {len(found)} matching announcement(s)")
+                 all_results.extend(found)
+             except Exception as e:
+                 print(f"  [error] {source['airline']} failed: {e}")
+         browser.close()
+ 
++    # Drop previously-stored items that no longer pass the keyword filter
++    # (e.g. exclude_keywords added later), so stale unrelated news doesn't
++    # linger forever.
++    existing = {
++        item_id: item
++        for item_id, item in existing.items()
++        if matches_keywords(item.get("title", ""), keywords, exclude_keywords)
++    }
++
+     # Merge with existing data, keep the latest version of each id, and flag
+     # ids that were not present before as "is_new" for the frontend to badge.
+     merged = dict(existing)
