@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-15T03:54:17.341774Z",
+  "updated_at": "2026-08-16T04:03:19.317788Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -218,7 +218,7 @@
       "choices": [
         {
           "airline": "Unknown",
-          "price": 3799
+          "price": 4299
         }
       ]
     },
