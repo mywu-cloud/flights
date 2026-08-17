@@ -39,7 +39,7 @@ a{text-decoration:none;color:inherit}
 .btn-primary:hover{opacity:.88}
 .btn-secondary{background:#fff;color:#1a202c;border:1px solid var(--border);padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer}
 .btn-icon{background:none;border:none;cursor:pointer;padding:4px;font-size:1rem;opacity:.6;transition:opacity .2s}
-.btn-icon:hover{opacity:1}
+.btn-icon:hover{opacity:1;color:inherit}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
 .stat-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:16px}
 .stat-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
@@ -83,7 +83,7 @@ tr:hover td{background:#fafbfc}
 .bell-drop-msg{font-size:13px;color:var(--text-secondary);margin-top:2px}
 .avatar-drop{min-width:160px}
 .avatar-drop-name{font-size:13px;font-weight:700;color:#1a202c;padding:10px 16px 8px;border-bottom:1px solid #f1f5f9;margin-bottom:4px}
-.avatar-drop-item{padding:9px 16px;font-size:13px;cursor:pointer;color:#374151}
+.avatar-drop-item{padding:9px 16px;font-size:13px;cursor:pointer;color:var(--text-secondary)}
 .avatar-drop-item:hover{background:#f8fafc;color:var(--primary)}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:8px}
 .cal-cell{border-radius:3px;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;cursor:default;position:relative;padding:2px 0;line-height:1.15}
@@ -514,7 +514,7 @@ return '<tr data-cal="'+sid+'" style="cursor:pointer"><td><div style="display:fl
 '<div><div style="font-weight:600">'+s.origin+' &#x2192; '+s.destination+'</div>'+
 '<div style="font-size:14px;color:var(--text-secondary)">'+cityName(s.origin)+' &#x2192; '+cityName(s.destination)+'</div>'+
 '<div style="font-size:14px;color:var(--text-secondary)">'+getSubDateRange(s)+'</div></div></div></td>'+
-'<td style="font-size:14px;color:#374151">'+cheapDate+'</td>'+
+'<td style="font-size:14px;color:var(--text-secondary)">'+cheapDate+'</td>'+
 '<td style="font-weight:700;color:var(--primary)">'+priceStr+'</td>'+
 '<td>'+badge+'</td>'+'<td>'+makeSparkline(history)+'</td>'+
 '<td style="font-size:14px;color:var(--text-secondary)">'+(airline||'--')+'</td>'+
