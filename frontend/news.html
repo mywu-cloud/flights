@@ -4,8 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>新航線公告 - 機票雷達 FareRadar</title>
-<style>
-  :root {
+<script>
+    // Apply the theme picked on the main page (localStorage key shared with index.html)
+    // before first paint, so this page never flashes light mode when the app is dark.
+    try {
+          var _t = localStorage.getItem('fareradar_theme');
+          if (_t) document.documentElement.setAttribute('data-theme', _t);
+    } catch (e) {}
+      </script>
+  <style>
+  :root, [data-theme=sky] {
     --bg: #f0f4f8;
     --card: #ffffff;
     --border: #e2e8f0;
@@ -14,7 +22,20 @@
     --primary: #4A6CF7;
     --new: #D97706;
   }
-  * { box-sizing: border-box; }
+[data-theme=mint] { --primary: #10B981; }
+    [data-theme=warm] { --primary: #F59E0B; }
+    [data-theme=dark] {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --primary: #818CF8;
+      --new: #FBBF24;
+    }
+    [data-theme=dark] .badge { background: rgba(129, 140, 248, 0.18); }
+    [data-theme=dark] .badge.new { background: rgba(251, 191, 36, 0.16); }
+    * { box-sizing: border-box; }
   body {
     margin: 0;
     font-family: -apple-system, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
