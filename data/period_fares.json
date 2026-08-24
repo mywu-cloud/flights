@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-23T04:11:28.373474Z",
+  "updated_at": "2026-08-24T04:11:50.488493Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -175,7 +175,7 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "10月上旬",
-      "best_date": "2026-10-05",
+      "best_date": "2026-10-07",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -231,7 +231,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3799
+          "price": 4299
         }
       ]
     },
@@ -279,7 +279,7 @@
       "origin": "NGO",
       "destination": "KHH",
       "label": "11月上旬",
-      "best_date": "2026-11-02",
+      "best_date": "2026-11-09",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -331,11 +331,11 @@
       "origin": "KHH",
       "destination": "SDJ",
       "label": "10月下旬",
-      "best_date": "2026-10-31",
+      "best_date": "2026-10-26",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 8199
+          "price": 9299
         }
       ]
     },
@@ -344,10 +344,10 @@
       "origin": "TPE",
       "destination": "KIX",
       "label": "10月下旬",
-      "best_date": "2026-10-29",
+      "best_date": "2026-10-27",
       "choices": [
         {
-          "airline": "捷星日本航空",
+          "airline": "台灣虎航",
           "price": 3299
         }
       ]
@@ -417,7 +417,7 @@
         },
         {
           "airline": "全日空航空",
-          "price": 62025,
+          "price": 61973,
           "stops": 1
         }
       ]
