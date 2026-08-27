@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-26T04:02:07.645259Z",
+  "updated_at": "2026-08-27T13:30:21.235155Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -191,7 +191,7 @@
       "best_date": "2026-10-29",
       "choices": [
         {
-          "airline": "樂桃航空",
+          "airline": "真航空",
           "price": 3399
         }
       ]
@@ -283,32 +283,32 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 6262,
+          "price": 7238,
           "stops": null
         },
         {
-          "airline": "香港快運航空",
-          "price": 16534,
-          "stops": 1
-        },
-        {
           "airline": "國泰航空",
-          "price": 17777,
+          "price": 17073,
           "stops": 1
         },
         {
           "airline": "日本航空",
-          "price": 21194,
+          "price": 17560,
+          "stops": 2
+        },
+        {
+          "airline": "香港快運航空",
+          "price": 19277,
           "stops": 1
         },
         {
           "airline": "全日空航空",
-          "price": 23517,
+          "price": 23343,
           "stops": 1
         },
         {
           "airline": "IBEX 航空",
-          "price": 35700,
+          "price": 35437,
           "stops": 1
         }
       ]
@@ -318,7 +318,7 @@
       "origin": "NRT",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-03",
+      "best_date": "2026-11-04",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -352,28 +352,28 @@
         },
         {
           "airline": "香港快運航空",
-          "price": 12320,
+          "price": 12400,
+          "stops": 1
+        },
+        {
+          "airline": "韓亞航空",
+          "price": 17424,
           "stops": 1
         },
         {
           "airline": "星宇航空",
-          "price": 15498,
-          "stops": null
-        },
-        {
-          "airline": "韓亞航空",
-          "price": 16147,
-          "stops": 1
-        },
-        {
-          "airline": "長榮航空",
-          "price": 18022,
+          "price": 25425,
           "stops": null
         },
         {
           "airline": "國泰航空",
-          "price": 26242,
+          "price": 28088,
           "stops": 1
+        },
+        {
+          "airline": "長榮航空",
+          "price": 30080,
+          "stops": null
         }
       ]
     },
@@ -382,11 +382,11 @@
       "origin": "KHH",
       "destination": "SDJ",
       "label": "10月下旬",
-      "best_date": "2026-10-31",
+      "best_date": "2026-10-26",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 8199
+          "price": 9299
         }
       ]
     },
@@ -395,11 +395,11 @@
       "origin": "TPE",
       "destination": "KIX",
       "label": "10月下旬",
-      "best_date": "2026-10-28",
+      "best_date": "2026-10-27",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2899
+          "price": 3299
         }
       ]
     },
@@ -421,11 +421,11 @@
       "origin": "KIX",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-10",
+      "best_date": "2026-11-05",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 1799
+          "price": 2099
         }
       ]
     },
@@ -434,11 +434,11 @@
       "origin": "KIX",
       "destination": "KHH",
       "label": "11月上旬",
-      "best_date": "2026-11-10",
+      "best_date": "2026-11-05",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2499
+          "price": 2899
         }
       ]
     },
@@ -451,7 +451,7 @@
       "choices": [
         {
           "airline": "Unknown",
-          "price": 5899
+          "price": 4799
         }
       ]
     },
@@ -467,19 +467,9 @@
           "price": 6499
         },
         {
-          "airline": "日本航空",
-          "price": 23190,
-          "stops": 1
-        },
-        {
-          "airline": "全日空航空",
-          "price": 38060,
-          "stops": 1
-        },
-        {
-          "airline": "日本東方空橋",
-          "price": 73481,
-          "stops": 1
+          "airline": "Unknown",
+          "price": 15840,
+          "stops": null
         }
       ]
     },
