@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-31T09:22:02.633923Z",
+  "updated_at": "2026-09-01T08:33:13.158643Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -175,11 +175,11 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "10月上旬",
-      "best_date": "2026-10-02",
+      "best_date": "2026-10-07",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 4899
+          "price": 2799
         }
       ]
     },
@@ -188,11 +188,11 @@
       "origin": "TPE",
       "destination": "NRT",
       "label": "10月下旬",
-      "best_date": "2026-10-27",
+      "best_date": "2026-10-26",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3399
+          "price": 2599
         }
       ]
     },
@@ -201,11 +201,11 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "10月下旬",
-      "best_date": "2026-10-26",
+      "best_date": "2026-10-29",
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4399
+          "price": 4899
         }
       ]
     },
@@ -231,7 +231,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3299
+          "price": 2899
         }
       ]
     },
@@ -266,11 +266,11 @@
       "origin": "NGO",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-03",
+      "best_date": "2026-11-05",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 4299
+          "price": 3799
         }
       ]
     },
@@ -283,27 +283,27 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 5995,
+          "price": 6698,
           "stops": null
         },
         {
           "airline": "國泰航空",
-          "price": 17346,
+          "price": 17187,
+          "stops": 1
+        },
+        {
+          "airline": "香港快運航空",
+          "price": 17516,
           "stops": 1
         },
         {
           "airline": "日本航空",
-          "price": 20095,
-          "stops": 2
-        },
-        {
-          "airline": "全日空航空",
-          "price": 25890,
+          "price": 18771,
           "stops": 1
         },
         {
-          "airline": "IBEX 航空",
-          "price": 35382,
+          "airline": "全日空航空",
+          "price": 24799,
           "stops": 1
         }
       ]
@@ -317,7 +317,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3399
+          "price": 2299
         }
       ]
     },
@@ -326,11 +326,11 @@
       "origin": "NRT",
       "destination": "KHH",
       "label": "11月上旬",
-      "best_date": "2026-11-03",
+      "best_date": "2026-11-05",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3899
+          "price": 2299
         }
       ]
     },
@@ -351,19 +351,19 @@
           "stops": 1
         },
         {
-          "airline": "星宇航空",
-          "price": 18284,
-          "stops": null
-        },
-        {
           "airline": "長榮航空",
-          "price": 19771,
+          "price": 21871,
           "stops": null
         },
         {
           "airline": "國泰航空",
-          "price": 21166,
+          "price": 22908,
           "stops": 1
+        },
+        {
+          "airline": "星宇航空",
+          "price": 23059,
+          "stops": null
         }
       ]
     },
@@ -402,7 +402,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2899
+          "price": 3299
         }
       ]
     },
@@ -457,9 +457,24 @@
           "price": 5299
         },
         {
-          "airline": "Unknown",
-          "price": 15893,
-          "stops": null
+          "airline": "日本航空",
+          "price": 19441,
+          "stops": 1
+        },
+        {
+          "airline": "香港快運航空",
+          "price": 21689,
+          "stops": 1
+        },
+        {
+          "airline": "全日空航空",
+          "price": 35357,
+          "stops": 1
+        },
+        {
+          "airline": "日本東方空橋",
+          "price": 67282,
+          "stops": 1
         }
       ]
     },
