@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-06T07:50:30.114868Z",
+  "updated_at": "2026-09-07T08:10:22.847032Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -214,11 +214,11 @@
       "origin": "TPE",
       "destination": "NGO",
       "label": "10月下旬",
-      "best_date": "2026-10-29",
+      "best_date": "2026-10-28",
       "choices": [
         {
           "airline": "Unknown",
-          "price": 3799
+          "price": 3299
         }
       ]
     },
@@ -231,7 +231,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2899
+          "price": 2199
         }
       ]
     },
@@ -322,7 +322,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 7299
+          "price": 8199
         },
         {
           "airline": "香港快運航空",
@@ -330,28 +330,23 @@
           "stops": 1
         },
         {
-          "airline": "韓亞航空",
-          "price": 17038,
-          "stops": 1
-        },
-        {
-          "airline": "大韓航空",
-          "price": 17348,
-          "stops": 1
-        },
-        {
           "airline": "長榮航空",
-          "price": 18271,
+          "price": 22057,
           "stops": null
         },
         {
+          "airline": "國泰航空",
+          "price": 22944,
+          "stops": 1
+        },
+        {
           "airline": "星宇航空",
-          "price": 18518,
+          "price": 23244,
           "stops": null
         },
         {
           "airline": "中華航空",
-          "price": 31714,
+          "price": 58898,
           "stops": 1
         }
       ]
@@ -378,7 +373,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2899
+          "price": 3299
         }
       ]
     },
@@ -417,7 +412,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2899
+          "price": 2499
         }
       ]
     },
@@ -444,11 +439,6 @@
         {
           "airline": "台灣虎航",
           "price": 4299
-        },
-        {
-          "airline": "Unknown",
-          "price": 12882,
-          "stops": null
         }
       ]
     },
