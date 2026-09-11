@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-10T08:04:32.547093Z",
+  "updated_at": "2026-09-11T07:59:49.855749Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -201,11 +201,11 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "10月下旬",
-      "best_date": "2026-10-26",
+      "best_date": "2026-10-29",
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4399
+          "price": 4899
         }
       ]
     },
@@ -214,11 +214,11 @@
       "origin": "TPE",
       "destination": "NGO",
       "label": "10月下旬",
-      "best_date": "2026-10-27",
+      "best_date": "2026-10-28",
       "choices": [
         {
           "airline": "Unknown",
-          "price": 3799
+          "price": 3299
         }
       ]
     },
@@ -266,11 +266,11 @@
       "origin": "NGO",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-04",
+      "best_date": "2026-11-02",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3299
+          "price": 3799
         }
       ]
     },
@@ -279,11 +279,32 @@
       "origin": "NGO",
       "destination": "KHH",
       "label": "11月上旬",
-      "best_date": "2026-11-04",
+      "best_date": "2026-11-01",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 7299
+          "price": 6520,
+          "stops": null
+        },
+        {
+          "airline": "香港快運航空",
+          "price": 19773,
+          "stops": 1
+        },
+        {
+          "airline": "全日空航空",
+          "price": 28030,
+          "stops": 1
+        },
+        {
+          "airline": "日本航空",
+          "price": 30656,
+          "stops": 1
+        },
+        {
+          "airline": "國泰航空",
+          "price": 31456,
+          "stops": 1
         }
       ]
     },
@@ -326,22 +347,22 @@
         },
         {
           "airline": "香港快運航空",
-          "price": 12745,
+          "price": 12738,
           "stops": 1
         },
         {
           "airline": "長榮航空",
-          "price": 17955,
+          "price": 17946,
           "stops": null
         },
         {
           "airline": "國泰航空",
-          "price": 22915,
+          "price": 21553,
           "stops": 1
         },
         {
           "airline": "星宇航空",
-          "price": 25531,
+          "price": 25529,
           "stops": null
         }
       ]
@@ -355,7 +376,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 7299
+          "price": 8199
         }
       ]
     },
@@ -390,7 +411,7 @@
       "origin": "KIX",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-05",
+      "best_date": "2026-11-04",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -403,11 +424,11 @@
       "origin": "KIX",
       "destination": "KHH",
       "label": "11月上旬",
-      "best_date": "2026-11-06",
+      "best_date": "2026-11-05",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2499
+          "price": 2899
         }
       ]
     },
@@ -416,7 +437,7 @@
       "origin": "KHH",
       "destination": "KMQ",
       "label": "10月下旬",
-      "best_date": "2026-10-22",
+      "best_date": "2026-10-29",
       "choices": [
         {
           "airline": "Unknown",
@@ -437,7 +458,7 @@
         },
         {
           "airline": "Unknown",
-          "price": 12307,
+          "price": 8153,
           "stops": null
         }
       ]
