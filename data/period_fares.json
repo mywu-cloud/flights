@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-13T08:11:01.601017Z",
+  "updated_at": "2026-09-14T08:36:58.874080Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -179,7 +179,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 4899
+          "price": 3799
         }
       ]
     },
@@ -231,7 +231,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2899
+          "price": 2199
         }
       ]
     },
@@ -244,7 +244,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 5699
+          "price": 4999
         }
       ]
     },
@@ -283,27 +283,37 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 7201,
+          "price": 7138,
           "stops": null
         },
         {
           "airline": "香港快運航空",
-          "price": 19525,
+          "price": 17354,
           "stops": 1
         },
         {
           "airline": "國泰航空",
-          "price": 24119,
+          "price": 22196,
           "stops": 1
         },
         {
           "airline": "全日空航空",
-          "price": 29559,
+          "price": 25960,
           "stops": 1
         },
         {
-          "airline": "日本航空",
-          "price": 31082,
+          "airline": "星悅航空",
+          "price": 36836,
+          "stops": 1
+        },
+        {
+          "airline": "IBEX 航空",
+          "price": 36836,
+          "stops": 1
+        },
+        {
+          "airline": "捷星日本航空",
+          "price": 51056,
           "stops": 1
         }
       ]
@@ -344,31 +354,6 @@
         {
           "airline": "台灣虎航",
           "price": 8199
-        },
-        {
-          "airline": "香港快運航空",
-          "price": 12506,
-          "stops": 1
-        },
-        {
-          "airline": "長榮航空",
-          "price": 20190,
-          "stops": null
-        },
-        {
-          "airline": "國泰航空",
-          "price": 21563,
-          "stops": 1
-        },
-        {
-          "airline": "星宇航空",
-          "price": 25538,
-          "stops": null
-        },
-        {
-          "airline": "中華航空",
-          "price": 73396,
-          "stops": 1
         }
       ]
     },
@@ -459,11 +444,11 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 4299
+          "price": 4799
         },
         {
           "airline": "Unknown",
-          "price": 15374,
+          "price": 15495,
           "stops": null
         }
       ]
