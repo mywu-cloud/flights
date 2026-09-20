@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-19T08:22:36.736116Z",
+  "updated_at": "2026-09-20T08:45:56.518504Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -296,7 +296,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2299
+          "price": 2599
         }
       ]
     },
@@ -370,7 +370,7 @@
       "origin": "KIX",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-04",
+      "best_date": "2026-11-05",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -417,7 +417,7 @@
         },
         {
           "airline": "Unknown",
-          "price": 25356,
+          "price": 21101,
           "stops": null
         }
       ]
