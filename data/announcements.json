@@ -1,6 +1,16 @@
 {
-  "updated_at": "2026-09-24T06:59:36.377377Z",
+  "updated_at": "2026-09-25T06:54:00.520514Z",
   "announcements": [
+    {
+      "id": "it-377f9d5215",
+      "airline": "台灣虎航",
+      "airline_code": "IT",
+      "title": "台灣虎航歡慶開航12週年！攜手一沐日推限定聯名飲品 號召全民跳「虎爪舞」",
+      "url": "https://www.tigerairtw.com/zh-TW/news/260924",
+      "date": "2026-09-24",
+      "scraped_at": "2026-09-25T06:54:00.275921Z",
+      "is_new": true
+    },
     {
       "id": "it-1508700c11",
       "airline": "台灣虎航",
@@ -8,7 +18,7 @@
       "title": "台灣虎航深化南部佈局 高雄直飛石垣島、小松歡慶首航",
       "url": "https://www.tigerairtw.com/zh-TW/news/260902",
       "date": "2026-09-02",
-      "scraped_at": "2026-09-24T06:59:36.187582Z",
+      "scraped_at": "2026-09-25T06:54:00.300568Z",
       "is_new": false
     },
     {
@@ -18,7 +28,7 @@
       "title": "高雄開站首航！南部直飛神戶、沖繩 2027年元旦啟航",
       "url": "https://www.starlux-airlines.com/zh-TW/about-us/travel-advisories/advisories/latest-news/from-kaohsiung-to-kobe-okinawa",
       "date": "2026-08-21",
-      "scraped_at": "2026-09-24T06:59:28.927883Z",
+      "scraped_at": "2026-09-25T06:53:51.370225Z",
       "is_new": false
     },
     {
@@ -28,7 +38,7 @@
       "title": "台中直飛名古屋！漫遊日本中部 品味四季魅力​ 2026年10月25日啟航",
       "url": "https://www.starlux-airlines.com/zh-TW/about-us/travel-advisories/advisories/latest-news/from-taichung-to-nagoya",
       "date": "2026-08-13",
-      "scraped_at": "2026-09-24T06:59:28.946292Z",
+      "scraped_at": "2026-09-25T06:53:51.407783Z",
       "is_new": false
     },
     {
@@ -38,7 +48,7 @@
       "title": "台日情誼深耕十載！台灣虎航喜迎岡山航線10週年 「日本桃太郎×虎將紀念彩繪機」今首航岡山",
       "url": "https://www.tigerairtw.com/zh-TW/news/260714",
       "date": "2026-07-14",
-      "scraped_at": "2026-09-24T06:59:36.228514Z",
+      "scraped_at": "2026-09-25T06:54:00.365849Z",
       "is_new": false
     },
     {
@@ -58,7 +68,7 @@
       "title": "台中直飛札幌！北海道夢幻旅程2026年10月02日啟航",
       "url": "https://www.starlux-airlines.com/zh-TW/about-us/travel-advisories/advisories/latest-news/from-taichung-to-sapporo",
       "date": "2026-07-01",
-      "scraped_at": "2026-09-24T06:59:29.001522Z",
+      "scraped_at": "2026-09-25T06:53:51.499399Z",
       "is_new": false
     },
     {
@@ -78,7 +88,7 @@
       "title": "東南亞新航點，2026年10月01日直飛峇里島！",
       "url": "https://www.starlux-airlines.com/zh-TW/about-us/travel-advisories/advisories/latest-news/fly_to_DPS",
       "date": "2026-04-08",
-      "scraped_at": "2026-09-24T06:59:29.065681Z",
+      "scraped_at": "2026-09-25T06:53:51.524312Z",
       "is_new": false
     },
     {
@@ -88,7 +98,7 @@
       "title": "飛向歐洲新篇章，2026年08月01日起直飛布拉格",
       "url": "https://www.starlux-airlines.com/zh-TW/about-us/travel-advisories/advisories/latest-news/fly_to_PRG",
       "date": "2026-02-25",
-      "scraped_at": "2026-09-24T06:59:29.641391Z",
+      "scraped_at": "2026-09-25T06:53:51.554446Z",
       "is_new": false
     }
   ]
