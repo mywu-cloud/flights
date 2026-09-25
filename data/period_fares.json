@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24T08:38:37.140861Z",
+  "updated_at": "2026-09-25T08:49:56.349744Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -175,7 +175,7 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "10月上旬",
-      "best_date": "2026-10-05",
+      "best_date": "2026-10-06",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -335,7 +335,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 8199
+          "price": 7299
         }
       ]
     },
@@ -396,11 +396,11 @@
       "origin": "KHH",
       "destination": "KMQ",
       "label": "10月下旬",
-      "best_date": "2026-10-22",
+      "best_date": "2026-10-29",
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4499
+          "price": 4299
         }
       ]
     },
@@ -417,7 +417,7 @@
         },
         {
           "airline": "Unknown",
-          "price": 13136,
+          "price": 9350,
           "stops": null
         }
       ]
