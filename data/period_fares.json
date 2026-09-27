@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26T08:40:31.495346Z",
+  "updated_at": "2026-09-27T09:12:43.602038Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -188,10 +188,10 @@
       "origin": "TPE",
       "destination": "NRT",
       "label": "10月下旬",
-      "best_date": "2026-10-27",
+      "best_date": "2026-10-29",
       "choices": [
         {
-          "airline": "台灣虎航",
+          "airline": "樂桃航空",
           "price": 2899
         }
       ]
@@ -321,7 +321,7 @@
       "best_date": "2026-10-29",
       "choices": [
         {
-          "airline": "香港快運航空",
+          "airline": "台灣虎航",
           "price": 7299
         }
       ]
@@ -417,7 +417,7 @@
         },
         {
           "airline": "Unknown",
-          "price": 9359,
+          "price": 19680,
           "stops": null
         }
       ]
