@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-27T09:12:43.602038Z",
+  "updated_at": "2026-09-28T09:44:05.279893Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -214,11 +214,11 @@
       "origin": "TPE",
       "destination": "NGO",
       "label": "10月下旬",
-      "best_date": "2026-10-27",
+      "best_date": "2026-10-29",
       "choices": [
         {
           "airline": "Unknown",
-          "price": 3799
+          "price": 4299
         }
       ]
     },
@@ -227,11 +227,11 @@
       "origin": "KHH",
       "destination": "NGO",
       "label": "10月下旬",
-      "best_date": "2026-10-31",
+      "best_date": "2026-10-28",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2499
+          "price": 2899
         }
       ]
     },
@@ -292,11 +292,11 @@
       "origin": "NRT",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-05",
+      "best_date": "2026-11-06",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3399
+          "price": 2899
         }
       ]
     },
@@ -323,6 +323,31 @@
         {
           "airline": "台灣虎航",
           "price": 7299
+        },
+        {
+          "airline": "香港快運航空",
+          "price": 12506,
+          "stops": 1
+        },
+        {
+          "airline": "韓亞航空",
+          "price": 13410,
+          "stops": 1
+        },
+        {
+          "airline": "大韓航空",
+          "price": 15505,
+          "stops": 1
+        },
+        {
+          "airline": "長榮航空",
+          "price": 21275,
+          "stops": null
+        },
+        {
+          "airline": "星宇航空",
+          "price": 30872,
+          "stops": null
         }
       ]
     },
@@ -370,7 +395,7 @@
       "origin": "KIX",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-04",
+      "best_date": "2026-11-05",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -417,7 +442,7 @@
         },
         {
           "airline": "Unknown",
-          "price": 19680,
+          "price": 16340,
           "stops": null
         }
       ]
