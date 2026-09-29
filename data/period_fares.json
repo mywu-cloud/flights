@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28T09:44:05.279893Z",
+  "updated_at": "2026-09-29T09:32:53.163463Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -192,7 +192,7 @@
       "choices": [
         {
           "airline": "樂桃航空",
-          "price": 2899
+          "price": 3399
         }
       ]
     },
@@ -231,7 +231,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2899
+          "price": 1899
         }
       ]
     },
@@ -323,31 +323,6 @@
         {
           "airline": "台灣虎航",
           "price": 7299
-        },
-        {
-          "airline": "香港快運航空",
-          "price": 12506,
-          "stops": 1
-        },
-        {
-          "airline": "韓亞航空",
-          "price": 13410,
-          "stops": 1
-        },
-        {
-          "airline": "大韓航空",
-          "price": 15505,
-          "stops": 1
-        },
-        {
-          "airline": "長榮航空",
-          "price": 21275,
-          "stops": null
-        },
-        {
-          "airline": "星宇航空",
-          "price": 30872,
-          "stops": null
         }
       ]
     },
@@ -360,7 +335,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 7299
+          "price": 8199
         }
       ]
     },
@@ -441,9 +416,9 @@
           "price": 5299
         },
         {
-          "airline": "Unknown",
-          "price": 16340,
-          "stops": null
+          "airline": "香港快運航空",
+          "price": 16515,
+          "stops": 1
         }
       ]
     },
