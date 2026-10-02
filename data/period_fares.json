@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T10:00:24.913663Z",
+  "updated_at": "2026-10-02T09:35:43.426915Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -179,7 +179,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3799
+          "price": 2799
         }
       ]
     },
@@ -201,7 +201,7 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "10月下旬",
-      "best_date": "2026-10-25",
+      "best_date": "2026-10-28",
       "choices": [
         {
           "airline": "Unknown",
@@ -231,7 +231,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2199
+          "price": 2499
         }
       ]
     },
@@ -244,7 +244,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 6399
+          "price": 5699
         }
       ]
     },
@@ -292,11 +292,11 @@
       "origin": "NRT",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-05",
+      "best_date": "2026-11-06",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3399
+          "price": 2899
         }
       ]
     },
@@ -321,7 +321,7 @@
       "best_date": "2026-10-29",
       "choices": [
         {
-          "airline": "台灣虎航",
+          "airline": "香港快運航空",
           "price": 7299
         }
       ]
@@ -396,11 +396,11 @@
       "origin": "KHH",
       "destination": "KMQ",
       "label": "10月下旬",
-      "best_date": "2026-10-29",
+      "best_date": "2026-10-22",
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4299
+          "price": 4499
         }
       ]
     },
@@ -417,7 +417,7 @@
         },
         {
           "airline": "Unknown",
-          "price": 13438,
+          "price": 17772,
           "stops": null
         }
       ]
@@ -432,6 +432,19 @@
         {
           "airline": "Unknown",
           "price": 7299
+        }
+      ]
+    },
+    "khh-nrt-2027-5-上旬": {
+      "period_id": "khh-nrt-2027-5-上旬",
+      "origin": "KHH",
+      "destination": "NRT",
+      "label": "5月上旬",
+      "best_date": "2027-05-03",
+      "choices": [
+        {
+          "airline": "台灣虎航",
+          "price": 3399
         }
       ]
     }
