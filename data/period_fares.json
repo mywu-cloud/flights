@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03T09:06:12.783785Z",
+  "updated_at": "2026-10-04T09:28:37.289803Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -218,7 +218,7 @@
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4299
+          "price": 4799
         }
       ]
     },
@@ -244,7 +244,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 6399
+          "price": 5699
         }
       ]
     },
@@ -321,33 +321,8 @@
       "best_date": "2026-10-29",
       "choices": [
         {
-          "airline": "台灣虎航",
-          "price": 7299
-        },
-        {
           "airline": "香港快運航空",
-          "price": 12497,
-          "stops": 1
-        },
-        {
-          "airline": "星宇航空",
-          "price": 20328,
-          "stops": null
-        },
-        {
-          "airline": "國泰航空",
-          "price": 22828,
-          "stops": 1
-        },
-        {
-          "airline": "長榮航空",
-          "price": 24379,
-          "stops": null
-        },
-        {
-          "airline": "中華航空",
-          "price": 58352,
-          "stops": 1
+          "price": 7299
         }
       ]
     },
@@ -421,11 +396,11 @@
       "origin": "KHH",
       "destination": "KMQ",
       "label": "10月下旬",
-      "best_date": "2026-10-22",
+      "best_date": "2026-10-29",
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4499
+          "price": 4799
         }
       ]
     },
@@ -438,11 +413,11 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 5299
+          "price": 5899
         },
         {
           "airline": "Unknown",
-          "price": 15016,
+          "price": 14764,
           "stops": null
         }
       ]
@@ -465,11 +440,11 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "5月上旬",
-      "best_date": "2027-05-10",
+      "best_date": "2027-05-01",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 3399
+          "price": 3899
         }
       ]
     }
