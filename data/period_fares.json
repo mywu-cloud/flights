@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-18T08:15:44.978868Z",
+  "updated_at": "2026-10-19T08:53:00.955033Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -179,42 +179,42 @@
       "choices": [
         {
           "airline": "捷星日本航空",
-          "price": 8518,
-          "stops": null
-        },
-        {
-          "airline": "台灣虎航",
-          "price": 10094,
+          "price": 7523,
           "stops": null
         },
         {
           "airline": "泰國亞洲航空",
-          "price": 10431,
+          "price": 9535,
+          "stops": null
+        },
+        {
+          "airline": "台灣虎航",
+          "price": 9599,
           "stops": null
         },
         {
           "airline": "聯合航空",
-          "price": 12410,
-          "stops": null
-        },
-        {
-          "airline": "中華航空",
-          "price": 13079,
-          "stops": null
-        },
-        {
-          "airline": "泰赫航空",
-          "price": 13272,
-          "stops": 1
-        },
-        {
-          "airline": "長榮航空",
-          "price": 14826,
+          "price": 12415,
           "stops": null
         },
         {
           "airline": "香港快運航空",
-          "price": 20008,
+          "price": 12772,
+          "stops": 1
+        },
+        {
+          "airline": "中華航空",
+          "price": 13084,
+          "stops": null
+        },
+        {
+          "airline": "長榮航空",
+          "price": 14831,
+          "stops": null
+        },
+        {
+          "airline": "國泰航空",
+          "price": 23016,
           "stops": 1
         }
       ]
@@ -254,7 +254,7 @@
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4299
+          "price": 4799
         }
       ]
     },
@@ -263,7 +263,7 @@
       "origin": "KHH",
       "destination": "NGO",
       "label": "10月下旬",
-      "best_date": "2026-10-28",
+      "best_date": "2026-10-26",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -276,7 +276,7 @@
       "origin": "SDJ",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-03",
+      "best_date": "2026-11-05",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -289,11 +289,11 @@
       "origin": "SDJ",
       "destination": "KHH",
       "label": "11月上旬",
-      "best_date": "2026-11-04",
+      "best_date": "2026-11-07",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 11699
+          "price": 10399
         }
       ]
     },
@@ -319,7 +319,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 2199
+          "price": 1899
         }
       ]
     },
@@ -358,11 +358,11 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 7299
+          "price": 8199
         },
         {
           "airline": "香港快運航空",
-          "price": 12955,
+          "price": 12165,
           "stops": 1
         },
         {
@@ -400,7 +400,7 @@
       "origin": "TPE",
       "destination": "KIX",
       "label": "10月下旬",
-      "best_date": "2026-10-29",
+      "best_date": "2026-10-28",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -413,11 +413,11 @@
       "origin": "KHH",
       "destination": "KIX",
       "label": "10月下旬",
-      "best_date": "2026-10-27",
+      "best_date": "2026-10-29",
       "choices": [
         {
-          "airline": "台灣虎航",
-          "price": 3299
+          "airline": "樂桃航空",
+          "price": 3799
         }
       ]
     },
@@ -426,7 +426,7 @@
       "origin": "KIX",
       "destination": "TPE",
       "label": "11月上旬",
-      "best_date": "2026-11-05",
+      "best_date": "2026-11-07",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -456,7 +456,7 @@
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4799
+          "price": 3799
         }
       ]
     },
@@ -470,11 +470,6 @@
         {
           "airline": "台灣虎航",
           "price": 4799
-        },
-        {
-          "airline": "Unknown",
-          "price": 16459,
-          "stops": null
         }
       ]
     },
