@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-22T11:11:17.878773Z",
+  "updated_at": "2026-11-23T12:12:54.488026Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -948,7 +948,7 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "5月上旬",
-      "best_date": "2027-05-01",
+      "best_date": "2027-05-02",
       "choices": [
         {
           "airline": "台灣虎航",
@@ -978,7 +978,7 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 4299
+          "price": 4799
         }
       ]
     },
@@ -987,11 +987,11 @@
       "origin": "TPE",
       "destination": "NRT",
       "label": "3月下旬",
-      "best_date": "2027-03-23",
+      "best_date": "2027-03-21",
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 4399
+          "price": 4899
         }
       ]
     },
@@ -1000,11 +1000,11 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "3月下旬",
-      "best_date": "2027-03-25",
+      "best_date": "2027-03-30",
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4899
+          "price": 4399
         }
       ]
     },
