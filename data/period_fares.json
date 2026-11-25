@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-24T13:41:25.568846Z",
+  "updated_at": "2026-11-25T12:18:28.682530Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -1000,7 +1000,7 @@
       "origin": "KHH",
       "destination": "NRT",
       "label": "3月下旬",
-      "best_date": "2027-03-28",
+      "best_date": "2027-03-29",
       "choices": [
         {
           "airline": "Unknown",
@@ -1026,11 +1026,11 @@
       "origin": "TPE",
       "destination": "NGO",
       "label": "3月下旬",
-      "best_date": "2027-03-30",
+      "best_date": "2027-03-21",
       "choices": [
         {
           "airline": "Unknown",
-          "price": 4499
+          "price": 5299
         }
       ]
     },
