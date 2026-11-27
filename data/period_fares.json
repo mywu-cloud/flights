@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-26T12:01:13.720893Z",
+  "updated_at": "2026-11-27T12:06:50.860392Z",
   "period_fares": {
     "tpe-ngo-2026-11-上旬": {
       "period_id": "tpe-ngo-2026-11-上旬",
@@ -404,32 +404,32 @@
       "choices": [
         {
           "airline": "台灣虎航",
-          "price": 10206,
-          "stops": null
-        },
-        {
-          "airline": "長榮航空",
-          "price": 15375,
+          "price": 10191,
           "stops": null
         },
         {
           "airline": "星宇航空",
-          "price": 16245,
+          "price": 16212,
           "stops": null
         },
         {
-          "airline": "日本航空",
-          "price": 35897,
-          "stops": 1
+          "airline": "長榮航空",
+          "price": 18153,
+          "stops": null
         },
         {
           "airline": "全日空航空",
-          "price": 38589,
+          "price": 28591,
+          "stops": 1
+        },
+        {
+          "airline": "日本航空",
+          "price": 35793,
           "stops": 1
         },
         {
           "airline": "IBEX 航空",
-          "price": 58984,
+          "price": 58811,
           "stops": 1
         }
       ]
